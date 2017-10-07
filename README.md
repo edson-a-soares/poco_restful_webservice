@@ -34,7 +34,7 @@ Now, just type **./poco_restful_webservice** at the Command Line for using the s
 
 Anyway, after having been started, the application is going to show that the service has been started as follows:
 
-> Poco Restful Web Service started and running. 
+> Poco Restful Web Service started and running.  
 > Type http://localhost:9000 to use it or type CRLT+C to finish it.
 
 #### Stopping the Poco RESTful Web Service at Command Line
