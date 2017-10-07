@@ -1,8 +1,7 @@
 ## Introduction
 
 **Poco RESTful Web Service** is a completely functional Web Service developed in C++ using [Poco C++ Libraries](https://pocoproject.org/).  
-It is basically an example of how to develop a **RESTful Web Service** in C++ using **Poco**.  
-It was based in a real world web service developed for allowing service providers perform provisioning operations under [EPP Protocol](https://en.wikipedia.org/wiki/Extensible_Provisioning_Protocol).
+It is basically an example of how to develop a **RESTful Web Service** in C++ using **Poco**. It was based in a real world web service developed for allowing service providers perform provisioning operations under [EPP Protocol](https://en.wikipedia.org/wiki/Extensible_Provisioning_Protocol).
 
 ## How to use it
 
@@ -39,7 +38,7 @@ Anyway, after having been started, the application is going to show that the ser
 
 #### Stopping the Poco RESTful Web Service at Command Line
 
-As the very message warns after the service has been started, for stopping the service, you should just type **CTRL+C**.  
+As the very message warns after the service has been started, for stopping the service, you should just type **CTRL+C**.
 Therefore, It is going to show that the service has been stopped as follows:
 
 > Poco Restful Web Service stopped.  
