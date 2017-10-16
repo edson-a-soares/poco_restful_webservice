@@ -7,6 +7,7 @@ class poco::install {
     exec { "wget-poco":
         command => "wget $poco_library_url --directory-prefix=$environment::configure::home_directory",
         unless  => "test -d /usr/local/include/Poco",
+        timeout => 0,
         path    => [ "/bin", "/usr/bin" ],
     }
 
