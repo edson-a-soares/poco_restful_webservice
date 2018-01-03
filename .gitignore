@@ -1,5 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
-/Provision/Puppet/librarian/.librarian/
-/Provision/Puppet/librarian/.tmp/
-/Provision/Puppet/librarian/modules/*
-/Provision/Puppet/librarian/Puppetfile.lock
+
+# Tools
+*.tmp
+*.lock
+*.librarian
+/provision/puppet/librarian/modules/*
+
+# IDEs
+*.idea

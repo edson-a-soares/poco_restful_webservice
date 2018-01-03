@@ -22,7 +22,7 @@
 
 #include <map>
 #include <string>
-#include "Interface/Resource/Factory/IFactory.h"
+#include "Resource/Factory/IFactory.h"
 #include "Poco/Net/HTTPRequestHandlerFactory.h"
 
 namespace Interface {

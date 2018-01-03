@@ -1,4 +1,42 @@
 cmake_minimum_required(VERSION 3.6)
 
-add_subdirectory(Launcher)
-add_subdirectory(Interface)
+set(CMAKE_C_COMPILER /usr/bin/gcc)
+set(CMAKE_CXX_COMPILER /usr/bin/g++)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+SET(CMAKE_SHARED_LIBRARY_PREFIX "")
+
+SET(EXECUTABLE_BINARY_NAME "webservice")
+SET(APPLICATION_BINARY_NAME "poco_restful_webservice")
+
+# Poco Library Setup
+find_library(POCO_NET PocoNet)
+find_library(POCO_UTIL PocoUtil)
+find_library(POCO_FOUNDATION PocoFoundation)
+
+find_package(Threads REQUIRED)
+
+# including source code of the project
+set(PROJECT_INCLUDE_DIR ${CMAKE_HOME_DIRECTORY}/${MODULE_DIRECTORY}/include)
+set(PROJECT_SOURCE_DIR ${CMAKE_HOME_DIRECTORY}/${MODULE_DIRECTORY}/src)
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/${MODULE_DIRECTORY}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/${MODULE_DIRECTORY}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/${MODULE_DIRECTORY}/bin)
+
+file(GLOB SOURCE_FILES_TOP "${PROJECT_SOURCE_DIR}/*.cpp")
+file(GLOB_RECURSE SOURCE_FILES_NESTED
+    ${PROJECT_SOURCE_DIR}/Interface/*.cpp
+)
+set(SOURCE_FILES ${SOURCE_FILES_TOP} ${SOURCE_FILES_NESTED})
+
+include_directories("${PROJECT_INCLUDE_DIR}")
+include_directories("${PROJECT_SOURCE_DIR}")
+include_directories(${Poco_INCLUDE_DIRS})
+
+add_library(${APPLICATION_BINARY_NAME} SHARED ${SOURCE_FILES})
+target_link_libraries(${APPLICATION_BINARY_NAME} ${POCO_FOUNDATION} ${POCO_UTIL} ${POCO_NET})
+target_include_directories(${APPLICATION_BINARY_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
+
+add_executable(${EXECUTABLE_BINARY_NAME} ${PROJECT_SOURCE_DIR}/main.cpp)
+target_link_libraries(${EXECUTABLE_BINARY_NAME} ${APPLICATION_BINARY_NAME})

@@ -2,9 +2,9 @@
     VAGRANTFILE_API_VERSION = "2"
 
     MANIFEST = "default.pp"
-    MANIFESTS_PATH = "Provision/Puppet/manifests"
-    CUSTOM_MODULES_PATH = "Provision/Puppet/modules"
-    LIBRARIAN_MODULES_PATH = "Provision/Puppet/librarian/modules"
+    MANIFESTS_PATH = "provision/puppet/manifests"
+    CUSTOM_MODULES_PATH = "provision/puppet/modules"
+    LIBRARIAN_MODULES_PATH = "provision/puppet/librarian/modules"
 
     Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -38,7 +38,7 @@
 
         # provisioning directives
         config.vm.provision "shell" do |local_userdata|
-            local_userdata.path = "Provision/Shell/bootloader.sh"
+            local_userdata.path = "provision/shell/bootloader.sh"
             local_userdata.privileged = "yes"
         end
 
