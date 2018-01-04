@@ -1,56 +1,60 @@
-## Introduction
+## Poco RESTful Resource Model
 
-**Poco RESTful Web Service** is a completely functional Web Service developed in C++ using [Poco C++ Libraries](https://pocoproject.org/).  
-It is basically an example of how to develop a **RESTful Web Service** in C++ using **Poco**. It was based in a real world web service developed for allowing service providers perform provisioning operations under [EPP Protocol](https://en.wikipedia.org/wiki/Extensible_Provisioning_Protocol).
+An example of how to build a RESTful WebService using [Poco C++ Libraries](https://pocoproject.org/). 
+Specifically, how to organize the WebService resources.
 
 ## How to use it
 
-#### Starting the Poco RESTful Web Service at Command Line
+### HTTP headers
+The HTTP headers used for the service.
 
-For installing the application completely perform the steps as follows.
+| HTTP header name  | Description                       |
+|:------------------|:----------------------------------|
+| `Accept`          | Set to `application/vnd.api+json`. **Required**. | 
+| `Content-Type`    | Set to `application/vnd.api+json`. **Required**. | 
+| `Accept-Language` | Language options like `en-US` or `pt-BR` are shown just as exemples. |  
 
+***
+
+###API Interface
+
+####Resources
+The resources supported by the API:
+
+| resource              | description                       |
+|:----------------------|:----------------------------------|
+| `/`                   | It returns a list of all resources currently supported by the API |
+
+### Request & Response Examples
+
+#### Resource Root 
+The resource root presents all the API available resources as a map.
+```json
+    {
+        "links": {
+          "self": "http://localhost:9000/"
+        },
+        "meta": {
+            "lang": [
+              "en-US",
+              "pt-BR"
+            ],
+            "version": "1.0"
+        }
+    }
 ```
-git clone https://github.com/edson-a-soares/poco_restful_webservice.git 
-cd poco_restful_webservice 
-sudo cmake . 
-sudo make 
-sudo make install 
+
+#### Error handling 
+
+```json
+{
+  "error": [{
+      "code": 404,
+      "description": "This route does not exist.",
+      "source": {
+          "pointer": "http://localhost:9000/something"
+      },
+      "type": "Not Found"
+  }]
+}
 ```
-
-Now, just type **poco_restful_webservice** at the Command Line for using the service.
-
-However, you can start the service even without installing it performing the steps as follows.
-
-```
-git clone https://github.com/edson-a-soares/poco_restful_webservice.git 
-cd poco_restful_webservice 
-sudo cmake . 
-sudo make 
-cd poco_restful_webservice/Launcher/bin
-```
-
-Now, just type **./poco_restful_webservice** at the Command Line for using the service.
-
-Anyway, after having been started, the application is going to show that the service has been started as follows:
-
-> Poco Restful Web Service started and running.  
-> Type http://localhost:9000 to use it or type CRLT+C to finish it.
-
-#### Stopping the Poco RESTful Web Service at Command Line
-
-As the very message warns after the service has been started, for stopping the service, you should just type **CTRL+C**.
-Therefore, It is going to show that the service has been stopped as follows:
-
-> Poco Restful Web Service stopped.  
-> Goodbye.   
-
-
-### Useful links ###
-
-* [Citerus](https://github.com/citerus/dddsample-core)
-* [Google Test](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md)
-* [EPP Registro.br](https://registro.br/tecnologia/provedor-hospedagem.html?secao=epp)
-
-### References ###
-
-* **Evans, Eric**, [Domain-Driven Design: Tackling Complexity in the Heart of Software](https://www.amazon.com.br/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215)
