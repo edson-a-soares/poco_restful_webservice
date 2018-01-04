@@ -43,7 +43,7 @@ class cmake::install {
         subscribe   => Exec[ "configure-cmake" ],
         refreshonly => true,
         logoutput   => true,
-        timeout     => 1800,
+        timeout     => 0,
         path        => [ "/bin", "/usr/bin" ],
     }
 

@@ -17,27 +17,35 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Web_Service_Interface_Resource_Application_INCLUDED
-#define Web_Service_Interface_Resource_Application_INCLUDED
+#ifndef Web_Service_Interface_Resource_Abstract_Resource_INCLUDED
+#define Web_Service_Interface_Resource_Abstract_Resource_INCLUDED
 
-#include "Interface/Resource/AbstractResource.h"
+#include "Poco/Net/HTTPServerRequest.h"
+#include "Poco/Net/HTTPServerResponse.h"
+#include "Poco/Net/HTTPRequestHandler.h"
 
 namespace Interface {
 namespace Resource {
 
 
-    class Application : public AbstractResource
+    class AbstractResource : public Poco::Net::HTTPRequestHandler
     {
     public:
-        Application();
-        ~Application();
+        AbstractResource();
+        virtual ~AbstractResource();
+
+        virtual void handleRequest(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
 
     protected:
         virtual void handle_get(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
+        virtual void handle_put(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
+        virtual void handle_post(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
+        virtual void handle_delete(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
         virtual void handle_options(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
 
-    };
+        virtual void handleHTTPHeaders(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
 
+    };
 
 } }
 
