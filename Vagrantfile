@@ -14,7 +14,7 @@
             sh.vm.box = "ubuntu/precise32"
             sh.vm.hostname = "poco-sample-hosting"
             sh.vm.network :private_network, ip: "192.168.1.100"
-            sh.vm.network "forwarded_port", guest: 3306, host: 3306, auto_correct: true
+            sh.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true
 
             sh.ssh.forward_agent = true
             sh.ssh.insert_key = false
@@ -23,7 +23,7 @@
 
                 virtualbox.customize [
                     "modifyvm", :id,
-                    "--memory", "512",
+                    "--memory", "1024",
                     "--cpus", "1",
                     "--hwvirtex", "off",
                     "--pae", "on",

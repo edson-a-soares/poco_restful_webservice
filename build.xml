@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Poco RESTful Resource Model" basedir=".">
+
+    <property file="${basedir}/build.properties"/>
+    <property name="provision.directory" value="${basedir}/provision/puppet"/>
+
+    <!-- provisioning related tasks -->
+    <target name="librarian_puppet_install">
+        <exec executable="librarian-puppet" failonerror="true" dir="${provision.directory}/librarian">
+            <arg value="install" />
+        </exec>
+    </target>
+
+    <target name="setup_environment" depends="librarian_puppet_install">
+        <exec executable="vagrant" failonerror="true">
+            <arg value ="up" />
+            <arg value ="${vm.name}" />
+        </exec>
+    </target>
+
+    <target name="destroy_environment">
+        <exec executable="vagrant" failonerror="true">
+            <arg value ="destroy" />
+            <arg value ="--force" />
+            <arg value ="${vm.name}" />
+        </exec>
+    </target>
+
+    <!-- provisioning related tasks -->
+    <target name="clone_project">
+        <sshexec host="${vm.address}"
+            command="git clone ${git.repository.url}"
+            password="${vm.password}"
+            username="${vm.password}"
+            trust="true"
+            verbose="false"
+            failonerror="true" />
+    </target>
+
+    <target name="build_project">
+        <sshexec host="${vm.address}"
+            command="cd ${git.repository.name}; cmake ."
+            password="${vm.password}"
+            username="${vm.password}"
+            trust="true"
+            verbose="false"
+            failonerror="true" />
+    </target>
+
+    <target name="compile_project">
+        <sshexec host="${vm.address}"
+            command="cd ${git.repository.name}; sudo make"
+            password="${vm.password}"
+            username="${vm.password}"
+            trust="true"
+            verbose="false"
+            failonerror="true" />
+    </target>
+
+    <target name="deploy_project">
+        <antcall target="clone_project"/>
+        <antcall target="build_project"/>
+        <antcall target="compile_project"/>
+    </target>
+
+    <target name="run_webservice">
+        <sshexec host="${vm.address}"
+            command="nohup ${git.repository.name}/bin/webservice > ${git.repository.name}/application.log &amp;"
+            password="${vm.password}"
+            username="${vm.password}"
+            trust="true"
+            verbose="false"
+            failonerror="true" />
+    </target>
+
+</project>
