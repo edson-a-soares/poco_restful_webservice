@@ -15,18 +15,18 @@ After having **Vagrant** and **Ant** installed you can execute the WebService th
 directory of the project as follows:
 
 For making it available in the environment:
-```shell
+```bash
 ant setup_environment
 ant deploy_project
 ```
 
 For running it:
-```shell
+```bash
 ant run_webservice
 ```
 
 For destroying the everything:
-```shell
+```bash
 ant destroy_environment
 ```
 
@@ -39,7 +39,7 @@ You reach the service at the IP address `192.168.1.100:9000`.
 
 ## HTTP Headers
 
-The HTTP headers used for the service.
+The HTTP headers used for service.
 
 | HTTP header name  | Description                       |
 |:------------------|:----------------------------------|
