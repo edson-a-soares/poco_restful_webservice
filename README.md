@@ -25,7 +25,7 @@ For running it:
 ant run_webservice
 ```
 
-For destroying the everything:
+For destroying everything:
 ```bash
 ant destroy_environment
 ```
