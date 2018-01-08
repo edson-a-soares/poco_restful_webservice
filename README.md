@@ -1,7 +1,8 @@
-# Poco RESTful Resource Model
+# Poco RESTful WebService
 
-It is an example of how to build a RESTful WebService using [Poco C++ Libraries](https://pocoproject.org). 
-Specifically, how to structure and organize its resources.
+A RESTful WebService built using [Poco C++ Libraries](https://pocoproject.org). 
+This is an example of how to use **Poco** to build a **RESTful API**. A little bit more specifically, how to structure and 
+organize the project resources and take advantage of the amazing **Poco** resources.
 
 ## Requirements
 
