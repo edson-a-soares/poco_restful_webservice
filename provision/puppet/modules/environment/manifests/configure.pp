@@ -2,6 +2,8 @@ class environment::configure {
 
     $home_group     = "ubuntu"
     $home_username  = "ubuntu"
+    $mysql_username = "developer"
+    $mysql_password = "abc12345"
     $home_directory = "/home/$home_username"
 
     exec { "create-homeuser":

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Poco RESTful WebService Database Targets" basedir=".">
+
+    <description>Ant targets for deploying database changes using DBDeploy</description>
+
+    <tstamp>
+        <format locale="en_us" pattern="yyyy/MM/d hh:mm:ss" property="time"/>
+    </tstamp>
+
+    <property name="sql_upgrade_file" value="upgrade.sql"/>
+    <property name="version_table.name" value="changelog"/>
+    <property name="sql_downgrade_file" value="downgrade.sql"/>
+    <property name="deltas" location="${db_directory}/migration"/>
+    <property name="dbdeploy_folder" location="${build}/dbdeploy"/>
+    <property name="driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
+    <property name="jdbc.driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
+
+    <path id="libraries">
+        <fileset dir="${libraries}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="dbdeploy" classname="com.dbdeploy.AntTarget" classpathref="libraries"/>
+
+    <target name="create_schema_temporary_directories">
+        <delete dir="${dbdeploy_folder}"/>
+        <mkdir dir="${dbdeploy_folder}"/>
+    </target>
+
+    <target name="create_schema" description="Create the project's schema">
+        <echo message="Creating the schema: ${db.schema}"/>
+
+        <sql url="${dbms.url}"
+             userid="${db.username}"
+             password="${db.password}"
+             driver="${db.driver.name}"
+             classpath="${jdbc.driver.classpath}">
+            CREATE DATABASE ${db.schema} DEFAULT CHARACTER SET ${db.schema.charset} COLLATE ${db.schema.collate};
+        </sql>
+    </target>
+
+    <target name="drop_schema" description="Drop the project's schema">
+        <echo message="Dropping the schema: ${db.schema}"/>
+
+        <sql url="${dbms.url}"
+             userid="${db.username}"
+             password="${db.password}"
+             driver="${db.driver.name}"
+             classpath="${jdbc.driver.classpath}">
+            DROP DATABASE ${db.schema};
+        </sql>
+    </target>
+
+    <target name="create_version_table">
+        <sql url="${db.url}"
+             userid="${db.username}"
+             password="${db.password}"
+             driver="${db.driver.name}"
+             classpath="${jdbc.driver.classpath}">
+            <fileset file="${db_directory}/scripts/create_changelog_table.sql"/>
+        </sql>
+    </target>
+
+    <target name="prepare_upgrade_schema" depends="create_schema_temporary_directories" description="Generate the SQL upgrade script">
+        <dbdeploy driver="${db.driver.name}"
+                  dir="${deltas}"
+                  url="${db.url}"
+                  userid="${db.username}"
+                  password="${db.password}"
+                  outputfile="${dbdeploy_folder}/${sql_upgrade_file}"
+                  undoOutputfile="${dbdeploy_folder}/${sql_downgrade_file}"
+                  dbms="${dbms.name}"/>
+        <echo message="Upgrade and Downgrade scripts generated in generate folder"/>
+    </target>
+
+    <target name="upgrade_schema">
+        <dbdeploy driver="${db.driver.name}"
+                  url="${db.url}"
+                  userid="${db.username}"
+                  password="${db.password}"
+                  dir="${deltas}"
+                  dbms="${dbms.name}"/>
+    </target>
+
+    <target name="downgrade_schema">
+        <sql url="${db.url}"
+             userid="${db.username}"
+             password="${db.password}"
+             driver="${db.driver.name}"
+             classpath="${jdbc.driver.classpath}">
+            <fileset file="${dbdeploy_folder}/${sql_downgrade_file}"/>
+        </sql>
+    </target>
+
+    <target name="load_sample_data">
+        <sql driver="${db.driver.name}"
+             url="${db.url}"
+             userid="${db.username}"
+             password="${db.password}"
+             classpath="${jdbc.driver.classpath}"
+             delimiter=";">
+            <fileset dir="${db_directory}/sample_data" includes="*.sql"/>
+        </sql>
+    </target>
+
+    <target name="empty_schema">
+        <echo message="Cleaning the schema ${db.schema}"/>
+
+        <sql url="${dbms.url}"
+             userid="${db.username}"
+             password="${db.password}"
+             driver="${db.driver.name}"
+             onerror="continue"
+             classpath="${jdbc.driver.classpath}">
+
+            -- Disable foreign key checks for while cleaning the schema
+            SET FOREIGN_KEY_CHECKS = 0;
+
+            -- Compose Query
+            SET @commands_list := (
+            SELECT group_concat('TRUNCATE TABLE ', table_schema,'.',table_name, '; ' separator '')
+            FROM information_schema.tables
+            WHERE table_schema IN ('${db.schema}') AND table_name != '${version_table.name}'
+            );
+
+            -- Execute Query
+            PREPARE empty_scheme FROM @commands_list;
+            EXECUTE empty_scheme;
+            DEALLOCATE PREPARE empty_scheme;
+
+            -- Enable again foreign key checks
+            SET FOREIGN_KEY_CHECKS = 1;
+
+        </sql>
+    </target>
+
+    <target name="init_schema">
+        <echo message="Initializing schema: ${db.schema}"/>
+        <antcall target="create_version_table"/>
+        <antcall target="prepare_upgrade_schema"/>
+        <antcall target="upgrade_schema"/>
+        <antcall target="load_sample_data"/>
+    </target>
+
+</project>

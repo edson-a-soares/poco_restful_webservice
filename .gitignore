@@ -7,4 +7,4 @@
 /provision/puppet/librarian/Puppetfile.lock
 
 # IDEs
-*.idea
+/*.idea

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="Poco RESTful Resource Model" basedir=".">
+<project name="Poco RESTful WebService" basedir=".">
 
+    <property name="test" value="test"/>
+    <property name="build" value="build"/>
     <property file="${basedir}/build.properties"/>
+    <property name="libraries" value="${basedir}/lib"/>
+    <property name="db_directory" value="${basedir}/database"/>
     <property name="provision.directory" value="${basedir}/provision/puppet"/>
+
+    <!-- Import database related tasks -->
+    <import file="${db_directory}/targets.xml" as="nested"/>
 
     <!-- provisioning related tasks -->
     <target name="librarian_puppet_install">
