@@ -23,7 +23,7 @@ class poco::install {
 
     exec { "configure-poco":
         cwd         => "$environment::configure::home_directory/poco-1.7.8-all",
-        command	    => "sudo sh configure --no-tests --no-samples --minimal",
+        command	    => "sudo sh configure --no-tests --no-samples --omit=MongoDB,Data/ODBC,Data/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler",
         subscribe   => Exec[ "uncompress-poco" ],
         user        => $environment::configure::home_username,
         group       => $environment::configure::home_group,

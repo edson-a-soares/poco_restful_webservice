@@ -22,6 +22,10 @@ class environment::configure {
         ensure	=> installed,
     }
 
+    package { "libmysqlclient-dev":
+        ensure	=> installed,
+    }
+
     package { "git":
         ensure	=> installed,
     }

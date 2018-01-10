@@ -12,9 +12,10 @@
     <property name="version_table.name" value="changelog"/>
     <property name="sql_downgrade_file" value="downgrade.sql"/>
     <property name="deltas" location="${db_directory}/migration"/>
-    <property name="dbdeploy_folder" location="${build}/dbdeploy"/>
     <property name="driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
+    <property name="dbdeploy_folder" location="${build}/database/dbdeploy"/>
     <property name="jdbc.driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
+    <property name="dbdeploy_folder" location="${build}/database/dbdeploy"/>
 
     <path id="libraries">
         <fileset dir="${libraries}">
@@ -29,6 +30,10 @@
         <mkdir dir="${dbdeploy_folder}"/>
     </target>
 
+    <target name="clean_config_directories">
+        <delete dir="${dbdeploy_folder}"/>
+    </target>
+
     <target name="create_schema" description="Create the project's schema">
         <echo message="Creating the schema: ${db.schema}"/>
 
@@ -37,7 +42,7 @@
              password="${db.password}"
              driver="${db.driver.name}"
              classpath="${jdbc.driver.classpath}">
-            CREATE DATABASE ${db.schema} DEFAULT CHARACTER SET ${db.schema.charset} COLLATE ${db.schema.collate};
+                CREATE DATABASE ${db.schema} DEFAULT CHARACTER SET ${db.schema.charset} COLLATE ${db.schema.collate};
         </sql>
     </target>
 
@@ -49,7 +54,7 @@
              password="${db.password}"
              driver="${db.driver.name}"
              classpath="${jdbc.driver.classpath}">
-            DROP DATABASE ${db.schema};
+                DROP DATABASE ${db.schema};
         </sql>
     </target>
 
@@ -65,23 +70,23 @@
 
     <target name="prepare_upgrade_schema" depends="create_schema_temporary_directories" description="Generate the SQL upgrade script">
         <dbdeploy driver="${db.driver.name}"
-                  dir="${deltas}"
-                  url="${db.url}"
-                  userid="${db.username}"
-                  password="${db.password}"
-                  outputfile="${dbdeploy_folder}/${sql_upgrade_file}"
-                  undoOutputfile="${dbdeploy_folder}/${sql_downgrade_file}"
-                  dbms="${dbms.name}"/>
+            dir="${deltas}"
+            url="${db.url}"
+            userid="${db.username}"
+            password="${db.password}"
+            outputfile="${dbdeploy_folder}/${sql_upgrade_file}"
+            undoOutputfile="${dbdeploy_folder}/${sql_downgrade_file}"
+            dbms="${dbms.name}"/>
         <echo message="Upgrade and Downgrade scripts generated in generate folder"/>
     </target>
 
     <target name="upgrade_schema">
         <dbdeploy driver="${db.driver.name}"
-                  url="${db.url}"
-                  userid="${db.username}"
-                  password="${db.password}"
-                  dir="${deltas}"
-                  dbms="${dbms.name}"/>
+            url="${db.url}"
+            userid="${db.username}"
+            password="${db.password}"
+            dir="${deltas}"
+            dbms="${dbms.name}"/>
     </target>
 
     <target name="downgrade_schema">

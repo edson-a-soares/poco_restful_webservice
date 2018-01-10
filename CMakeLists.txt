@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 
 set(CMAKE_C_COMPILER /usr/bin/gcc)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lPocoDataMySQL -lPocoXML -lPocoJSON")
 
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
@@ -12,6 +12,7 @@ SET(APPLICATION_BINARY_NAME "poco_restful_webservice")
 # Poco Library Setup
 find_library(POCO_NET PocoNet)
 find_library(POCO_UTIL PocoUtil)
+find_library(POCO_DATA PocoData)
 find_library(POCO_FOUNDATION PocoFoundation)
 
 find_package(Threads REQUIRED)
@@ -37,7 +38,7 @@ include_directories("${PROJECT_SOURCE_DIR}")
 include_directories(${Poco_INCLUDE_DIRS})
 
 add_library(${APPLICATION_BINARY_NAME} SHARED ${SOURCE_FILES})
-target_link_libraries(${APPLICATION_BINARY_NAME} ${POCO_FOUNDATION} ${POCO_UTIL} ${POCO_NET})
+target_link_libraries(${APPLICATION_BINARY_NAME} ${POCO_FOUNDATION} ${POCO_UTIL} ${POCO_NET} ${POCO_DATA})
 target_include_directories(${APPLICATION_BINARY_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
 
 add_executable(${EXECUTABLE_BINARY_NAME} ${PROJECT_SOURCE_DIR}/main.cpp)
