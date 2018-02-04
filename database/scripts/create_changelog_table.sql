@@ -5,5 +5,5 @@ CREATE TABLE changelog (
   description   VARCHAR(500)  NOT NULL
 );
 
-ALTER TABLE changelog ADD CONSTRAINT pk_changelog
+ALTER TABLE changelog ADD CONSTRAINT PK_changelog
 PRIMARY KEY (change_number);
