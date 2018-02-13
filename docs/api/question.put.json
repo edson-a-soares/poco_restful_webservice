@@ -1,0 +1,11 @@
+{
+    "data" : {
+        "attributes" : {
+            "starts_at" : "some-date",
+            "ends_at" : "some-date",
+            "details" : "Details to update here.",
+            "label" : "Label to update here.",
+            "text" : "Question text to update here."
+        }
+    }
+}
