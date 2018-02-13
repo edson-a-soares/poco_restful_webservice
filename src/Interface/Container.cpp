@@ -19,7 +19,7 @@ namespace Interface {
     int Container::main(const std::vector<std::string> & args)
     {
 
-        Poco::Net::HTTPServerParams * httpServerParams = new Poco::Net::HTTPServerParams();
+        auto * httpServerParams = new Poco::Net::HTTPServerParams();
 
         httpServerParams->setMaxQueued(250);
         httpServerParams->setMaxThreads(50);
@@ -39,7 +39,7 @@ namespace Interface {
 
     }
 
-    void Container::setPort(const int _port)
+    void Container::setPort(int _port)
     {
         port = _port;
     }

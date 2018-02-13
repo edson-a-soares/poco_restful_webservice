@@ -2,7 +2,7 @@
 #include "Interface/Router.h"
 #include "Poco/ClassLibrary.h"
 #include "Poco/Net/HTTPServerRequest.h"
-#include "Interface/Resource/RouteNotFound.h"
+#include "Interface/Resource/ResourceNotFound.h"
 #include "Interface/Resource/Factory/Factory.h"
 
 namespace Interface {
@@ -15,7 +15,9 @@ namespace Interface {
 
     void Router::init()
     {
-        addRoute("/", "Interface::Resource::Factory::ApplicationFactory");
+        addRoute("/polls",       "Interface::Resource::Factory::PollFactory");
+        addRoute("/polls/votes", "Interface::Resource::Factory::PollVoteFactory");
+        addRoute("/",            "Interface::Resource::Factory::ApplicationFactory");
     }
 
     Poco::Net::HTTPRequestHandler * Router::createRequestHandler(const Poco::Net::HTTPServerRequest & request)
@@ -25,16 +27,18 @@ namespace Interface {
 
     Poco::Net::HTTPRequestHandler * Router::getResource(const std::string & route)
     {
+
         Poco::URI uri = Poco::URI(route);
         auto factoryIndex = routingTable.find(uri.getPath());
         if ( factoryIndex == routingTable.end() ) {
-            return new Interface::Resource::RouteNotFound();
+            return new Interface::Resource::ResourceNotFound();
         }
 
         Interface::Resource::Factory::IFactory * factory =
             Interface::Resource::Factory::Factory::createResourceFactory(factoryIndex->second);
 
         return factory->createResource();
+
     }
 
     void Router::addRoute(const std::string & route, const std::string & factory)

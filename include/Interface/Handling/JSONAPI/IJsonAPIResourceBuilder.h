@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017 Edson (http://edsonaraujosoares.com) and others.
+ * (C) Copyright 2018 Edson (http://edsonaraujosoares.com) and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,28 +17,20 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Web_Service_Interface_Handling_Application_Json_Parser_INCLUDED
-#define Web_Service_Interface_Handling_Application_Json_Parser_INCLUDED
+#ifndef Web_Service_Interface_Handling_JsonAPI_IResource_Builder_INCLUDED
+#define Web_Service_Interface_Handling_JsonAPI_IResource_Builder_INCLUDED
 
-#include <string>
+#include "Interface/Handling/IResourceBuilder.h"
+#include "Interface/Handling/JSONAPI/IJsonAPIResource.h"
 
 namespace Interface {
 namespace Handling {
 
 
-    class ApplicationJSONParser
-    {
-    public:
-        ApplicationJSONParser();
-        ApplicationJSONParser(const std::string &);
-
-        std::string toJson(const std::string &) const;
-        std::string getUrl(const std::string &) const;
-
-    private:
-        std::string baseUrl;
-
-    };
+    class IJsonAPIResourceBuilder
+        : public IResourceBuilder,
+          public IJsonAPIResource
+    { };
 
 
 } }

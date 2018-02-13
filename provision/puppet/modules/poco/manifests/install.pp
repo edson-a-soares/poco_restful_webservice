@@ -36,7 +36,7 @@ class poco::install {
         command	    => "sudo make && sudo make install",
         subscribe   => Exec[ "configure-poco" ],
         refreshonly => true,
-        timeout     => 1800,
+        timeout     => 0,
         logoutput   => true,
         path        => [ "/bin", "/usr/bin" ],
     }

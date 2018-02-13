@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017 Edson (http://edsonaraujosoares.com) and others.
+ * (C) Copyright 2018 Edson (http://edsonaraujosoares.com) and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ namespace Factory {
     class ApplicationFactory : public IFactory
     {
     public:
-        Poco::Net::HTTPRequestHandler * createResource();
+        Poco::Net::HTTPRequestHandler * createResource() override;
 
     };
 

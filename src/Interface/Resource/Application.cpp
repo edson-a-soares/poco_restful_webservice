@@ -1,5 +1,4 @@
 #include "Interface/Resource/Application.h"
-#include "Interface/Handling/ApplicationJSONParser.h"
 
 namespace Interface {
 namespace Resource {
@@ -9,17 +8,26 @@ namespace Resource {
         : AbstractResource()
     { }
 
-    Application::~Application()
-    { }
-
     void Application::handle_get(Poco::Net::HTTPServerRequest & request, Poco::Net::HTTPServerResponse & response)
     {
 
         std::ostream & outputStream = response.send();
         response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
-        Handling::ApplicationJSONParser parser = Handling::ApplicationJSONParser(request.getHost());
 
-        outputStream << parser.toJson("1.0");
+        Handling::JsonAPIResourceBuilder resourceBuilder(request.getHost());
+
+        resourceBuilder.linkTo("polls_url",        "/polls?question_id={id}");
+        resourceBuilder.linkTo("polls_vote_url",   "/polls/votes");
+        resourceBuilder.linkTo("polls_result_url", "/polls/votes?question_id={id}");
+
+        Poco::Dynamic::Array langs;
+        langs.emplace_back("en-US");
+
+        resourceBuilder.withMetadata("langs", langs);
+        resourceBuilder.withMetadata("jsonapi", "1.1");
+        resourceBuilder.withMetadata("copyright", "Copyright 2018 Poco RESTful WebService");
+
+        outputStream << resourceBuilder.build().toString();
         outputStream.flush();
 
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017 Edson (http://edsonaraujosoares.com) and others.
+ * (C) Copyright 2018 Edson (http://edsonaraujosoares.com) and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +30,10 @@ namespace Resource {
     {
     public:
         Application();
-        ~Application();
 
     protected:
-        virtual void handle_get(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
-        virtual void handle_options(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
+        void handle_get(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &) override;
+        void handle_options(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &) override;
 
     };
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017 Edson (http://edsonaraujosoares.com) and others.
+ * (C) Copyright 2018 Edson (http://edsonaraujosoares.com) and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,16 +31,15 @@ namespace Interface {
     {
     public:
         Container();
-        ~Container();
+        ~Container() override;
 
-        void setPort(const int);
-        void setEndpoint(const std::string &);
+        void setPort(int);
 
         Poco::Net::HTTPRequestHandlerFactory * getRouter();
         void setRouter(Poco::Net::HTTPRequestHandlerFactory *);
 
     protected:
-        int main(const std::vector<std::string> & args);
+        int main(const std::vector<std::string> & args) override;
 
     private:
         int port;

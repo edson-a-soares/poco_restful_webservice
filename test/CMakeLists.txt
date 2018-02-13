@@ -14,7 +14,9 @@ file(GLOB TEST_SOURCE_FILES_TOP
     ${CMAKE_HOME_DIRECTORY}/test/*.cpp)
 
 file(GLOB_RECURSE TEST_SOURCE_FILES_NESTED
-    ${CMAKE_HOME_DIRECTORY}/test/Domain/*.cpp)
+    ${CMAKE_HOME_DIRECTORY}/test/Domain/*.cpp
+    ${CMAKE_HOME_DIRECTORY}/test/Interface/*.cpp
+    ${CMAKE_HOME_DIRECTORY}/test/Infrastructure/*.cpp)
 
 set(TEST_SOURCE_FILES ${TEST_SOURCE_FILES_TOP} ${TEST_SOURCE_FILES_NESTED})
 

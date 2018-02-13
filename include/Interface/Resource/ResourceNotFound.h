@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017 Edson (http://edsonaraujosoares.com) and others.
+ * (C) Copyright 2018 Edson (http://edsonaraujosoares.com) and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Web_Service_Interface_Resource_Route_Not_Found_INCLUDED
-#define Web_Service_Interface_Resource_Route_Not_Found_INCLUDED
+#ifndef Web_Service_Interface_Resource_Resource_Not_Found_INCLUDED
+#define Web_Service_Interface_Resource_Resource_Not_Found_INCLUDED
 
 #include "Poco/Net/HTTPServerRequest.h"
 #include "Poco/Net/HTTPServerResponse.h"
@@ -28,10 +28,10 @@ namespace Interface {
 namespace Resource {
 
 
-    class RouteNotFound : public Poco::Net::HTTPRequestHandler
+    class ResourceNotFound : public Poco::Net::HTTPRequestHandler
     {
     public:
-        void handleRequest(Poco::Net::HTTPServerRequest & request, Poco::Net::HTTPServerResponse & response);
+        void handleRequest(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
 
     };
 
