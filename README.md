@@ -1,14 +1,19 @@
 # Poco RESTful WebService
 
-A RESTful WebService built using [Poco C++ Libraries](https://pocoproject.org). 
-This is an example of how to use **Poco** to build a **RESTful API**. A little bit more specifically, how to structure and 
-organize the project resources and take advantage of the amazing **Poco** resources.
+This is a totally functional sample of a RESTful API built using [Poco C++ Libraries](https://pocoproject.org). 
+
+## Disclaimer
+
+Be aware this is not meant to be a blueprint, the correct way, even worse, the best way to build an API using [Poco C++ Libraries](https://pocoproject.org).
+On the contrary, it was built purely for fun and curiosity after I have used this amazing C++ framework in a real project. 
+Surely, there are plenty different ways to build a similar project using [Poco C++ Libraries](https://pocoproject.org).
+However, I hope this can be useful offering some basic guidance for those trying to build a non trivial application using 
+[Poco C++ Libraries](https://pocoproject.org).
 
 ## Requirements
 
-You need to have [Vagrant](https://www.vagrantup.com/docs/installation), [Puppet](https://docs.puppet.com/puppet/3.8/install_debian_ubuntu.html), 
-and [Ant](http://ant.apache.org/manual/install.html) with [SSHEXEC](https://ant.apache.org/manual/Tasks/sshexec.html) 
-extension installed in your computer.
+You just need to have [Vagrant](https://www.vagrantup.com/docs/installation) and [Puppet](https://docs.puppet.com/puppet/3.8/install_debian_ubuntu.html) 
+installed in your computer to be able to run this application.
 
 ## Running the project 
 
@@ -92,6 +97,13 @@ The resource root presents all the API available resources as a map.
 }
 ```
 
+## Standards and Style
+This project did not adopted a specific **Coding Style Guidelines or Standard** until now.
+But, it has been influenced by [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), 
+[PPP Style Guide](http://www.stroustrup.com/Programming/PPP-style-rev3.pdf) and [Applied Informatics C++ Coding Style Guide](https://www.appinf.com/download/CppCodingStyleGuide.pdf) itself.  
+
 ## Useful links
 
 * [JSON API](http://jsonapi.org)
+* [Doxygen](http://www.stack.nl/~dimitri/doxygen/manual/index.html)
+* [Google Test](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md)
