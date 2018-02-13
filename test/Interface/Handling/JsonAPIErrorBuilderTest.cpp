@@ -22,7 +22,7 @@ protected:
                         "{ "
                     "\"details\" : \"This route does not exist.\", "
                     "\"source\" : { "
-                        "\"pointer\" : \"http://example.com/something-to-pointer\" "
+                        "\"pointer\" : \"http:\\/\\/example.com\\/something-to-pointer\" "
                     "}, "
                     "\"status\" : 404, "
                     "\"type\" : \"Not Found\" "
