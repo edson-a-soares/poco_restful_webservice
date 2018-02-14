@@ -17,13 +17,24 @@ installed in your computer to be able to run this application.
 
 ## Running the project 
 
-After having **Vagrant** and **Ant** installed you can execute the WebService through a few commands at the root 
+After having **Vagrant** and **Puppet** installed you can execute the WebService through a few commands at the root 
 directory of the project as follows:
 
 For making it available in the environment:
 ```bash
 ant setup_environment
 ant deploy_project
+```
+
+For getting the database ready:
+```bash
+ant create_schema
+ant init_schema
+```
+
+For destroying the database:
+```bash
+ant drop_schema
 ```
 
 For running it:
@@ -41,7 +52,7 @@ ant destroy_environment
 After having run the project you will be able to make requests to the WebService. 
 For doing this, use the **Terminal** or any **REST Client Tool**. 
 [ARC](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo) is a good option.
-You reach the service at the IP address `192.168.1.100:9000`.
+You reach the service at the IP address `192.168.1.100:9090`.
 
 ## HTTP Headers
 
@@ -51,7 +62,7 @@ The HTTP headers used for service.
 |:------------------|:----------------------------------|
 | `Accept`          | Set to `application/vnd.api+json`. **Required**. | 
 | `Content-Type`    | Set to `application/vnd.api+json`. **Required**. | 
-| `Accept-Language` | Language options like `en-US` or `pt-BR` are shown just as examples. |  
+| `Accept-Language` | Set to `en-US`. It is the only language supported by now. |  
 
 ## Resources
 
@@ -60,6 +71,8 @@ The resources supported by the API:
 | resource              | description                       |
 |:----------------------|:----------------------------------|
 | `/`                   | It returns a list of all resources currently supported by the API |
+| `/polls`              | It performs all operations related to Polls supported by the API |
+| `/polls/votes`        | It performs all operations related to Polls' votes supported by the API |
 
 ## Request and Response
 
@@ -70,14 +83,17 @@ The resource root presents all the API available resources as a map.
 ```json
     {
         "links": {
-          "self": "http://localhost:9000/"
+          "self": "http://localhost:0000/",
+          "polls_result_url": "http://localhost:0000/polls/votes?question_id={id}",
+          "polls_url": "http://localhost:0000/polls?question_id={id}",
+          "polls_vote_url": "http://localhost:0000/polls/votes"
         },
         "meta": {
+                "copyright": "Copyright 2018 Poco RESTful WebService",
+                "jsonapi": "1.1",
             "lang": [
-              "en-US",
-              "pt-BR"
-            ],
-            "version": "1.0"
+              "en-US"
+            ]
         }
     }
 ```
@@ -90,7 +106,7 @@ The resource root presents all the API available resources as a map.
       "code": 404,
       "description": "This route does not exist.",
       "source": {
-          "pointer": "http://localhost:9000/non-existent-route"
+          "pointer": "http://localhost:0000/non-existent-route"
       },
       "type": "Not Found"
   }]
@@ -98,7 +114,8 @@ The resource root presents all the API available resources as a map.
 ```
 
 ## Standards and Style
-This project did not adopted a specific **Coding Style Guidelines or Standard** until now.
+
+This project did not adopted a specific **Coding Style Guidelines or Standard** until now.    
 But, it has been influenced by [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), 
 [PPP Style Guide](http://www.stroustrup.com/Programming/PPP-style-rev3.pdf) and [Applied Informatics C++ Coding Style Guide](https://www.appinf.com/download/CppCodingStyleGuide.pdf) itself.  
 

@@ -14,6 +14,9 @@
     include cmake
     include cmake::install
 
+    include gtest
+    include gtest::install
+
     mysql::create_user { "create-mysql-user":
       username => $environment::configure::mysql_username,
       password => $environment::configure::mysql_password
@@ -22,4 +25,5 @@
     Class[ "environment::configure" ]   ->
     Class[ "gcc::install" ]             ->
     Class[ "poco::install" ]            ->
-    Class[ "cmake::install" ]
+    Class[ "cmake::install" ]           ->
+    Class[ "gtest::install" ]

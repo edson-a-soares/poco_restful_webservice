@@ -17,12 +17,6 @@
     <property name="jdbc.driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
     <property name="dbdeploy_folder" location="${build}/database/dbdeploy"/>
 
-    <path id="libraries">
-        <fileset dir="${libraries}">
-            <include name="*.jar"/>
-        </fileset>
-    </path>
-
     <taskdef name="dbdeploy" classname="com.dbdeploy.AntTarget" classpathref="libraries"/>
 
     <target name="create_schema_temporary_directories">
