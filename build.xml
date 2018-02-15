@@ -10,7 +10,7 @@
     <property name="provision.directory" value="${basedir}/provision/puppet"/>
 
     <available property="ant-jsch.present" file="${ant.home}/lib/ant-jsch.jar" />
-    <fail if="ant-jsch.present" message="Please remove ${ant.home}/lib/ant-jsch.jar." />
+    <!--fail if="ant-jsch.present" message="Please remove ${ant.home}/lib/ant-jsch.jar." /-->
 
     <path id="libraries">
         <fileset dir="${libraries}">
