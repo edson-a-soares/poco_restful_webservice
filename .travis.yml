@@ -52,6 +52,6 @@ notifications:
       on_failure: always # default: always
 
 script:
-  - cd $TRAVIS_BUILD_DIR/$TRAVIS_REPO_SLUG
-  - cmake .
-  - make -s -j2
+  - cd $TRAVIS_BUILD_DIR
+  - sudo cmake .
+  - sudo make -s -j2
