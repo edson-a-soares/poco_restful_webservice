@@ -2,7 +2,7 @@ class poco::install {
 
     include environment::configure
 
-    $poco_library_url = "https://pocoproject.org/releases/poco-1.7.8/poco-1.7.8-all.tar.gz"
+    $poco_library_url = "https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz"
 
     exec { "wget-poco":
         command => "wget $poco_library_url --directory-prefix=$environment::configure::home_directory",
@@ -13,7 +13,7 @@ class poco::install {
 
     exec { "uncompress-poco":
         cwd         => "$environment::configure::home_directory",
-        command	    => "tar -xf poco-1.7.8-all.tar.gz",
+        command	    => "tar -xf poco-1.8.1-all.tar.gz",
         user        => $environment::configure::home_username,
         group       => $environment::configure::home_group,
         subscribe   => Exec[ "wget-poco" ],
@@ -22,7 +22,7 @@ class poco::install {
     }
 
     exec { "configure-poco":
-        cwd         => "$environment::configure::home_directory/poco-1.7.8-all",
+        cwd         => "$environment::configure::home_directory/poco-1.8.1-all",
         command	    => "sudo sh configure --no-tests --no-samples --omit=MongoDB,Data/ODBC,Data/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler",
         subscribe   => Exec[ "uncompress-poco" ],
         user        => $environment::configure::home_username,
@@ -32,7 +32,7 @@ class poco::install {
     }
 
     exec { "install-poco":
-        cwd         => "$environment::configure::home_directory/poco-1.7.8-all",
+        cwd         => "$environment::configure::home_directory/poco-1.8.1-all",
         command	    => "sudo make && sudo make install",
         subscribe   => Exec[ "configure-poco" ],
         refreshonly => true,
