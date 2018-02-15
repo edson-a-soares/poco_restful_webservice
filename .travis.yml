@@ -17,6 +17,14 @@ before_install:
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
 
 install:
+  - mysql -e "CREATE USER 'ci_environment'@'localhost' IDENTIFIED BY 'abc12345'; GRANT ALL ON *.* TO 'ci_environment'@'localhost'";
+
+  - if test -e "/usr/share/ant/lib/ant-jsch.jar"; then
+      sudo rm "/usr/share/ant/lib/ant-jsch.jar"; fi
+
+  - ant -propertyfile ci.properties create_schema
+  - ant -propertyfile ci.properties init_schema
+
   - sudo wget https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz
   - tar -xf cmake-3.7.2.tar.gz
   - cd cmake-3.7.2
@@ -43,19 +51,6 @@ notifications:
       on_success: never  # default: change
       on_failure: always # default: always
 
-before_script:
-  # DBMS Settings
-  - mysql -e "CREATE USER 'ci_environment'@'localhost' IDENTIFIED BY 'abc12345'; GRANT ALL ON *.* TO 'ci_environment'@'localhost'";
-
-  - if test -e "/usr/share/ant/lib/ant-jsch.jar"; then
-      sudo rm "/usr/share/ant/lib/ant-jsch.jar"; fi
-
-  - ant -propertyfile ci.properties create_schema
-  - ant -propertyfile ci.properties init_schema
-
 script:
   - cmake .
   - make -s -j2
-
-after_script:
-  - ant -propertyfile ci.properties drop_schema
