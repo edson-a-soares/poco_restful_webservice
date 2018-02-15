@@ -16,6 +16,7 @@ before_install:
   - mysql -e "CREATE USER 'ci_environment'@'localhost' IDENTIFIED BY 'abc12345'; GRANT ALL ON *.* TO 'ci_environment'@'localhost'";
 
 install:
+  - if [ -e /usr/share/ant/lib/ant-jsch.jar ]; then sudo rm /usr/share/ant/lib/ant-jsch.jar -qq; fi
   - ant -propertyfile ci.properties create_schema
   - ant -propertyfile ci.properties init_schema
 
