@@ -1,0 +1,47 @@
+language: cpp
+
+os: linux
+
+cache:
+  - apt
+
+before_install:
+  - ant create_schema
+  - ant init_schema
+
+  - sudo apt-get update -qq
+  - sudo apt-get install --yes libmysqlclient-dev -qq
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test -qq
+  - sudo apt-get update -qq
+  - sudo apt-get install --yes gcc-5 g++-5 -qq
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5 -qq
+  - sudo bash -c "cat >> /etc/apt/sources.list" < build/script/clang.apt -qq
+  - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
+  - sudo apt-get update
+
+install:
+  ## Install Poco C++ Libraries
+  - wget https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz
+  - tar -xf poco-1.8.1-all.tar.gz
+  - cd poco-1.8.1-all
+  - ./configure --no-tests --no-samples --omit=MongoDB,Data/ODBC,Data/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
+  - make && sudo make install
+
+  ## Install GTest
+  - sudo apt-get-install-libgtest-dev
+  - cd /usr/src/gtest
+  - sudo cmake
+  - sudo ln -s *.a /usr/lib
+
+
+services:
+  - mysql
+
+dist: precise
+sudo: enabled
+
+notifications:
+    email:
+      on_success: never  # default: change
+      on_failure: always # default: always
+
