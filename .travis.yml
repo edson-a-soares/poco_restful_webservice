@@ -12,13 +12,28 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq --yes gcc-5 g++-5
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+
   # DBMS Settings
   - mysql -e "CREATE USER 'ci_environment'@'localhost' IDENTIFIED BY 'abc12345'; GRANT ALL ON *.* TO 'ci_environment'@'localhost'";
 
 install:
-  - if [ -e /usr/share/ant/lib/ant-jsch.jar ]; then sudo rm /usr/share/ant/lib/ant-jsch.jar -qq; fi
-  - ant -propertyfile ci.properties create_schema
-  - ant -propertyfile ci.properties init_schema
+  - wget https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz
+  - tar -xf cmake-3.7.2.tar.gz
+  - cd cmake-3.7.2
+  - sudo ./configure
+  - sudo make && sudo make install
+
+  - sudo apt-get install libgtest-dev
+  - cd /usr/src/gtest
+  - sudo cmake .
+  - sudo make
+  - sudo cp *.a /usr/lib
+
+  - wget https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz
+  - tar -xf poco-1.8.1-all.tar.gz
+  - cd poco-1.8.1-all
+  - ./configure --no-tests --no-samples --omit=MongoDB,Data/ODBC,Data/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
+  - make && sudo make install
 
 services:
   - mysql
@@ -30,3 +45,7 @@ notifications:
     email:
       on_success: never  # default: change
       on_failure: always # default: always
+
+script:
+  - cmake .
+  - make -s -j2
