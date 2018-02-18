@@ -2,28 +2,43 @@ language: cpp
 
 os: linux
 
-dist: xenial
+dist: trusty
 sudo: enabled
 
 cache:
   - apt
 
+services:
+  - mysql
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+
+    packages:
+      - libmysqlclient-dev
+      - gcc-snapshot
+      - gcc-6
+      - g++-6
+
+notifications:
+    email:
+      on_success: never  # default: change
+      on_failure: always # default: always
+
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq --yes libmysqlclient-dev
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
-  - sudo apt-get install gcc-snapshot --yes
-  - sudo apt-get install gcc-6 g++-6 --yes
+  # It sets GCC 6 as the default version.
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
 install:
   # It makes available CMake 3.7.2
-  - sudo wget https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz
+  - cd $HOME
+  - wget https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz
   - tar -xf cmake-3.7.2.tar.gz
   - cd cmake-3.7.2
-  - sudo ./configure
-  - sudo make && sudo make install
+  - ./configure
+  - make && sudo make install
 
   # It makes available Google Test
   - sudo sudo apt-get install libgtest-dev
@@ -33,19 +48,12 @@ install:
   - sudo cp *.a /usr/lib
 
   # It makes available Poco 1.8.1
-  - sudo wget https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz
-  - sudo tar -xf poco-1.8.1-all.tar.gz
+  - cd $HOME
+  - wget https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz
+  - tar -xf poco-1.8.1-all.tar.gz
   - cd poco-1.8.1-all
-  - sudo ./configure --no-tests --no-samples --everything --omit=MongoDB,Data/ODBC,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
-  - sudo make && sudo make install
-
-services:
-  - mysql
-
-notifications:
-    email:
-      on_success: never  # default: change
-      on_failure: always # default: always
+  - ./configure --no-tests --no-samples --everything --omit=MongoDB,Data/ODBC,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
+  - make && sudo make install
 
 before_script:
   # =============================================================
@@ -55,6 +63,7 @@ before_script:
   - mysql -e "CREATE USER 'ci_environment'@'localhost' IDENTIFIED BY 'abc12345'; GRANT ALL ON *.* TO 'ci_environment'@'localhost'";
 
   # It removes standard Ant Jsch package for using the local one.
+  # If both are kept Ant gets a bit confused and the build fails.
   - if [ -e "/usr/share/ant/lib/ant-jsch.jar" ]; then
       sudo rm "/usr/share/ant/lib/ant-jsch.jar"; fi
 
@@ -69,8 +78,9 @@ before_script:
   - ant -propertyfile ci.properties init_schema
 
 script:
+  - cd $HOME
   - sudo mkdir cmake-build && cd cmake-build
-  - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Default -DENABLE_TESTS=no -DENABLE_STANDALONE_SERVICE=no
+  - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=no -DENABLE_STANDALONE_SERVICE=no
   - sudo cmake --build . --target all -- -j 2
 
 after_script:
