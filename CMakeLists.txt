@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 
 set(CMAKE_C_COMPILER /usr/bin/gcc)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wfatal-errors -Wall -Wpedantic -lPocoXML -lPocoJSON -lPocoDataMySQL")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wfatal-errors -Wall -Wpedantic -Wl,--no-undefined -Wl,--no-allow-shlib-undefined")
 
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
@@ -30,14 +30,14 @@ add_library(${APPLICATION_BINARY_NAME} SHARED ${SOURCE_FILES})
 target_include_directories(${APPLICATION_BINARY_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
 
 # Poco Library setup
-find_library(Poco_LIBRARIES NAMES PocoFoundation PocoUtil PocoNet PocoData)
+find_library(Poco_LIBRARIES NAMES PocoFoundation PocoJSON PocoUtil PocoNet PocoData)
 
 if(NOT ${Poco_FOUND})
     message(FATAL_ERROR "Poco C++ Libraries not found.")
 endif()
 
 include_directories(${Poco_INCLUDE_DIRS})
-target_link_libraries(${APPLICATION_BINARY_NAME} PocoFoundation PocoUtil PocoNet PocoData)
+target_link_libraries(${APPLICATION_BINARY_NAME} PocoFoundation PocoJSON PocoUtil PocoNet PocoData PocoDataMySQL)
 
 find_package(Threads REQUIRED)
 

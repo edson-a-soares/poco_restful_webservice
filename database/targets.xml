@@ -29,7 +29,7 @@
     </target>
 
     <target name="create_schema" description="Create the project's schema">
-        <echo message="Creating the schema: ${db.schema}"/>
+        <echo message="Creating the schema: ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
 
         <sql url="${dbms.url}"
              userid="${db.username}"
@@ -41,7 +41,7 @@
     </target>
 
     <target name="drop_schema" description="Drop the project's schema">
-        <echo message="Dropping the schema: ${db.schema}"/>
+        <echo message="Dropping the schema: ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
 
         <sql url="${dbms.url}"
              userid="${db.username}"
