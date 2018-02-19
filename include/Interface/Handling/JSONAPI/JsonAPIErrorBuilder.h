@@ -31,6 +31,7 @@ namespace Handling {
     {
     public:
         explicit JsonAPIErrorBuilder(const std::string &);
+        ~JsonAPIErrorBuilder() override = default;
 
         //
         Poco::DynamicStruct & build() override;

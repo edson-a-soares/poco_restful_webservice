@@ -27,11 +27,11 @@ namespace Infrastructure {
 namespace Persistence {
 
 
-    class QuestionRepository : public Domain::Model::Poll::IQuestionRepository
+    class QuestionRepository final : public Domain::Model::Poll::IQuestionRepository
     {
     public:
         explicit QuestionRepository(Poco::Data::Session &);
-        ~QuestionRepository();
+        ~QuestionRepository() override;
 
         void store(const Domain::Model::Poll::Question &) override;
         void erase(const Domain::Model::Poll::Question &) override;

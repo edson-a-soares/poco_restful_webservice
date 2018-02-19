@@ -8,9 +8,8 @@ namespace Handling {
         const std::string & identifier,
         const std::string & url
     )
-        : _identifier(identifier),
-          JsonAPIAbstractResourceBuilder(url)
-
+        : JsonAPIAbstractResourceBuilder(url),
+          _identifier(identifier)
     { }
 
     std::string JsonAPIAbstractRelatedResourceBuilder::identifier() const

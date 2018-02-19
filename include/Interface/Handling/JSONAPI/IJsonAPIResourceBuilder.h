@@ -30,7 +30,11 @@ namespace Handling {
     class IJsonAPIResourceBuilder
         : public IResourceBuilder,
           public IJsonAPIResource
-    { };
+    {
+    public:
+        virtual ~IJsonAPIResourceBuilder() = default;
+
+    };
 
 
 } }

@@ -36,7 +36,7 @@ namespace Handling {
     {
     public:
         // Default Destructor
-        virtual ~JsonAPIAbstractResourceBuilder();
+        ~JsonAPIAbstractResourceBuilder() override = default;
 
         Poco::DynamicStruct & build() override;
 

@@ -4,17 +4,11 @@ namespace Interface {
 namespace Handling {
 
 
-    JsonAPIAbstractRootResourceBuilder::JsonAPIAbstractRootResourceBuilder(
-        const std::string & url
-    )
-        : relationships(),
-          JsonAPIAbstractResourceBuilder(url)
+    JsonAPIAbstractRootResourceBuilder::JsonAPIAbstractRootResourceBuilder(const std::string & url)
+        : JsonAPIAbstractResourceBuilder(url),
+          includes(),
+          relationships()
     { }
-
-    JsonAPIAbstractRootResourceBuilder::~JsonAPIAbstractRootResourceBuilder()
-    {
-        includes.clear();
-    }
 
     Poco::DynamicStruct & JsonAPIAbstractRootResourceBuilder::build()
     {

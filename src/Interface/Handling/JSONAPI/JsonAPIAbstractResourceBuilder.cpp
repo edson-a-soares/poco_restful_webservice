@@ -6,15 +6,12 @@ namespace Handling {
 
     JsonAPIAbstractResourceBuilder::JsonAPIAbstractResourceBuilder(const std::string & url)
         : links(),
+          resourceRootURL(url),
           metadata(),
           attributes(),
+          structRoot(),
           resourceBasic(),
-          dataArrayRoot(),
-          resourceRootURL(url),
-          structRoot()
-    { }
-
-    JsonAPIAbstractResourceBuilder::~JsonAPIAbstractResourceBuilder()
+          dataArrayRoot()
     { }
 
     Poco::DynamicStruct & JsonAPIAbstractResourceBuilder::build()

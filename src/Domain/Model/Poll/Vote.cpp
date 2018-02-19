@@ -7,13 +7,13 @@ namespace Poll {
 
 
     Vote::Vote()
-        : _createdAt(),
-          _optionIdentity("")
+        : _optionIdentity(""),
+          _createdAt()
     { }
 
     Vote::Vote(const std::string & identity, Poco::DateTime createdAt)
-        : _createdAt(createdAt),
-          _optionIdentity(identity)
+        : _optionIdentity(identity),
+          _createdAt(createdAt)
     {
 
         if ( _optionIdentity.empty() ) {

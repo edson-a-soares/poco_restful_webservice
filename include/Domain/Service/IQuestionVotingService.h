@@ -30,6 +30,7 @@ namespace Service {
     class IQuestionVotingService
     {
     public:
+        virtual ~IQuestionVotingService() = default;
 
         /*!
          * It performs a vote on a Question.

@@ -29,7 +29,7 @@ namespace Infrastructure {
 namespace Persistence {
 
 
-    class TableGateway : public ITableGateway
+    class TableGateway final : public ITableGateway
     {
     public:
         explicit TableGateway(Poco::Data::Session &);

@@ -8,13 +8,14 @@ namespace Poll {
 
     Question::Question()
         : Entity(),
+          questionText(),
+          questionLabel(),
+          questionDetails(),
+          optionsList(),
           _endsAt(),
           _startsAt(),
-          _createdAt(),
-          optionsList(),
           _lastUpdatedAt(),
-          questionLabel(),
-          questionDetails()
+          _createdAt()
     {
 
         _lastUpdatedAt  = Poco::DateTime();
@@ -39,13 +40,14 @@ namespace Poll {
         Poco::DateTime endsAt
     )
         : Entity(id),
-          optionsList(),
-          _createdAt(createdAt),
-          _lastUpdatedAt(lastUpdatedAt),
-          _startsAt(startsAt),
-          _endsAt(endsAt),
+          questionText(),
           questionLabel(),
-          questionDetails()
+          questionDetails(),
+          optionsList(),
+          _endsAt(endsAt),
+          _startsAt(startsAt),
+          _lastUpdatedAt(lastUpdatedAt),
+          _createdAt(createdAt)
     {
 
         try {

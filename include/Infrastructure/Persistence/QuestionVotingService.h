@@ -31,7 +31,7 @@ namespace Persistence {
     {
     public:
         explicit QuestionVotingService(Poco::Data::Session &);
-        ~QuestionVotingService();
+        ~QuestionVotingService() override;
 
         std::list<Domain::Model::Poll::Vote> votesFor(const Domain::Model::Poll::Question &) override;
         void voteOn(const Domain::Model::Poll::Question &, const Domain::Model::Poll::Vote &) override;

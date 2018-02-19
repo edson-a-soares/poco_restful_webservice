@@ -5,9 +5,9 @@ namespace Resource {
 
 
     Exception::Exception(const std::string & type, const std::string & message, int statusCode)
-        : _type(type),
-          _message(message),
-          _statusCode(statusCode)
+        : _statusCode(statusCode),
+          _type(type),
+          _message(message)
     {}
 
     int Exception::code() const

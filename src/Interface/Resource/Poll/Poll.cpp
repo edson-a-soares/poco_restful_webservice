@@ -73,12 +73,14 @@ namespace Poll {
 
             handleHttpStatusCode(200, response);
             std::ostream & outputStream = response.send();
+            outputStream.flush();
 
         } catch (Resource::Exception & exception) {
 
             handleHttpStatusCode(exception.code(), response);
             std::ostream & outputStream = response.send();
             outputStream << toJson(exception);
+            outputStream.flush();
 
         }
 
@@ -107,12 +109,14 @@ namespace Poll {
 
             handleHttpStatusCode(201, response);
             std::ostream & outputStream = response.send();
+            outputStream.flush();
 
         } catch (Resource::Exception & exception) {
 
             handleHttpStatusCode(exception.code(), response);
             std::ostream & outputStream = response.send();
             outputStream << toJson(exception);
+            outputStream.flush();
 
         }
 
@@ -136,6 +140,7 @@ namespace Poll {
             handleHttpStatusCode(exception.code(), response);
             std::ostream & outputStream = response.send();
             outputStream << toJson(exception);
+            outputStream.flush();
 
         }
 

@@ -8,10 +8,10 @@ namespace Poll {
 
     Option::Option()
         : Entity(),
+          positionNumber(0),
           optionText(),
           _createdAt(),
-          _lastUpdatedAt(),
-          positionNumber(0)
+          _lastUpdatedAt()
     {
 
         try {
@@ -24,8 +24,8 @@ namespace Poll {
 
     Option::Option(const std::string & identity, Poco::DateTime createdAt, Poco::DateTime lastUpdatedAt)
         : Entity(identity),
-          optionText(),
           positionNumber(0),
+          optionText(),
           _createdAt(createdAt),
           _lastUpdatedAt(lastUpdatedAt)
     {

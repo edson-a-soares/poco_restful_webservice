@@ -32,6 +32,7 @@ namespace Poll {
     class IQuestionRepository
     {
     public:
+        virtual ~IQuestionRepository() = default;
 
         /*!
          * It saves a given Question.

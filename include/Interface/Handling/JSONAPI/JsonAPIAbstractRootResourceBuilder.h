@@ -33,7 +33,7 @@ namespace Handling {
     {
     public:
         // Default Destructor
-        ~JsonAPIAbstractRootResourceBuilder() override;
+        ~JsonAPIAbstractRootResourceBuilder() override = default;
 
         void addRelatedResource(IRelatedResourceBuilder *);
         void addIncludeResource(IJsonAPIResourceBuilder *);

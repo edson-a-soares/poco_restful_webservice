@@ -18,8 +18,10 @@ namespace Persistence {
 
     QuestionRepository::~QuestionRepository()
     {
-        _session.close();
-        Poco::Data::MySQL::Connector::unregisterConnector();
+        if ( _session.isConnected() ) {
+            _session.close();
+            Poco::Data::MySQL::Connector::unregisterConnector();
+        }
     }
 
     void QuestionRepository::store(const Domain::Model::Poll::Question & question)
@@ -51,7 +53,7 @@ namespace Persistence {
 
         } catch (Poco::Exception & exception) {
             _session.rollback();
-            exception.rethrow();
+            throw exception;
         }
 
     }
@@ -83,7 +85,7 @@ namespace Persistence {
 
         } catch (Poco::Exception & exception) {
             _session.rollback();
-            exception.rethrow();
+            throw exception;
         }
 
     }
@@ -108,7 +110,7 @@ namespace Persistence {
             throw Domain::Model::Poll::QuestionNotFoundException();
         } catch (Poco::Exception & exception) {
             _session.rollback();
-            exception.rethrow();
+            throw exception;
         }
 
     }
@@ -146,7 +148,7 @@ namespace Persistence {
             return retrievedQuestion;
 
         } catch (Poco::Exception & exception) {
-            exception.rethrow();
+            throw exception;
         }
 
     }

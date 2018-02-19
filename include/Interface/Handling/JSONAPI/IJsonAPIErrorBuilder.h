@@ -30,7 +30,11 @@ namespace Handling {
     class IJsonAPIErrorBuilder :
         public IJsonAPIError,
         public IResourceBuilder
-    { };
+    {
+    public:
+        virtual ~IJsonAPIErrorBuilder() = default;
+
+    };
 
 
 } }

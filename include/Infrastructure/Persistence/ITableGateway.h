@@ -33,6 +33,7 @@ namespace Persistence {
     class ITableGateway
     {
     public:
+        virtual ~ITableGateway() = default;
 
         /*!
          * It inserts a new register into a database.

@@ -6,11 +6,11 @@ namespace Handling {
 
     JsonAPIResourceCollectionBuilder::JsonAPIResourceCollectionBuilder()
         : links(),
-          metadata(),
-          resourceBasic(),
-          dataArrayRoot(),
           resourceRootURL(),
-          structRoot()
+          metadata(),
+          structRoot(),
+          resourceBasic(),
+          dataArrayRoot()
     { }
 
     Poco::DynamicStruct & JsonAPIResourceCollectionBuilder::build()

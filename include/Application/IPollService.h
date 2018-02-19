@@ -33,6 +33,7 @@ namespace Application {
     class IPollService
     {
     public:
+        virtual ~IPollService() = default;
 
         /*!
          * It add a vote to one question option.

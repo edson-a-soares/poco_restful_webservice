@@ -14,8 +14,10 @@ namespace Persistence {
 
     QuestionVotingService::~QuestionVotingService()
     {
-        _session.close();
-        Poco::Data::MySQL::Connector::unregisterConnector();
+        if ( _session.isConnected() ) {
+            _session.close();
+            Poco::Data::MySQL::Connector::unregisterConnector();
+        }
     }
 
     void QuestionVotingService::voteOn(const Domain::Model::Poll::Question & question,
@@ -35,7 +37,7 @@ namespace Persistence {
                 .insert();
 
         } catch (Poco::Exception & exception) {
-            exception.rethrow();
+            throw exception;
         }
 
     }
@@ -73,7 +75,7 @@ namespace Persistence {
             return votesCollection;
 
         } catch (Poco::Exception & exception) {
-            exception.rethrow();
+            throw exception;
         }
 
     }

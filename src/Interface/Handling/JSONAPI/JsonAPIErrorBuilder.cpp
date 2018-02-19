@@ -8,9 +8,10 @@ namespace Handling {
     JsonAPIErrorBuilder::JsonAPIErrorBuilder(const std::string & url)
         : host(url),
           commonError(),
+          rootJsonStructure(),
           errorsCollection(),
-          sourceErrorPointer(),
-          rootJsonStructure()
+          sourceErrorPointer()
+
     { }
 
     void JsonAPIErrorBuilder::withStatusCode(int code)

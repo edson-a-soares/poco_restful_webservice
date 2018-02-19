@@ -11,9 +11,11 @@ namespace Persistence {
 
 
     TableGateway::TableGateway(Poco::Data::Session & session)
-        : _columns(),
+        : _table(),
+          _throwException(false),
           _session(session),
-          _throwException(false)
+          _columns(),
+          _columnsValues()
     { }
 
     ITableGateway & TableGateway::throwException(bool flag)

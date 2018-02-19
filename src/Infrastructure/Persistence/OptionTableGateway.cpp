@@ -46,7 +46,7 @@ namespace Persistence {
             return options;
 
         } catch (Poco::Exception & exception) {
-            exception.rethrow();
+            throw exception;
         }
 
     }
@@ -116,7 +116,7 @@ namespace Persistence {
                 .insert();
 
         } catch (Poco::Exception & exception) {
-            exception.rethrow();
+            throw exception;
         }
 
     }
