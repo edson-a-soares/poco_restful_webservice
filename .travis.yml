@@ -1,5 +1,8 @@
 language: cpp
 
+env:
+  - POCO_API_ENVIRONMENT=build
+
 os: linux
 
 dist: trusty
@@ -52,7 +55,7 @@ install:
   - wget https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz
   - tar -xf poco-1.8.1-all.tar.gz
   - cd poco-1.8.1-all
-  - ./configure --no-tests --no-samples --everything --omit=MongoDB,Data/ODBC,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
+  - ./configure --no-tests --no-samples --everything --omit=MongoDB,Data/ODBC,Data/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
   - make && sudo make install
 
 before_script:
@@ -80,7 +83,7 @@ before_script:
 script:
   - cd $HOME
   - sudo mkdir cmake-build && cd cmake-build
-  - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=no -DENABLE_STANDALONE_SERVICE=no
+  - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes
   - sudo cmake --build . --target all -- -j 2
 
 after_script:

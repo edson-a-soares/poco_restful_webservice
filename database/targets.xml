@@ -105,7 +105,7 @@
     </target>
 
     <target name="empty_schema">
-        <echo message="Cleaning the schema ${db.schema}"/>
+        <echo message="Cleaning the schema ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
 
         <sql url="${dbms.url}"
              userid="${db.username}"
@@ -136,7 +136,7 @@
     </target>
 
     <target name="init_schema">
-        <echo message="Initializing schema: ${db.schema}"/>
+        <echo message="Initializing schema: ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
         <antcall target="create_version_table"/>
         <antcall target="prepare_upgrade_schema"/>
         <antcall target="upgrade_schema"/>
