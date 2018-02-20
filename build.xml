@@ -51,46 +51,73 @@
         <sshexec host="${vm.address}"
             command="git clone ${git.repository.url}"
             password="${vm.password}"
-            username="${vm.password}"
+            username="${vm.username}"
             trust="true"
             verbose="false"
             failonerror="true" />
     </target>
 
-    <target name="build_project">
+    <target name="create_build_directory" >
         <sshexec host="${vm.address}"
-            command="cd ${git.repository.name}; cmake ."
+            command="mkdir -p ${application.build_directory}"
             password="${vm.password}"
-            username="${vm.password}"
+            username="${vm.username}"
             trust="true"
             verbose="false"
             failonerror="true" />
     </target>
 
-    <target name="compile_project">
+    <target name="clean_build_directory">
         <sshexec host="${vm.address}"
-            command="cd ${git.repository.name}; sudo make"
+            command="rm -rf ${application.build_directory}/*"
             password="${vm.password}"
-            username="${vm.password}"
+            username="${vm.username}"
+            trust="true"
+            verbose="false"
+            failonerror="true" />
+    </target>
+
+    <target name="build_project" depends="clean_build_directory">
+        <sshexec host="${vm.address}"
+            command="cd ${application.build_directory}; cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes ${application.home_directory}"
+            password="${vm.password}"
+            username="${vm.username}"
+            trust="true"
+            verbose="false"
+            failonerror="true" />
+    </target>
+
+    <target name="compile_project" depends="build_project">
+        <sshexec host="${vm.address}"
+            command="cd ${application.build_directory}; cmake --build . --target all -- -j 2"
+            password="${vm.password}"
+            username="${vm.username}"
+            trust="true"
+            verbose="false"
+            failonerror="true" />
+    </target>
+
+    <target name="run_tests">
+        <sshexec host="${vm.address}"
+            command="cd ${application.home_directory}/bin; ./tests --gtest_filter=* --gtest_color=yes"
+            password="${vm.password}"
+            username="${vm.username}"
             trust="true"
             verbose="false"
             failonerror="true" />
     </target>
 
     <target name="deploy_project">
-        <antcall target="clone_project"/>
-        <antcall target="build_project"/>
-        <antcall target="compile_project"/>
     </target>
 
-    <target name="run_webservice">
+    <!--target name="run_webservice">
         <sshexec host="${vm.address}"
-            command="nohup ${git.repository.name}/bin/webservice > ${git.repository.name}/application.log &amp;"
+            command="nohup ${application.home_directory}/bin/webservice > ${application.home_directory}/application.log &amp;"
             password="${vm.password}"
-            username="${vm.password}"
+            username="${vm.username}"
             trust="true"
             verbose="false"
             failonerror="true" />
-    </target>
+    </target-->
 
 </project>

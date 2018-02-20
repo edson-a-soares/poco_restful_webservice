@@ -30,7 +30,17 @@ namespace Persistence {
     class ConnectionManager
     {
     public:
+        ConnectionManager();
+
         Poco::Data::Session getSession();
+
+    private:
+        std::string db;
+        std::string host;
+        std::string user;
+        std::string password;
+
+        void init();
 
     };
 

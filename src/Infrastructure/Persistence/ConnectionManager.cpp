@@ -8,13 +8,41 @@ namespace Infrastructure {
 namespace Persistence {
 
 
+    ConnectionManager::ConnectionManager()
+        : db(),
+          host(),
+          user(),
+          password()
+    {
+        init();
+    }
+
+    void ConnectionManager::init()
+    {
+
+        std::string environment;
+        auto environmentVariableValue = std::getenv("POCO_API_ENVIRONMENT");
+        if ( environmentVariableValue != nullptr )
+            environment = std::string(environmentVariableValue);
+
+        if ( environment.empty() || environment == "development" ) {
+            user="developer";
+            password="abc12345";
+            host="192.168.1.100";
+            db="poco_webservice_schema";
+        }
+
+        if ( environment == "build" ) {
+            user="ci_environment";
+            password="abc12345";
+            host="127.0.0.1";
+            db="poco_webservice_schema";
+        }
+
+    }
+
     Poco::Data::Session ConnectionManager::getSession()
     {
-        const std::string user="developer";
-        const std::string password="abc12345";
-        const std::string host="192.168.1.100";
-        const std::string db="poco_webservice_schema";
-
         std::string connectionString = "host=" + host + "; user=" + user + "; password=" + password +"; db=" + db;
         return Poco::Data::SessionFactory::instance().create(Poco::Data::MySQL::Connector::KEY, connectionString);
     }

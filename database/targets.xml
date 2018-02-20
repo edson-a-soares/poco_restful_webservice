@@ -29,7 +29,7 @@
     </target>
 
     <target name="create_schema" description="Create the project's schema">
-        <echo message="Creating the schema: ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
+        <echo message="Creating the schema: ${db.schema}"/>
 
         <sql url="${dbms.url}"
              userid="${db.username}"
@@ -41,7 +41,7 @@
     </target>
 
     <target name="drop_schema" description="Drop the project's schema">
-        <echo message="Dropping the schema: ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
+        <echo message="Dropping the schema: ${db.schema}"/>
 
         <sql url="${dbms.url}"
              userid="${db.username}"
@@ -105,7 +105,7 @@
     </target>
 
     <target name="empty_schema">
-        <echo message="Cleaning the schema ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
+        <echo message="Cleaning the schema ${db.schema}"/>
 
         <sql url="${dbms.url}"
              userid="${db.username}"
@@ -136,7 +136,7 @@
     </target>
 
     <target name="init_schema">
-        <echo message="Initializing schema: ${db.schema} in the environment ${env.POCO_API_ENVIRONMENT}"/>
+        <echo message="Initializing schema: ${db.schema}"/>
         <antcall target="create_version_table"/>
         <antcall target="prepare_upgrade_schema"/>
         <antcall target="upgrade_schema"/>
