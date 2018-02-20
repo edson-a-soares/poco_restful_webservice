@@ -81,6 +81,9 @@ before_script:
   - ant -propertyfile ci.properties create_schema
   - ant -propertyfile ci.properties init_schema
 
+  #
+  - export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+
 script:
   - cd $HOME
   - sudo mkdir cmake-build && cd cmake-build
