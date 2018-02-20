@@ -84,8 +84,8 @@ before_script:
 script:
   - cd $HOME
   - sudo mkdir cmake-build && cd cmake-build
-  - cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes
-  - cmake --build . --target all -- -j 2 && $TRAVIS_BUILD_DIR/bin/tests --gtest_filter=* --gtest_color=yes
+  - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes
+  - sudo cmake --build . --target all -- -j 2 && $TRAVIS_BUILD_DIR/bin/tests --gtest_filter=* --gtest_color=yes
 
 after_script:
   # =============================================================
