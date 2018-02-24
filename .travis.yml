@@ -81,7 +81,7 @@ before_script:
   - ant -propertyfile ci.properties create_schema
   - ant -propertyfile ci.properties init_schema
 
-  #
+  # It adds a path to the environmental variable.
   - export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 script:

@@ -87,7 +87,7 @@
             failonerror="true" />
     </target>
 
-    <target name="compile_project" depends="build_project">
+    <target name="compile_project">
         <sshexec host="${vm.address}"
             command="cd ${application.build_directory}; cmake --build . --target all -- -j 2"
             password="${vm.password}"

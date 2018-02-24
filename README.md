@@ -1,8 +1,13 @@
 # Poco RESTful WebService
 
-This is a totally functional sample of a RESTful API built using [Poco C++ Libraries](https://pocoproject.org). 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://travis-ci.org/edson-a-soares/poco_restful_webservice.svg?branch=master)](https://travis-ci.org/edson-a-soares/poco_restful_webservice)
 
-## Disclaimer
+### Overview 
+
+This is a totally functional sample of a RESTful API built using [Poco C++ Libraries](https://pocoproject.org).
+
+### Disclaimer
 
 Be aware this is not meant to be a blueprint, the correct way, even worse, the best way to build an API using [Poco C++ Libraries](https://pocoproject.org).
 On the contrary, it was built purely for fun and curiosity after I have used this amazing C++ framework in a real project. 
@@ -10,116 +15,79 @@ Surely, there are plenty different ways to build a similar project using [Poco C
 However, I hope this can be useful offering some basic guidance for those trying to build a non trivial application using 
 [Poco C++ Libraries](https://pocoproject.org).
 
-## Requirements
+### Requirements for running it locally
 
-You just need to have [Vagrant](https://www.vagrantup.com/docs/installation) and [Puppet](https://docs.puppet.com/puppet/3.8/install_debian_ubuntu.html) 
-installed in your computer to be able to run this application.
+* **Virtualized environment**
 
-## Running the project 
+	The development environment is built using virtualization. So, for running it locally you just need to have [Vagrant](https://www.vagrantup.com/docs/installation), [VirtualBox](https://www.virtualbox.org) and [Puppet](https://docs.puppet.com/puppet/3.8/install_debian_ubuntu.html) installed in your computer. 
 
-After having **Vagrant** and **Puppet** installed you can execute the WebService through a few commands at the root 
-directory of the project as follows:
+	Currently, the project has been using the following versions of the tools aforementioned:
 
-For making it available in the environment:
+	- Vagrant 2.0
+	- VirtualBox 5.1
+	- Puppet 4.8
+
+* **On your own computer**
+
+	Currently, the project uses the following middleware:
+
+	- CMake 3.7.2
+	- GCC-6 and G++-6
+	- Google's C++ test framework
+	- Poco 1.8.1
+	- MySQL
+
+### Running the project
+
+After having **Vagrant**, **VirtualBox** and **Puppet** installed you can run the WebService locally through a few **Ant Tasks** at the root directory of the project as follows:
+
+For making the environment available locally:
 ```bash
-ant setup_environment
-ant deploy_project
+ant -propertyfile dev.properties setup_environment
 ```
 
-For getting the database ready:
+For destroying the environment with everything:
 ```bash
-ant create_schema
-ant init_schema
+ant -propertyfile dev.properties destroy_environment
+```
+
+For making the database available:
+```bash
+ant -propertyfile dev.properties create_schema
+ant -propertyfile dev.properties init_schema
 ```
 
 For destroying the database:
 ```bash
-ant drop_schema
+ant -propertyfile dev.properties drop_schema
 ```
 
-For running it:
+For managing the application development:
 ```bash
-ant run_webservice
-```
-
-For destroying everything:
-```bash
-ant destroy_environment
+ant -propertyfile dev.properties create_build_directory
+ant -propertyfile dev.properties clean_build_directory
+ant -propertyfile dev.properties build_project
+ant -propertyfile dev.properties compile_project
+ant -propertyfile dev.properties run_tests
 ```
 
 ## Usage
 
-After having run the project you will be able to make requests to the WebService. 
-For doing this, use the **Terminal** or any **REST Client Tool**. 
-[ARC](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo) is a good option.
+After having run the project you will be able to make requests to the API. 
+For doing this, use a **Terminal** tool like [cUrl](https://curl.haxx.se) or any **REST Client Tool** like [ARC](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo) or [Postman](https://www.getpostman.com).   
 You reach the service at the IP address `192.168.1.100:9090`.
 
-## HTTP Headers
+### Running Requests and Responses
 
-The HTTP headers used for service.
+For seeing a complete list of API resources and how to make requests and responses consult the [documentation](docs/api/ReferenceGuide.md).
 
-| HTTP header name  | Description                       |
-|:------------------|:----------------------------------|
-| `Accept`          | Set to `application/vnd.api+json`. **Required**. | 
-| `Content-Type`    | Set to `application/vnd.api+json`. **Required**. | 
-| `Accept-Language` | Set to `en-US`. It is the only language supported by now. |  
+### Standards and Style
 
-## Resources
-
-The resources supported by the API:
-
-| resource              | description                       |
-|:----------------------|:----------------------------------|
-| `/`                   | It returns a list of all resources currently supported by the API |
-| `/polls`              | It performs all operations related to Polls supported by the API |
-| `/polls/votes`        | It performs all operations related to Polls' votes supported by the API |
-
-## Request and Response
-
-### Resource Root
-
-The resource root presents all the API available resources as a map.
-
-```json
-    {
-        "links": {
-          "self": "http://localhost:0000/",
-          "polls_result_url": "http://localhost:0000/polls/votes?question_id={id}",
-          "polls_url": "http://localhost:0000/polls?question_id={id}",
-          "polls_vote_url": "http://localhost:0000/polls/votes"
-        },
-        "meta": {
-                "copyright": "Copyright 2018 Poco RESTful WebService",
-                "jsonapi": "1.1",
-            "lang": [
-              "en-US"
-            ]
-        }
-    }
-```
-
-### Error Responses
-
-```json
-{
-  "error": [{
-      "code": 404,
-      "description": "This route does not exist.",
-      "source": {
-          "pointer": "http://localhost:0000/non-existent-route"
-      },
-      "type": "Not Found"
-  }]
-}
-```
-
-## Standards and Style
-
-This project did not adopted a specific **Coding Style Guidelines or Standard** until now.    
+This project do not follow any specific **Coding Style Guidelines or Standard**.    
 But, it has been influenced by [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), 
 [PPP Style Guide](http://www.stroustrup.com/Programming/PPP-style-rev3.pdf) and [Applied Informatics C++ Coding Style Guide](https://www.appinf.com/download/CppCodingStyleGuide.pdf) itself.  
 
-## Useful links
+### Useful links
 
 * [JSON API](http://jsonapi.org)
 * [Doxygen](http://www.stack.nl/~dimitri/doxygen/manual/index.html)
