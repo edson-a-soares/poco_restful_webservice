@@ -80,7 +80,7 @@ For destroying the database:
 ant -propertyfile dev.properties drop_schema
 ```
 
-###### Managing the delepment process
+###### Managing the development process
   
 ```bash
 ant -propertyfile dev.properties create_build_directory
