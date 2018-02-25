@@ -125,27 +125,27 @@ It creates a question with the options made available.
 
 ```bash
 curl -X POST
-	 --include http://192.168.1.100:0000/polls
-	 --header 'Accept-Language: en-US'
-     --header 'Accept: application/vnd.api+json' 
-     --header 'Content-type: application/vnd.api+json'
-     --data '{ 
-     			"data" : {
-        			"attributes" : {
-            			"ends_at": "2018-05-01 23:59:00",
-            			"starts_at": "2018-04-01 23:59:00",
-            			"details": "Details here, please.",
-            			"label": "A descriptive short text here.",
-            			"text": "Question text here.",
-           	 			"options" : [
-                			{ "text" : "First option text."  },
-                			{ "text" : "Second option text." },
-                			{ "text" : "Third option text."  },
-                			{ "text" : "Fourth option text"  }
-           				 ]
-        			}
-    			}
-			}' 
+    --include http://192.168.1.100:0000/polls
+    --header 'Accept-Language: en-US'
+    --header 'Accept: application/vnd.api+json' 
+    --header 'Content-type: application/vnd.api+json'
+    --data '{ 
+                "data" : {
+                    "attributes" : {
+            		    "ends_at": "2018-05-01 23:59:00",
+            		    "starts_at": "2018-04-01 23:59:00",
+            		    "details": "Details here, please.",
+            		    "label": "A descriptive short text here.",
+            		    "text": "Question text here.",
+           	 		    "options" : [
+                		    { "text" : "First option text."  },
+                		    { "text" : "Second option text." },
+                		    { "text" : "Third option text."  },
+                		    { "text" : "Fourth option text"  }
+                        ]
+                    }
+                }
+            }' 
 ```
 
 ### Sample response
@@ -184,10 +184,10 @@ It returns a question data with the options embedded.
 
 ```bash
 curl --get 
-	 --include http://192.168.1.100:0000/polls?question_id=990689d8-16ad-11e8-b38b-022e0859b13e 
-     --header 'Accept-Language: en-US' 
-     --header 'Accept: application/vnd.api+json' 
-     --header 'Content-type: application/vnd.api+json'
+    --include http://192.168.1.100:0000/polls?question_id=990689d8-16ad-11e8-b38b-022e0859b13e 
+    --header 'Accept-Language: en-US' 
+    --header 'Accept: application/vnd.api+json' 
+    --header 'Content-type: application/vnd.api+json'
 ```
 
 ### Sample response
