@@ -46,7 +46,25 @@ For making the environment available locally:
 ```bash
 ant -propertyfile dev.properties setup_environment
 ```
-  
+
+or, using **Vagrant** directly applying this command on the root directory of the 	project: 
+
+```bash
+vagrant up
+```
+
+For destroying the environment with everything:
+
+```bash
+ant -propertyfile dev.properties destroy_environment
+```
+
+or, using **Vagrant** directly applying this command on the root directory of the 	project: 
+
+```bash
+vagrant destroy
+```
+
 ###### Managing application database 
 
 For making the database available:
