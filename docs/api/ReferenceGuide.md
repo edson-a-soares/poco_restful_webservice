@@ -23,7 +23,7 @@ curl http://192.168.1.100:0000
 
 You'll get a response like this:
 
-```json
+```javascript
 {  
     "links":{  
         "self":"http://192.168.1.100:0000",
@@ -44,7 +44,7 @@ You'll get a response like this:
 
 The **Poco RESTful API** will return error messages as follows:
 
-```json
+```javascript
 {  
     "error":[  
         {  
@@ -192,7 +192,7 @@ curl --get
 
 ### Sample response
 
-```json
+```javascript
 {
     "data":[
         {
