@@ -132,11 +132,11 @@ curl -X POST
     --data '{ 
                 "data" : {
                     "attributes" : {
-            		    "ends_at": "2018-05-01 23:59:00",
-            		    "starts_at": "2018-04-01 23:59:00",
-            		    "details": "Details here, please.",
-            		    "label": "A descriptive short text here.",
-            		    "text": "Question text here.",
+                        "ends_at": "2018-05-01 23:59:00",
+                        "starts_at": "2018-04-01 23:59:00",
+                        "details": "Details here, please.",
+                        "label": "A descriptive short text here.",
+                        "text": "Question text here.",
                         "options" : [
                 		    { "text" : "First option text."  },
                 		    { "text" : "Second option text." },
