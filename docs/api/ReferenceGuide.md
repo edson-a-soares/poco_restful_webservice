@@ -137,7 +137,7 @@ curl -X POST
             		    "details": "Details here, please.",
             		    "label": "A descriptive short text here.",
             		    "text": "Question text here.",
-           	 		    "options" : [
+                        "options" : [
                 		    { "text" : "First option text."  },
                 		    { "text" : "Second option text." },
                 		    { "text" : "Third option text."  },
