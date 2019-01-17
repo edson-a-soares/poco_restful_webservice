@@ -62,12 +62,14 @@ install:
 before_script:
   # =============================================================
   # It makes available a MySQL User with proper privileges to
-  # perform database tests.
+  # perform database related tests.
   # =============================================================
   - mysql -e "CREATE USER 'ci_environment'@'localhost' IDENTIFIED BY 'abc12345'; GRANT ALL ON *.* TO 'ci_environment'@'localhost'";
 
+  # =============================================================
   # It removes standard Ant Jsch package for using the local one.
   # If both are kept Ant gets a bit confused and the build fails.
+  # =============================================================
   - if [ -e "/usr/share/ant/lib/ant-jsch.jar" ]; then
       sudo rm "/usr/share/ant/lib/ant-jsch.jar"; fi
 
@@ -81,13 +83,15 @@ before_script:
   - ant -propertyfile ci.properties create_schema
   - ant -propertyfile ci.properties init_schema
 
-  # It adds a path to the environmental variable.
+  # It makes local libs path available in the PATH environmental variable.
   - export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 script:
-  - cd $HOME
-  - sudo mkdir cmake-build && cd cmake-build
+  # It creates a separated CMake build directory for building the application.
+  - cd $HOME && sudo mkdir cmake-build && cd cmake-build
+  # It enables all parts of the application for building.
   - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes
+  # It compiles the application and run the tests.
   - sudo cmake --build . --target all -- -j 2
   - cd $TRAVIS_BUILD_DIR/bin && ./tests --gtest_filter=* --gtest_color=yes
 
@@ -97,3 +101,8 @@ after_script:
   # =============================================================
   - cd $TRAVIS_BUILD_DIR
   - ant -propertyfile ci.properties drop_schema
+
+# deploy:
+#  provider: gae
+#  keyfile: "YOUR SERVICE ACCOUNT JSON FILE"
+#  project: "poco_restful_webservices"

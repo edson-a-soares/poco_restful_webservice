@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  restful_webservice:
+    container_name: webservice
+    image: poco-restful-webservice
+    depends_on:
+      - 'database'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - CMAKE_BUILD_TYPE=Release
+        - WEBSERVICE_ENVIRONMENT=production
+    links:
+    - "database"
+    ports:
+      - "8080:80"
+
+  database:
+    image: mysql:5.7
+    container_name: storage
+    volumes:
+      - database_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=@dm1n
+      - MYSQL_USER=developer
+      - MYSQL_PASSWORD=abc123456
+    ports:
+      - "3306:3306"
+
+volumes:
+  database_data:

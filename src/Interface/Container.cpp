@@ -16,7 +16,7 @@ namespace Interface {
         delete router;
     }
 
-    int Container::main(const std::vector<std::string> & args)
+    int Container::main(const std::vector<std::string> &)
     {
 
         auto * httpServerParams = new Poco::Net::HTTPServerParams();

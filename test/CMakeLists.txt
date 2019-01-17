@@ -13,6 +13,6 @@ file(GLOB_RECURSE TEST_SOURCE_FILES
     ${CMAKE_HOME_DIRECTORY}/test/Infrastructure/*.cpp)
 
 add_executable(${TEST_UNIT} ${CMAKE_HOME_DIRECTORY}/test/Runner.cpp ${TEST_SOURCE_FILES})
-target_link_libraries(${TEST_UNIT} gtest gtest_main ${CMAKE_THREAD_LIBS_INIT} ${APPLICATION_BINARY_NAME})
+target_link_libraries(${TEST_UNIT} gtest gtest_main ${CMAKE_THREAD_LIBS_INIT} ${WEBSERVICE_BINARY})
 
 add_test(NAME ${TEST_UNIT} COMMAND "${TEST_UNIT}")

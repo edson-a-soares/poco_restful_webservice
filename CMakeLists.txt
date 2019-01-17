@@ -16,8 +16,14 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -w -Wl,--discard-all
 
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
-SET(EXECUTABLE_BINARY_NAME  "webservice")
-SET(APPLICATION_BINARY_NAME "poco_restful_webservice")
+SET(WEBSERVICE_CLI  "webservice")
+SET(WEBSERVICE_BINARY "poco_restful_webservice")
+
+# application's directories settings
+set(WEBSERVICE_HOSTING_DIRECTORY_NAME poco_webservice)
+set(WEBSERVICE_BINARY_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin)
+set(WEBSERVICE_LIBRARY_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
+set(WEBSERVICE_CONFIG_DIRECTORY ${CMAKE_INSTALL_PREFIX}/etc/${WEBSERVICE_HOSTING_DIRECTORY_NAME})
 
 # Including source code of the project
 set(PROJECT_INCLUDE_DIR ${CMAKE_HOME_DIRECTORY}/include)
@@ -36,8 +42,8 @@ file(GLOB_RECURSE SOURCE_FILES
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}")
 
-add_library(${APPLICATION_BINARY_NAME} SHARED ${SOURCE_FILES})
-target_include_directories(${APPLICATION_BINARY_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
+add_library(${WEBSERVICE_BINARY} SHARED ${SOURCE_FILES})
+target_include_directories(${WEBSERVICE_BINARY} PUBLIC ${PROJECT_INCLUDE_DIR})
 
 # Poco Library setup
 find_library(Poco_LIBRARIES NAMES PocoFoundation PocoJSON PocoUtil PocoNet PocoData)
@@ -47,7 +53,7 @@ if(NOT ${Poco_FOUND})
 endif()
 
 include_directories(${Poco_INCLUDE_DIRS})
-target_link_libraries(${APPLICATION_BINARY_NAME} PocoFoundation PocoJSON PocoUtil PocoNet PocoData PocoDataMySQL)
+target_link_libraries(${WEBSERVICE_BINARY} PocoFoundation PocoJSON PocoUtil PocoNet PocoData PocoDataMySQL)
 
 find_package(Threads REQUIRED)
 
@@ -59,8 +65,8 @@ option(ENABLE_STANDALONE_SERVICE
         "Set to OFF|ON (default: ON) to control build of API as standalone service" ON)
 
 if (ENABLE_STANDALONE_SERVICE)
-    add_executable(${EXECUTABLE_BINARY_NAME} ${PROJECT_SOURCE_DIR}/main.cpp)
-    target_link_libraries(${EXECUTABLE_BINARY_NAME} ${APPLICATION_BINARY_NAME})
+    add_executable(${WEBSERVICE_CLI} ${PROJECT_SOURCE_DIR}/main.cpp)
+    target_link_libraries(${WEBSERVICE_CLI} ${WEBSERVICE_BINARY})
 
     message(STATUS "Building API with standalone service support.")
 elseif ()
@@ -74,3 +80,11 @@ if (ENABLE_TESTS)
 elseif ()
     message(STATUS "Building without tests")
 endif ()
+
+#### installation ###################################
+
+#install (DIRECTORY "${CMAKE_HOME_DIRECTORY}/data/settings/"
+#        DESTINATION "${WEBSERVICE_CONFIG_DIRECTORY}" FILES_MATCHING PATTERN "*.ini")
+
+# install(TARGETS ${WEBSERVICE_BINARY} DESTINATION ${WEBSERVICE_LIBRARY_DIRECTORY})
+# install(TARGETS ${WEBSERVICE_CLI} DESTINATION ${WEBSERVICE_BINARY_DIRECTORY} OPTIONAL)

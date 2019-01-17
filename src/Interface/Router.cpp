@@ -48,3 +48,8 @@ namespace Interface {
 
 
 }
+
+// add support to Poco ApacheConnector
+POCO_BEGIN_MANIFEST(Poco::Net::HTTPRequestHandlerFactory)
+        POCO_EXPORT_CLASS(Interface::Router)
+POCO_END_MANIFEST
