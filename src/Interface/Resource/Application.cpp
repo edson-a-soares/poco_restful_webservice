@@ -32,8 +32,8 @@ namespace Resource {
 
     }
 
-    void Application::handle_options(Poco::Net::HTTPServerRequest & request,
-                                 Poco::Net::HTTPServerResponse & response)
+    void Application::handle_options(Poco::Net::HTTPServerRequest &,
+                                     Poco::Net::HTTPServerResponse & response)
     {
         response.set("Allow", "GET, OPTIONS");
         response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);

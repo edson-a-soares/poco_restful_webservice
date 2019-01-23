@@ -30,7 +30,7 @@ namespace Persistence {
     class QuestionRepository final : public Domain::Model::Poll::IQuestionRepository
     {
     public:
-        explicit QuestionRepository(Poco::Data::Session &);
+        explicit QuestionRepository(Poco::SQL::Session &);
         ~QuestionRepository() override;
 
         void store(const Domain::Model::Poll::Question &) override;
@@ -39,7 +39,7 @@ namespace Persistence {
         Domain::Model::Poll::Question withIdentity(const std::string &) override;
 
     private:
-        Poco::Data::Session _session;
+        Poco::SQL::Session _session;
 
         /*!
          *

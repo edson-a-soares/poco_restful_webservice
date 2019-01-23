@@ -122,7 +122,7 @@ namespace Poll {
 
     }
 
-    void Poll::handle_delete(Poco::Net::HTTPServerRequest & request,
+    void Poll::handle_delete(Poco::Net::HTTPServerRequest &,
                              Poco::Net::HTTPServerResponse & response)
     {
 
@@ -146,7 +146,7 @@ namespace Poll {
 
     }
 
-    void Poll::handle_options(Poco::Net::HTTPServerRequest & request,
+    void Poll::handle_options(Poco::Net::HTTPServerRequest &,
                               Poco::Net::HTTPServerResponse & response)
     {
         response.set("Allow", "GET, PUT, POST, DELETE, OPTIONS");

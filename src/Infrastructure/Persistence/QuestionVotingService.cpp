@@ -1,14 +1,14 @@
 #include "Domain/Model/Poll/QuestionNotFoundException.h"
 #include "Infrastructure/Persistence/QuestionVotingService.h"
 
-#include "Poco/Data/MySQL/Connector.h"
-#include "Poco/Data/MySQL/MySQLException.h"
+#include "Poco/SQL/MySQL/Connector.h"
+#include "Poco/SQL/MySQL/MySQLException.h"
 
 namespace Infrastructure {
 namespace Persistence {
 
 
-    QuestionVotingService::QuestionVotingService(Poco::Data::Session & session)
+    QuestionVotingService::QuestionVotingService(Poco::SQL::Session & session)
         : _session(session)
     { }
 
@@ -16,7 +16,7 @@ namespace Persistence {
     {
         if ( _session.isConnected() ) {
             _session.close();
-            Poco::Data::MySQL::Connector::unregisterConnector();
+            Poco::SQL::MySQL::Connector::unregisterConnector();
         }
     }
 
@@ -48,7 +48,7 @@ namespace Persistence {
         TableGateway tableGateway(_session);
         try {
 
-            Poco::Data::RecordSet recordSet =
+            Poco::SQL::RecordSet recordSet =
                 tableGateway
                     .table("question_vote")
                     .withColumn("option_id")

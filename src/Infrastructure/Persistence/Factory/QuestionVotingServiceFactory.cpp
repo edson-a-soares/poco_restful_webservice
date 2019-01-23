@@ -1,4 +1,4 @@
-#include "Poco/Data/MySQL/Connector.h"
+#include "Poco/SQL/MySQL/Connector.h"
 #include "Infrastructure/Persistence/QuestionVotingService.h"
 #include "Infrastructure/Persistence/Factory/QuestionVotingServiceFactory.h"
 
@@ -10,7 +10,7 @@ namespace Persistence {
     {
         Infrastructure::Persistence::ConnectionManager connectionManager;
 
-        Poco::Data::MySQL::Connector::registerConnector();
+        Poco::SQL::MySQL::Connector::registerConnector();
         auto session = connectionManager.getSession();
 
         return new QuestionVotingService(session);

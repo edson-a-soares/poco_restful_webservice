@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 
-#include "Poco/Data/MySQL/Connector.h"
+#include "Poco/SQL/MySQL/Connector.h"
 #include "Infrastructure/Persistence/TableGateway.h"
 
-using namespace Poco::Data::Keywords;
+using namespace Poco::SQL::Keywords;
 
 class TableGatewayTest : public ::testing::Test
 {
@@ -12,7 +12,7 @@ protected:
     void SetUp() override
     {
 
-        Poco::Data::MySQL::Connector::registerConnector();
+        Poco::SQL::MySQL::Connector::registerConnector();
         auto session = connectionManager.getSession();
 
         // Drop test table, if it exists.
@@ -39,7 +39,7 @@ protected:
         session << "DROP TABLE tablegatewaytest", now;
 
         delete tableGateway;
-        Poco::Data::MySQL::Connector::registerConnector();
+        Poco::SQL::MySQL::Connector::registerConnector();
 
     }
 
@@ -63,7 +63,7 @@ TEST_F(TableGatewayTest, testInsertFeature)
         .withColumn("fullname", fullname)
         .insert();
 
-    Poco::Data::RecordSet recordSet =
+    Poco::SQL::RecordSet recordSet =
         (*tableGateway)
             .table("tablegatewaytest")
             .withColumn("identity")
@@ -100,7 +100,7 @@ TEST_F(TableGatewayTest, testUpdateFeature)
         .withColumn("nickname", nickname)
         .updateWhere("identity", UUID);
 
-    Poco::Data::RecordSet recordSet =
+    Poco::SQL::RecordSet recordSet =
         (*tableGateway)
             .table("tablegatewaytest")
             .selectWhere("identity", UUID);
@@ -127,7 +127,7 @@ TEST_F(TableGatewayTest, testRemoveFeature)
         .withColumn("fullname", fullname)
         .insert();
 
-    Poco::Data::RecordSet recordSet =
+    Poco::SQL::RecordSet recordSet =
         (*tableGateway)
             .table("tablegatewaytest")
             .selectWhere("identity", UUID);

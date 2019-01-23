@@ -5,7 +5,7 @@ namespace Infrastructure {
 namespace Persistence {
 
 
-    OptionTableGateway::OptionTableGateway(Poco::Data::Session & session)
+    OptionTableGateway::OptionTableGateway(Poco::SQL::Session & session)
         : _session(session)
     { }
 
@@ -15,7 +15,7 @@ namespace Persistence {
         TableGateway tableGateway(_session);
         try {
 
-            Poco::Data::RecordSet recordSet =
+            Poco::SQL::RecordSet recordSet =
                 tableGateway
                     .table("question_option")
                     .withColumn("option_id")

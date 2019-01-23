@@ -82,7 +82,7 @@ namespace Poll {
 
     }
 
-    void Vote::handle_options(Poco::Net::HTTPServerRequest & request,
+    void Vote::handle_options(Poco::Net::HTTPServerRequest &,
                               Poco::Net::HTTPServerResponse & response)
     {
         response.set("Allow", "POST, GET, OPTIONS");

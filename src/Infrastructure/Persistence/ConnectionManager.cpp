@@ -1,8 +1,8 @@
 #include "Infrastructure/Persistence/ConnectionManager.h"
 
-#include "Poco/Data/SessionFactory.h"
-#include "Poco/Data/MySQL/Connector.h"
-#include "Poco/Data/MySQL/MySQLException.h"
+#include "Poco/SQL/SessionFactory.h"
+#include "Poco/SQL/MySQL/Connector.h"
+#include "Poco/SQL/MySQL/MySQLException.h"
 
 namespace Infrastructure {
 namespace Persistence {
@@ -41,10 +41,10 @@ namespace Persistence {
 
     }
 
-    Poco::Data::Session ConnectionManager::getSession()
+    Poco::SQL::Session ConnectionManager::getSession()
     {
         std::string connectionString = "host=" + host + "; user=" + user + "; password=" + password +"; db=" + db;
-        return Poco::Data::SessionFactory::instance().create(Poco::Data::MySQL::Connector::KEY, connectionString);
+        return Poco::SQL::SessionFactory::instance().create(Poco::SQL::MySQL::Connector::KEY, connectionString);
     }
 
 

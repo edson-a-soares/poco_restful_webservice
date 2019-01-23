@@ -21,7 +21,7 @@
 #define Web_Service_Infrastructure_Persistence_ITable_Gateway_INCLUDED
 
 #include <string>
-#include "Poco/Data/RecordSet.h"
+#include "Poco/SQL/RecordSet.h"
 
 namespace Infrastructure {
 namespace Persistence {
@@ -125,7 +125,7 @@ namespace Persistence {
          * @param value  The value of the column chosen in order to find the results expected.
          * @return The Results of the query.
          */
-        virtual Poco::Data::RecordSet selectWhere(const std::string & column, const std::string & value) = 0;
+        virtual Poco::SQL::RecordSet selectWhere(const std::string & column, const std::string & value) = 0;
 
     };
 

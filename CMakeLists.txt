@@ -53,7 +53,7 @@ if(NOT ${Poco_FOUND})
 endif()
 
 include_directories(${Poco_INCLUDE_DIRS})
-target_link_libraries(${WEBSERVICE_BINARY} PocoFoundation PocoJSON PocoUtil PocoNet PocoData PocoDataMySQL)
+target_link_libraries(${WEBSERVICE_BINARY} PocoFoundation PocoJSON PocoUtil PocoNet PocoSQL PocoSQLMySQL)
 
 find_package(Threads REQUIRED)
 

@@ -21,7 +21,7 @@
 #define Web_Service_Infrastructure_Persistence_Database_Wrapper_INCLUDED
 
 #include <string>
-#include "Poco/Data/Session.h"
+#include "Poco/SQL/Session.h"
 
 namespace Infrastructure {
 namespace Persistence {
@@ -32,7 +32,7 @@ namespace Persistence {
     public:
         ConnectionManager();
 
-        Poco::Data::Session getSession();
+        Poco::SQL::Session getSession();
 
     private:
         std::string db;

@@ -93,7 +93,7 @@ namespace Resource {
 
     }
 
-    void AbstractResource::handle_get(Poco::Net::HTTPServerRequest & request,
+    void AbstractResource::handle_get(Poco::Net::HTTPServerRequest &,
                                       Poco::Net::HTTPServerResponse & response)
     {
 
@@ -103,7 +103,7 @@ namespace Resource {
 
     }
 
-    void AbstractResource::handle_put(Poco::Net::HTTPServerRequest & request,
+    void AbstractResource::handle_put(Poco::Net::HTTPServerRequest &,
                                       Poco::Net::HTTPServerResponse & response)
     {
 
@@ -114,7 +114,7 @@ namespace Resource {
 
     }
 
-    void AbstractResource::handle_post(Poco::Net::HTTPServerRequest & request,
+    void AbstractResource::handle_post(Poco::Net::HTTPServerRequest &,
                                        Poco::Net::HTTPServerResponse & response)
     {
 
@@ -124,7 +124,7 @@ namespace Resource {
 
     }
 
-    void AbstractResource::handle_delete(Poco::Net::HTTPServerRequest & request,
+    void AbstractResource::handle_delete(Poco::Net::HTTPServerRequest &,
                                          Poco::Net::HTTPServerResponse & response)
     {
 
@@ -134,7 +134,7 @@ namespace Resource {
 
     }
 
-    void AbstractResource::handle_options(Poco::Net::HTTPServerRequest & request,
+    void AbstractResource::handle_options(Poco::Net::HTTPServerRequest &,
                                           Poco::Net::HTTPServerResponse & response)
     {
 

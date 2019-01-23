@@ -1,16 +1,16 @@
 #include "Infrastructure/Persistence/TableGateway.h"
 
-#include "Poco/Data/SessionFactory.h"
-#include "Poco/Data/MySQL/Connector.h"
-#include "Poco/Data/MySQL/MySQLException.h"
+#include "Poco/SQL/SessionFactory.h"
+#include "Poco/SQL/MySQL/Connector.h"
+#include "Poco/SQL/MySQL/MySQLException.h"
 
-using namespace Poco::Data::Keywords;
+using namespace Poco::SQL::Keywords;
 
 namespace Infrastructure {
 namespace Persistence {
 
 
-    TableGateway::TableGateway(Poco::Data::Session & session)
+    TableGateway::TableGateway(Poco::SQL::Session & session)
         : _table(),
           _throwException(false),
           _session(session),
@@ -35,9 +35,9 @@ namespace Persistence {
 
         try {
 
-            Poco::Data::Statement remove(_session);
+            Poco::SQL::Statement remove(_session);
 
-            /// Poco::Data::Statement does not accept temporary variables.
+            /// Poco::SQL::Statement does not accept temporary variables.
             /// Therefore this copy from this parameter must be created.
             std::string localValue = whereValue;
 
@@ -48,10 +48,10 @@ namespace Persistence {
             if ( _throwException && affectedRows == 0 )
                 throw Poco::NotFoundException("Not Found", 400);
 
-        } catch (Poco::Data::ConnectionFailedException & exception) {
+        } catch (Poco::SQL::ConnectionFailedException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::MySQL::StatementException & exception) {
+        } catch (Poco::SQL::MySQL::StatementException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
         } catch (Poco::NotFoundException & exception) {
@@ -63,14 +63,14 @@ namespace Persistence {
 
     }
 
-    Poco::Data::RecordSet TableGateway::selectWhere(const std::string & whereField, const std::string & whereValue)
+    Poco::SQL::RecordSet TableGateway::selectWhere(const std::string & whereField, const std::string & whereValue)
     {
 
         try {
 
-            Poco::Data::Statement select(_session);
+            Poco::SQL::Statement select(_session);
 
-            /// Poco::Data::Statement does not accept temporary variables.
+            /// Poco::SQL::Statement does not accept temporary variables.
             /// Therefore these copies from these parameters must be created.
             std::string localValue = whereValue;
             std::string selectedColumns = queryColumns();
@@ -78,12 +78,12 @@ namespace Persistence {
             select << "SELECT %s FROM %s WHERE %s = ?", selectedColumns, _table, whereField,
                     use(localValue), now;
 
-            return Poco::Data::RecordSet(select);
+            return Poco::SQL::RecordSet(select);
 
-        } catch (Poco::Data::ConnectionFailedException & exception) {
+        } catch (Poco::SQL::ConnectionFailedException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::MySQL::StatementException & exception) {
+        } catch (Poco::SQL::MySQL::StatementException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
         } catch (Poco::Exception & exception) {
@@ -113,9 +113,9 @@ namespace Persistence {
 
         try {
 
-            Poco::Data::Statement update(_session);
+            Poco::SQL::Statement update(_session);
 
-            /// Poco::Data::Statement does not accept temporary variables.
+            /// Poco::SQL::Statement does not accept temporary variables.
             /// Therefore these copies from these parameters must be created.
             std::string localValue = whereValue;
 
@@ -129,10 +129,10 @@ namespace Persistence {
         } catch (Poco::ApplicationException & exception) {
             /// @TODO Log message: Poco::format("UPDATE %s SET %s WHERE %s = %s", _table, fields, whereField, localValue).
             throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::ConnectionFailedException & exception) {
+        } catch (Poco::SQL::ConnectionFailedException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::MySQL::StatementException & exception) {
+        } catch (Poco::SQL::MySQL::StatementException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
         } catch (Poco::Exception & exception) {
@@ -174,7 +174,7 @@ namespace Persistence {
 
         try {
 
-            Poco::Data::Statement insert(_session);
+            Poco::SQL::Statement insert(_session);
 
             insert << "INSERT INTO %s (%s, %s) VALUES (%s, ?)", _table, fields, lastField, values,
                     use(lastValue);
@@ -189,10 +189,10 @@ namespace Persistence {
             /// @TODO Log message:
             /// Poco::format("INSERT INTO %s (%s, %s) VALUES (%s, %s)", _table, fields, lastField, values, lastValue)
             throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::ConnectionFailedException & exception) {
+        } catch (Poco::SQL::ConnectionFailedException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::MySQL::StatementException & exception) {
+        } catch (Poco::SQL::MySQL::StatementException & exception) {
             /// @TODO Log message.
             throw Poco::Exception("Internal Server Error", 500);
         } catch (Poco::Exception & exception) {

@@ -1,9 +1,9 @@
 #include "Infrastructure/Persistence/QuestionRepository.h"
 
-#include "Poco/Data/RecordSet.h"
-#include "Poco/Data/SessionFactory.h"
-#include "Poco/Data/MySQL/Connector.h"
-#include "Poco/Data/MySQL/MySQLException.h"
+#include "Poco/SQL/RecordSet.h"
+#include "Poco/SQL/SessionFactory.h"
+#include "Poco/SQL/MySQL/Connector.h"
+#include "Poco/SQL/MySQL/MySQLException.h"
 #include "Infrastructure/Persistence/TableGateway.h"
 #include "Domain/Model/Poll/QuestionNotFoundException.h"
 #include "Infrastructure/Persistence/OptionTableGateway.h"
@@ -12,7 +12,7 @@ namespace Infrastructure {
 namespace Persistence {
 
 
-    QuestionRepository::QuestionRepository(Poco::Data::Session & session)
+    QuestionRepository::QuestionRepository(Poco::SQL::Session & session)
         : _session(session)
     { }
 
@@ -20,7 +20,7 @@ namespace Persistence {
     {
         if ( _session.isConnected() ) {
             _session.close();
-            Poco::Data::MySQL::Connector::unregisterConnector();
+            Poco::SQL::MySQL::Connector::unregisterConnector();
         }
     }
 
@@ -123,7 +123,7 @@ namespace Persistence {
         OptionTableGateway optionTableGateway(_session);
         try {
 
-            Poco::Data::RecordSet recordSet =
+            Poco::SQL::RecordSet recordSet =
                 tableGateway
                     .table("question")
                     .selectWhere("question_id", questionId);

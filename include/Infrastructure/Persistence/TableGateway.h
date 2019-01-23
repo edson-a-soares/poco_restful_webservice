@@ -21,7 +21,7 @@
 #define Web_Service_Infrastructure_Persistence_Table_Gateway_INCLUDED
 
 #include <list>
-#include "Poco/Data/Session.h"
+#include "Poco/SQL/Session.h"
 #include "Infrastructure/Persistence/ITableGateway.h"
 #include "Infrastructure/Persistence/ConnectionManager.h"
 
@@ -32,7 +32,7 @@ namespace Persistence {
     class TableGateway final : public ITableGateway
     {
     public:
-        explicit TableGateway(Poco::Data::Session &);
+        explicit TableGateway(Poco::SQL::Session &);
 
         void insert() override;
         ITableGateway & throwException(bool) override;
@@ -41,7 +41,7 @@ namespace Persistence {
         void removeWhere(const std::string &, const std::string &) final;
         void updateWhere(const std::string &, const std::string &) override;
         ITableGateway & withColumn(const std::string &, const std::string &) final;
-        Poco::Data::RecordSet selectWhere(const std::string &, const std::string &) final;
+        Poco::SQL::RecordSet selectWhere(const std::string &, const std::string &) final;
 
     protected:
         std::string queryColumns() const;
@@ -49,7 +49,7 @@ namespace Persistence {
     private:
         std::string _table;
         bool _throwException;
-        Poco::Data::Session _session;
+        Poco::SQL::Session _session;
         std::list<std::string> _columns;
         std::map<std::string, std::string> _columnsValues;
 

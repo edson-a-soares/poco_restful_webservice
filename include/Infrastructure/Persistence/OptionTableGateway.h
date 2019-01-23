@@ -21,7 +21,7 @@
 #define Web_Service_Infrastructure_Persistence_Option_Table_Gateway_INCLUDED
 
 #include "Domain/Model/Poll/Option.h"
-#include "Poco/Data/SessionFactory.h"
+#include "Poco/SQL/SessionFactory.h"
 
 namespace Infrastructure {
 namespace Persistence {
@@ -30,7 +30,7 @@ namespace Persistence {
     class OptionTableGateway
     {
     public:
-        explicit OptionTableGateway(Poco::Data::Session &);
+        explicit OptionTableGateway(Poco::SQL::Session &);
 
         void update(const Domain::Model::Poll::Option &);
         void remove(const Domain::Model::Poll::Option &);
@@ -39,7 +39,7 @@ namespace Persistence {
         void handleUpdate(const std::string &, const std::list<Domain::Model::Poll::Option> &);
 
     private:
-        Poco::Data::Session _session;
+        Poco::SQL::Session _session;
 
         /*!
          *

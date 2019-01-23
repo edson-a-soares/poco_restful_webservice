@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "Poco/Data/MySQL/Connector.h"
+#include "Poco/SQL/MySQL/Connector.h"
 #include "Domain/Model/Poll/Vote.h"
 #include "Domain/Model/Poll/QuestionNotFoundException.h"
 #include "Infrastructure/Persistence/ConnectionManager.h"
@@ -16,7 +16,7 @@ protected:
 
         Infrastructure::Persistence::ConnectionManager connectionManager;
 
-        Poco::Data::MySQL::Connector::registerConnector();
+        Poco::SQL::MySQL::Connector::registerConnector();
 
         auto session = connectionManager.getSession();
         allQuestions  = new Infrastructure::Persistence::QuestionRepository(session);
