@@ -3,8 +3,8 @@ LoadFile /usr/local/lib/libPocoFoundation.so
 LoadFile /usr/local/lib/libPocoJSON.so
 LoadFile /usr/local/lib/libPocoUtil.so
 LoadFile /usr/local/lib/libPocoNet.so
-LoadFile /usr/local/lib/libPocoData.so
-LoadFile /usr/local/lib/libPocoDataMySQL.so
+LoadFile /usr/local/lib/libPocoSQL.so
+LoadFile /usr/local/lib/libPocoSQLMySQL.so
 
 # Path to the binary of the module
 LoadModule poco_module /usr/lib/apache2/modules/mod_poco.so

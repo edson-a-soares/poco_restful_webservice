@@ -11,9 +11,9 @@ services:
       dockerfile: Dockerfile
       args:
         - CMAKE_BUILD_TYPE=Release
-        - WEBSERVICE_ENVIRONMENT=production
+        - POCO_WEBSERVICE_ENVIRONMENT=production
     links:
-    - "database"
+      - "database"
     ports:
       - "8080:80"
 
@@ -24,9 +24,10 @@ services:
       - database_data:/var/lib/mysql
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=@dm1n
       - MYSQL_USER=developer
       - MYSQL_PASSWORD=abc123456
+      - MYSQL_ROOT_PASSWORD=@dm1n
+      - MYSQL_DATABASE=poco_webservice_schema
     ports:
       - "3306:3306"
 

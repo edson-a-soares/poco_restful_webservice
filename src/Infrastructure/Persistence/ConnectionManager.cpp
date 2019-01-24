@@ -27,8 +27,8 @@ namespace Persistence {
 
         if ( environment.empty() || environment == "development" ) {
             user="developer";
-            password="abc12345";
-            host="127.0.0.1";
+            password="abc123456";
+            host="database";
             db="poco_webservice_schema";
         }
 

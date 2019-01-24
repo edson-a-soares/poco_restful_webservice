@@ -18,8 +18,8 @@
         </fileset>
     </path>
 
-    <taskdef name="scp" classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp" classpathref="libraries" />
-    <taskdef name="sshexec" classname="org.apache.tools.ant.taskdefs.optional.ssh.SSHExec" classpathref="libraries" />
+    <!-- taskdef name="scp" classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp" classpathref="libraries" /-->
+    <!-- taskdef name="sshexec" classname="org.apache.tools.ant.taskdefs.optional.ssh.SSHExec" classpathref="libraries" /-->
 
     <!-- Import database related tasks -->
     <import file="${db_directory}/targets.xml" as="nested"/>
