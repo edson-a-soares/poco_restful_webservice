@@ -110,4 +110,4 @@ before_deploy:
 # deploy:
 #  provider: gae
 #  keyfile: "YOUR SERVICE ACCOUNT JSON FILE"
-#  project: "poco_restful_webservices"
+#  project: "poco-restful-webservice"
