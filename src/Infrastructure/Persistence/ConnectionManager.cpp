@@ -21,11 +21,18 @@ namespace Persistence {
     {
 
         std::string environment;
-        auto environmentVariableValue = std::getenv("POCO_API_ENVIRONMENT");
+        auto environmentVariableValue = std::getenv("POCO_WEBSERVICE_ENVIRONMENT");
         if ( environmentVariableValue != nullptr )
             environment = std::string(environmentVariableValue);
 
-        if ( environment.empty() || environment == "development" ) {
+        if ( environment.empty() || environment == "local" ) {
+            user="developer";
+            password="abc123456";
+            host="127.0.0.1";
+            db="poco_webservice_schema";
+        }
+
+        if ( environment == "development" ) {
             user="developer";
             password="abc123456";
             host="database";

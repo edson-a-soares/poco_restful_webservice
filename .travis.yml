@@ -2,7 +2,7 @@ language: cpp
 
 env:
   global:
-    - POCO_API_ENVIRONMENT=build
+    - POCO_WEBSERVICE_ENVIRONMENT=build
 
 os: linux
 

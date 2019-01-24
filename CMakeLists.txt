@@ -31,15 +31,10 @@ set(PROJECT_SOURCE_DIR ${CMAKE_HOME_DIRECTORY}/src)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/build)
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_HOME_DIRECTORY}/build)
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)
 
-file(GLOB_RECURSE SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/Domain/*.cpp
-    ${PROJECT_SOURCE_DIR}/Interface/*.cpp
-    ${PROJECT_SOURCE_DIR}/Application/*.cpp
-    ${PROJECT_SOURCE_DIR}/Infrastructure/*.cpp)
+file(GLOB_RECURSE SOURCE_FILES ${PROJECT_SOURCE_DIR}/*.cpp)
 
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}")
@@ -48,7 +43,7 @@ add_library(${WEBSERVICE_BINARY} SHARED ${SOURCE_FILES})
 target_include_directories(${WEBSERVICE_BINARY} PUBLIC ${PROJECT_INCLUDE_DIR})
 
 # Poco Library setup
-find_library(Poco_LIBRARIES NAMES PocoFoundation PocoJSON PocoUtil PocoNet PocoData)
+find_library(Poco_LIBRARIES NAMES PocoFoundation PocoJSON PocoUtil PocoNet PocoSQL)
 
 if(NOT ${Poco_FOUND})
     message(FATAL_ERROR "Poco C++ Libraries not found.")
@@ -76,7 +71,7 @@ elseif ()
 endif ()
 
 if (ENABLE_TESTS)
-    add_subdirectory(test)
+    add_subdirectory(tests)
 
     message(STATUS "Building with tests")
 elseif ()

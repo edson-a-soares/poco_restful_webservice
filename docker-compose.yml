@@ -11,7 +11,7 @@ services:
       dockerfile: Dockerfile
       args:
         - CMAKE_BUILD_TYPE=Release
-        - POCO_WEBSERVICE_ENVIRONMENT=production
+        - POCO_WEBSERVICE_ENVIRONMENT=development
     links:
       - "database"
     ports:
