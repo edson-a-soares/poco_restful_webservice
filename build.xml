@@ -7,7 +7,6 @@
     <property file="${basedir}/build.properties"/>
     <property name="libraries" value="${basedir}/lib"/>
     <property name="db_directory" value="${basedir}/database"/>
-    <property name="provision.directory" value="${basedir}/provision/puppet"/>
 
     <available property="ant-jsch.present" file="${ant.home}/lib/ant-jsch.jar" />
     <fail if="ant-jsch.present" message="Please remove ${ant.home}/lib/ant-jsch.jar." />
@@ -23,101 +22,5 @@
 
     <!-- Import database related tasks -->
     <import file="${db_directory}/targets.xml" as="nested"/>
-
-    <!-- provisioning related tasks -->
-    <target name="librarian_puppet_install">
-        <exec executable="librarian-puppet" failonerror="true" dir="${provision.directory}/librarian">
-            <arg value="install" />
-        </exec>
-    </target>
-
-    <target name="setup_environment" depends="librarian_puppet_install">
-        <exec executable="vagrant" failonerror="true">
-            <arg value ="up" />
-            <arg value ="${vm.name}" />
-        </exec>
-    </target>
-
-    <target name="destroy_environment">
-        <exec executable="vagrant" failonerror="true">
-            <arg value ="destroy" />
-            <arg value ="--force" />
-            <arg value ="${vm.name}" />
-        </exec>
-    </target>
-
-    <!-- provisioning related tasks -->
-    <target name="clone_project">
-        <sshexec host="${vm.address}"
-            command="git clone ${git.repository.url}"
-            password="${vm.password}"
-            username="${vm.username}"
-            trust="true"
-            verbose="false"
-            failonerror="true" />
-    </target>
-
-    <target name="create_build_directory" >
-        <sshexec host="${vm.address}"
-            command="mkdir -p ${application.build_directory}"
-            password="${vm.password}"
-            username="${vm.username}"
-            trust="true"
-            verbose="false"
-            failonerror="true" />
-    </target>
-
-    <target name="clean_build_directory">
-        <sshexec host="${vm.address}"
-            command="rm -rf ${application.build_directory}/*"
-            password="${vm.password}"
-            username="${vm.username}"
-            trust="true"
-            verbose="false"
-            failonerror="true" />
-    </target>
-
-    <target name="build_project" depends="clean_build_directory">
-        <sshexec host="${vm.address}"
-            command="cd ${application.build_directory}; cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes ${application.home_directory}"
-            password="${vm.password}"
-            username="${vm.username}"
-            trust="true"
-            verbose="false"
-            failonerror="true" />
-    </target>
-
-    <target name="compile_project">
-        <sshexec host="${vm.address}"
-            command="cd ${application.build_directory}; cmake --build . --target all -- -j 2"
-            password="${vm.password}"
-            username="${vm.username}"
-            trust="true"
-            verbose="false"
-            failonerror="true" />
-    </target>
-
-    <target name="run_tests">
-        <sshexec host="${vm.address}"
-            command="cd ${application.home_directory}/bin; ./tests --gtest_filter=* --gtest_color=yes"
-            password="${vm.password}"
-            username="${vm.username}"
-            trust="true"
-            verbose="false"
-            failonerror="true" />
-    </target>
-
-    <target name="deploy_project">
-    </target>
-
-    <!--target name="run_webservice">
-        <sshexec host="${vm.address}"
-            command="nohup ${application.home_directory}/bin/webservice > ${application.home_directory}/application.log &amp;"
-            password="${vm.password}"
-            username="${vm.username}"
-            trust="true"
-            verbose="false"
-            failonerror="true" />
-    </target-->
 
 </project>

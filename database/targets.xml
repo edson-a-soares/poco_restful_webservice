@@ -14,8 +14,8 @@
     <property name="deltas" location="${db_directory}/migration"/>
     <property name="driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
     <property name="dbdeploy_folder" location="${build}/database/dbdeploy"/>
-    <property name="jdbc.driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
     <property name="dbdeploy_folder" location="${build}/database/dbdeploy"/>
+    <property name="jdbc.driver.classpath" value="${libraries}/mysql-jdbc5.jar"/>
 
     <taskdef name="dbdeploy" classname="com.dbdeploy.AntTarget" classpathref="libraries"/>
 
