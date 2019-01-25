@@ -62,7 +62,8 @@ install:
 
   - cd $HOME
   - git clone https://github.com/edson-a-soares/poco.git  /tmp/poco
-  - cd /tmp/poco && cmake . -DPOCO_ENABLE_SQL=ON -DPOCO_ENABLE_SQL_ODBC=ON -DPOCO_ENABLE_SQL_MYSQL=ON
+  - cd /tmp/poco
+  - ./configure --no-tests --no-samples --everything --omit=MongoDB,SQL/ODBC,SQL/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
   - make && sudo make install \
 
 before_script:
