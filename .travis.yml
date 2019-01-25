@@ -53,12 +53,17 @@ install:
   - sudo cp *.a /usr/lib
 
   # It makes available Poco 1.8.1
+  # - cd $HOME
+  # - wget https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz
+  # - tar -xf poco-1.8.1-all.tar.gz
+  # - cd poco-1.8.1-all
+  # - ./configure --no-tests --no-samples --everything --omit=MongoDB,Data/ODBC,Data/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
+  # - make && sudo make install
+
   - cd $HOME
-  - wget https://pocoproject.org/releases/poco-1.8.1/poco-1.8.1-all.tar.gz
-  - tar -xf poco-1.8.1-all.tar.gz
-  - cd poco-1.8.1-all
-  - ./configure --no-tests --no-samples --everything --omit=MongoDB,Data/ODBC,Data/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
-  - make && sudo make install
+  - git clone https://github.com/edson-a-soares/poco.git  /tmp/poco
+  - cd /tmp/poco && cmake . -DPOCO_ENABLE_SQL=ON -DPOCO_ENABLE_SQL_ODBC=ON -DPOCO_ENABLE_SQL_MYSQL=ON
+  - make && make install \
 
 before_script:
   # =============================================================
