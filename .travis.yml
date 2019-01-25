@@ -63,7 +63,7 @@ install:
   - cd $HOME
   - git clone https://github.com/edson-a-soares/poco.git  /tmp/poco
   - cd /tmp/poco && cmake . -DPOCO_ENABLE_SQL=ON -DPOCO_ENABLE_SQL_ODBC=ON -DPOCO_ENABLE_SQL_MYSQL=ON
-  - make && make install \
+  - make && sudo make install \
 
 before_script:
   # =============================================================
