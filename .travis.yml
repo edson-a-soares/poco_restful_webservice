@@ -64,7 +64,7 @@ install:
   - git clone https://github.com/edson-a-soares/poco.git  /tmp/poco
   - cd /tmp/poco
   - ./configure --no-tests --no-samples --everything --omit=MongoDB,SQL/ODBC,SQL/SQLite,PDF,CppParser,Crypto,NetSSL_OpenSSL,CppUnit,PageCompiler
-  - make && sudo make install \
+  - make && sudo make install
 
 before_script:
   # =============================================================
