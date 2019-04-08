@@ -119,6 +119,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script: bash scripts/shell/docker_push
+  script: bash scripts/shell/docker_push $DOCKERHUB_USERNAME $DOCKERHUB_PASSWORD $DOCKERHUB_REPOSITORY_NAME
   on:
     branch: master
