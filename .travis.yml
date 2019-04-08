@@ -2,7 +2,9 @@ language: cpp
 
 env:
   global:
+    - DOCKERHUB_USERNAME=edsonsoares
     - POCO_WEBSERVICE_ENVIRONMENT=build
+    - DOCKERHUB_REPOSITORY_NAME=poco_restful_webservice
 
 os: linux
 
@@ -110,10 +112,13 @@ after_script:
   - ant -propertyfile ci.properties drop_schema
 
 before_deploy:
- - cd $TRAVIS_BUILD_DIR
- - docker build -t poco-restful-webservice .
+  # It builds the Docker Image and Pushes It to Docker Hub
+  - cd $TRAVIS_BUILD_DIR
+  - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY_NAME .
+  - docker images
 
-# deploy:
-#  provider: gae
-#  keyfile: "YOUR SERVICE ACCOUNT JSON FILE"
-#  project: "poco-restful-webservice"
+deploy:
+  provider: script
+  script: bash scripts/shell/docker_push
+  on:
+    branch: master
