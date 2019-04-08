@@ -112,6 +112,15 @@ before_script:
   # It makes local libs path available in the PATH environmental variable.
   - export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
+script:
+  # It creates a separated CMake build directory for building the application.
+  - cd $HOME && sudo mkdir cmake-build && cd cmake-build
+  # It enables all parts of the application for building.
+  - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes
+  # It compiles the application and run the tests.
+  - sudo cmake --build . --target all -- -j 2
+  - cd $TRAVIS_BUILD_DIR/bin && ./tests --gtest_filter=* --gtest_color=yes
+
 before_deploy:
   # It builds the Docker Image and Pushes It to DockerHub
   - cd $TRAVIS_BUILD_DIR
@@ -125,15 +134,6 @@ deploy:
   script: bash $TRAVIS_BUILD_DIR/scripts/shell/docker_push
   on:
     branch: master
-
-script:
-  # It creates a separated CMake build directory for building the application.
-  - cd $HOME && sudo mkdir cmake-build && cd cmake-build
-  # It enables all parts of the application for building.
-  - sudo cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=yes -DENABLE_STANDALONE_SERVICE=yes
-  # It compiles the application and run the tests.
-  - sudo cmake --build . --target all -- -j 2
-  - cd $TRAVIS_BUILD_DIR/bin && ./tests --gtest_filter=* --gtest_color=yes
 
 after_script:
   # =============================================================
