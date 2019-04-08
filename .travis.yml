@@ -134,7 +134,7 @@ before_deploy:
   - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY_NAME:build-$TRAVIS_BUILD_NUMBER . | bash > /dev/null
   - docker images
   - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-  - docker push $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY
+  - docker push $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY_NAME:build-$TRAVIS_BUILD_NUMBER
 
 deploy:
   provider: script
