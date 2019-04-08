@@ -141,3 +141,6 @@ deploy:
   script: bash $TRAVIS_BUILD_DIR/scripts/shell/docker_push
   on:
     branch: master
+
+  # gcloud compute instances update-container $INSTANCE_NAME \
+  # --container-image $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY_NAME
