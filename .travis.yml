@@ -112,6 +112,20 @@ before_script:
   # It makes local libs path available in the PATH environmental variable.
   - export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
+before_deploy:
+  # It builds the Docker Image and Pushes It to DockerHub
+  - cd $TRAVIS_BUILD_DIR
+  - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY:build-$TRAVIS_BUILD_NUMBER . | bash > /dev/null
+  - docker images
+  - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+  - docker push $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY:build-$TRAVIS_BUILD_NUMBER
+
+deploy:
+  provider: script
+  script: bash $TRAVIS_BUILD_DIR/scripts/shell/docker_push
+  on:
+    branch: master
+
 script:
   # It creates a separated CMake build directory for building the application.
   - cd $HOME && sudo mkdir cmake-build && cd cmake-build
@@ -127,17 +141,3 @@ after_script:
   # =============================================================
   - cd $TRAVIS_BUILD_DIR
   - ant -propertyfile ci.properties drop_schema
-
-before_deploy:
-  # It builds the Docker Image and Pushes It to DockerHub
-  - cd $TRAVIS_BUILD_DIR
-  - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY:build-$TRAVIS_BUILD_NUMBER . | bash > /dev/null
-  - docker images
-  - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-  - docker push $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY:build-$TRAVIS_BUILD_NUMBER
-
-deploy:
-  provider: script
-  script: bash $TRAVIS_BUILD_DIR/scripts/shell/docker_push
-  on:
-    branch: master
