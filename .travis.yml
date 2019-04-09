@@ -44,20 +44,6 @@ notifications:
 before_install:
   # It sets GCC 6 as the default version.
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
-  # It makes GCloud SDK available
-  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
-      # The install script errors if this directory already exists,
-      # but Travis already creates it when we mark it as cached.
-      rm -rf $HOME/google-cloud-sdk;
-      # The install script is overly verbose, which sometimes causes
-      # problems on Travis, so ignore stdout.
-      curl https://sdk.cloud.google.com | bash > /dev/null;
-    fi
-  # This line is critical. We setup the SDK to take precedence in our
-  # environment over the old SDK that is already on the machine.
-  - source $HOME/google-cloud-sdk/path.bash.inc
-  - gcloud --quiet components update
-  - gcloud version
 
 install:
   # It makes available CMake 3.7.2
