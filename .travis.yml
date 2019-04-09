@@ -137,7 +137,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: bash $TRAVIS_BUILD_DIR/scripts/shell/docker_push
+  script: bash $TRAVIS_BUILD_DIR/scripts/shell/deploy
   on:
     branch: master
 
