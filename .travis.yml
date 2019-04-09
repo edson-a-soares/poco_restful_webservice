@@ -114,7 +114,7 @@ script:
 before_deploy:
   # It builds the Docker Image with the application
   - cd $TRAVIS_BUILD_DIR
-  - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY:build-$TRAVIS_BUILD_NUMBER . | bash > /dev/null
+  - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY:build-$TRAVIS_BUILD_NUMBER .
   - docker images
   # It pushes the Docker Image with the application to Docker Hub (No Database)
   - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
