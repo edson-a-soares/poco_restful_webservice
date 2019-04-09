@@ -6,7 +6,7 @@ env:
     - POCO_WEBSERVICE_ENVIRONMENT=build
     # It makes Docker Hub public repository information available
     - DOCKERHUB_USERNAME=edsonsoares
-    - DOCKERHUB_REPOSITORY_NAME=poco_restful_webservice
+    - DOCKERHUB_REPOSITORY=poco_restful_webservice
     # Do not prompt for user input when using any SDK methods.
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
     - GCLOUD_INSTANCE_NAME=poco_restful_webservice
