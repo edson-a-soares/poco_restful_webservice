@@ -17,10 +17,10 @@ dist: trusty
 sudo: enabled
 
 cache:
-  - apt
   directories:
     # We cache the SDK so we don't have to download it again on subsequent builds.
     - $HOME/google-cloud-sdk
+  - apt
 
 services:
   - mysql
@@ -136,10 +136,10 @@ before_deploy:
   - docker push "$DOCKERHUB_USERNAME/$DOCKERHUB_REPOSITORY:build-$TRAVIS_BUILD_NUMBER"
 
 deploy:
-  provider: script
-  script: bash $TRAVIS_BUILD_DIR/scripts/shell/deploy
-  on:
-    branch: master
+  - provider: script
+    script: bash $TRAVIS_BUILD_DIR/scripts/shell/deploy
+    on:
+      branch: master
 
 after_script:
   # =============================================================
