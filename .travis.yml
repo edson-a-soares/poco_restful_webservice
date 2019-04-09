@@ -46,7 +46,11 @@ before_install:
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
   # It makes GCloud SDK available
-  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; curl https://sdk.cloud.google.com | bash > /dev/null; fi
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then
+      rm -rf $HOME/google-cloud-sdk;
+      curl https://sdk.cloud.google.com | bash > /dev/null;
+    fi
+
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud --quiet components update
   - gcloud version
