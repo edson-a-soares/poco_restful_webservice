@@ -122,7 +122,8 @@ before_deploy:
 
 deploy:
   provider: script
-  script: bash $TRAVIS_BUILD_DIR/scripts/shell/deploy
+  skip_cleanup: true
+  script: bash $TRAVIS_BUILD_DIR/scripts/shell/deploy.sh
   on:
     branch: master
 
