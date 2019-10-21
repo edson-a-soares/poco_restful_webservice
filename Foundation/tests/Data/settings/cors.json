@@ -1,0 +1,21 @@
+{
+    "allow_credentials" : true,
+    "allow_origins" : [
+        "microsoft.com",
+        "localhost:8080",
+        "127.0.0.2:3206"
+    ],
+    "allow_http_methods" : [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATH",
+        "OPTIONS"
+    ],
+    "allow_http_headers" : [
+        "Accept",
+        "Content-Type",
+        "Accept-Language"
+    ]
+}
