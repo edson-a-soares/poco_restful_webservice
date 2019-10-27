@@ -20,7 +20,7 @@ namespace Http {
             if ( !httpMethod.valid() )
                 throw Poco::Exception("Method Not Allowed", httpMethod.message(), 405);
 
-            auto mediaType = ::Validator::AcceptedHttpContentTypeHeaders(request);
+            auto mediaType = ::Validator::HttpContentTypeHeaders(request);
             if ( !mediaType.valid() )
                 throw Poco::Exception("Unsupported Media Type", mediaType.message(), 415);
 

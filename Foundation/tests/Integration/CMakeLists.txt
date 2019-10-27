@@ -13,7 +13,7 @@ set(TESTS_INCLUDE_FILES ${CMAKE_HOME_DIRECTORY}/${COMPONENT_NAME}/tests/${TEST_T
 file(GLOB_RECURSE TEST_SOURCE_FILES ${CMAKE_HOME_DIRECTORY}/${MODULE_NAME}/tests/${TEST_TYPE_AND_DIRECTORY_NAME}/*.cpp)
 
 # It makes the Resources directory path available into the C++ source code as a constant.
-add_definitions(-DTESTS_RESOURCES_PATH="${CMAKE_HOME_DIRECTORY}/${MODULE_NAME}/tests/Data/")
+add_definitions(-DTESTS_DATA_PATH="${CMAKE_HOME_DIRECTORY}/${MODULE_NAME}/tests/Data/")
 
 add_executable(${TEST_UNIT} ${TEST_SOURCE_FILES})
 target_link_libraries(${TEST_UNIT} gtest gtest_main pthread ${MODULE_BINARY_NAME})
