@@ -71,14 +71,14 @@ namespace Http {
 
     void AbstractResource::corsHeaders(Poco::Net::HTTPServerResponse & response)
     {
-        std::map<std::string, std::string> headersSet = corsHeaders();
+        std::map<std::string, std::string> headersSet = corsHeaders()->headers();
         for ( auto & header : headersSet )
             response.set(header.first, header.second);
     }
 
-    std::map<std::string, std::string> AbstractResource::corsHeaders()
+    std::unique_ptr<Foundation::Http::CORSHeadersInterface> AbstractResource::corsHeaders()
     {
-        return CORSHeadersFactory::create()->headers();
+        return CORSHeadersFactory::create();
     }
 
     std::unique_ptr<ErrorParserInterface> AbstractResource::errorParser()

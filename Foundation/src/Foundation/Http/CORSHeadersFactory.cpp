@@ -1,5 +1,5 @@
-#include "Adapter/File/CORSHeadersFromJSONFile.h"
 #include "Foundation/Http/CORSHeadersFactory.h"
+#include "Adapter/File/CORSHeadersFromJSONFile.h"
 #include "Foundation/Http/CORSConfigurationFile.h"
 #include "Adapter/File/CORSHeadersJSONFileReader.h"
 

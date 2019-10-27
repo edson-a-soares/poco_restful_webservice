@@ -29,6 +29,10 @@ namespace Http {
     class CORSConfigurationFile : public Application::ConfigurationFileInterface
     {
     public:
+        /*!
+         *
+         * @return
+         */
 	    std::string path() const override;
 
     };

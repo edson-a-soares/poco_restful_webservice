@@ -37,12 +37,12 @@ namespace Context {
         outputStream.flush();
     }
 
-    void FakeActualResource::handle_put(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &)
+    inline void FakeActualResource::handle_put(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &)
     {
         throw Poco::SyntaxException("Bad Request", "You sent a request that this server could not understand.", 400);
     }
 
-    void FakeActualResource::handle_post(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse & response)
+    inline void FakeActualResource::handle_post(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse & response)
     {
         auto resourceLocation = "http://localhost?key=value";
 
@@ -50,7 +50,7 @@ namespace Context {
         response.setStatus(Poco::Net::HTTPResponse::HTTP_CREATED);
     }
 
-    void FakeActualResource::handle_options(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse & response)
+    inline void FakeActualResource::handle_options(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse & response)
     {
         response.set("Allow", "GET, POST, PUT, OPTIONS, PATCH");
     }

@@ -1,0 +1,21 @@
+{
+    "allow_credentials" : true,
+    "allow_origins" : [
+        "github.com",
+        "localhost:8080",
+        "127.0.0.1:9000"
+    ],
+    "allow_http_methods" : [
+        "GET",
+        "PUT",
+        "PATH",
+        "POST",
+        "DELETE",
+        "OPTIONS"
+    ],
+    "allow_http_headers" : [
+        "Accept",
+        "Content-Type",
+        "Accept-Language"
+    ]
+}

@@ -38,7 +38,7 @@ namespace Http {
         void handleRequest(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &) override;
 
     protected:
-        static std::map<std::string, std::string> corsHeaders();
+        static std::unique_ptr<Foundation::Http::CORSHeadersInterface> corsHeaders();
         virtual std::unique_ptr<ErrorParserInterface> errorParser();
 
         virtual void handle_get(    Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
