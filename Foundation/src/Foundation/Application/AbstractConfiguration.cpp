@@ -24,17 +24,19 @@ namespace Application {
                 filePath = _basePath + "/development/" + _fileName;
 
         } catch (Poco::NotFoundException & exception) {
+
             Poco::Logger & logger = Poco::Logger::get("TestLogger");
-            logger.fatal(exception.message());
+            logger.critical(exception.message());
+            logger.information(
+                "Using local data/settings as application critical support. "
+                "Configuration file " + _fileName + " being used is " + filePath
+            );
 
             Poco::File configurationFile = Poco::File(filePath);
-            if ( !configurationFile.exists() || !configurationFile.isFile() ) {
-                logger.information(
-                    "Using local data/settings as application critical support. "
-                    "Configuration file " + _fileName + " being used is " + filePath
-                );
+            poco_assert_dbg( configurationFile.exists() && configurationFile.isFile());
+            if ( !configurationFile.exists() || !configurationFile.isFile() )
                 throw;
-            }
+
         }
 
         return filePath;
