@@ -20,20 +20,16 @@
 #ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
 #define Foundation_Http_CORSConfigurationFile_INCLUDED
 
-#include "Foundation/Application/ConfigurationFileInterface.h"
+#include "Foundation/Application/AbstractConfiguration.h"
 
 namespace Foundation {
 namespace Http {
 
 
-    class CORSConfigurationFile : public Application::ConfigurationFileInterface
+    class CORSConfigurationFile : public Application::AbstractConfiguration
     {
     public:
-        /*!
-         *
-         * @return
-         */
-	    std::string path() const override;
+        CORSConfigurationFile();
 
     };
 

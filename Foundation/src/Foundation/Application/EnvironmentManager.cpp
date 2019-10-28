@@ -12,9 +12,12 @@ namespace Application {
         if ( !Poco::Environment::has("POCO_WEBSERVICE_ENVIRONMENT") )
             throw Poco::NotFoundException("Environment Variable Not Available", "Environment variable POCO_WEBSERVICE_ENVIRONMENT has not been set.");
 
-        Environment environment = Environment::DEVELOPMENT;
+        Environment environment = Environment::DEBUG;
 		if ( Poco::toLower(Poco::Environment::get("POCO_WEBSERVICE_ENVIRONMENT")) == "production" )
         	environment = Environment::PRODUCTION;
+
+		if (Poco::toLower(Poco::Environment::get("POCO_WEBSERVICE_ENVIRONMENT")) == "development")
+            environment = Environment::DEVELOPMENT;
 
 	    return environment;
     }

@@ -71,9 +71,18 @@ namespace Http {
 
     void AbstractResource::corsHeaders(Poco::Net::HTTPServerResponse & response)
     {
-        std::map<std::string, std::string> headersSet = corsHeaders()->headers();
-        for ( auto & header : headersSet )
-            response.set(header.first, header.second);
+        try {
+            std::map<std::string, std::string> headersSet = corsHeaders()->headers();
+            for ( auto & header : headersSet )
+                response.set(header.first, header.second);
+
+        } catch (...) {
+            throw Poco::FileException(
+                "CORS Error",
+                "There is something wrong with CORS settings",
+                Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     std::unique_ptr<Foundation::Http::CORSHeadersInterface> AbstractResource::corsHeaders()

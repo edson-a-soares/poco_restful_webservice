@@ -26,6 +26,7 @@ namespace Application {
 
     enum Environment {
         PRODUCTION   = 0001,
+        DEBUG        = 0005,
         DEVELOPMENT  = 0007,
     };
 
