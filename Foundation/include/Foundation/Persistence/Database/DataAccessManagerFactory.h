@@ -17,25 +17,29 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Database_DataSourceFactory_INCLUDED
-#define Database_DataSourceFactory_INCLUDED
+#ifndef Foundation_Persistence_Database_DataAccessManagerFactory_INCLUDED
+#define Foundation_Persistence_Database_DataAccessManagerFactory_INCLUDED
 
 #include <memory>
 #include "Foundation/Persistence/Database/DataSourceInterface.h"
+#include "Foundation/Persistence/Database/TableGatewayInterface.h"
+#include "Foundation/Persistence/Database/DataAccessManagerInterface.h"
 
+namespace Foundation {
+namespace Persistence {
 namespace Database {
 
 
-    class DataSourceFactory
+    class DataAccessManagerFactory
     {
     public:
-        DataSourceFactory()  = delete;
-        ~DataSourceFactory() = delete;
-        static std::unique_ptr<::Foundation::Persistence::Database::DataSourceInterface> create();
+        DataAccessManagerFactory()  = delete;
+        ~DataAccessManagerFactory() = delete;
+        static std::unique_ptr<DataAccessManagerInterface> create();
 
     };
 
 
-}
+} } }
 
 #endif

@@ -17,13 +17,11 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Persistence_Database_DatabaseAdapterFactory_INCLUDED
-#define Foundation_Persistence_Database_DatabaseAdapterFactory_INCLUDED
+#ifndef Foundation_Persistence_Database_DataAccessManagerInterface_INCLUDED
+#define Foundation_Persistence_Database_DataAccessManagerInterface_INCLUDED
 
 #include <memory>
-#include "Adapter/Database/DataSourceFactory.h"
-#include "Foundation/Persistence/Database/DatabaseAdapter.h"
-#include "Foundation/Persistence/Database/DataSourceInterface.h"
+#include "Poco/Data/Session.h"
 #include "Foundation/Persistence/Database/TableGatewayInterface.h"
 
 namespace Foundation {
@@ -31,12 +29,12 @@ namespace Persistence {
 namespace Database {
 
 
-    class DatabaseAdapterFactory
+    class DataAccessManagerInterface
     {
     public:
-        DatabaseAdapterFactory()  = delete;
-        ~DatabaseAdapterFactory() = delete;
-        static std::unique_ptr<TableGatewayInterface> create();
+        virtual ~DataAccessManagerInterface() = default;
+        virtual Poco::Data::Session & session() = 0;
+        virtual std::unique_ptr<Foundation::Persistence::Database::TableGatewayInterface> tableGateway() = 0;
 
     };
 

@@ -6,7 +6,7 @@
 
 using namespace Poco::Data::Keywords;
 
-class TableGatewayTest : public ::testing::Test
+class SQLiteTableGatewayTest : public ::testing::Test
 {
 protected:
     void SetUp() override
@@ -39,7 +39,7 @@ protected:
 };
 
 
-TEST_F(TableGatewayTest, Insert)
+TEST_F(SQLiteTableGatewayTest, Insert)
 {
 
     const std::string nickname = "Waltz";
@@ -69,7 +69,7 @@ TEST_F(TableGatewayTest, Insert)
 
 }
 
-TEST_F(TableGatewayTest, UpdateWhere)
+TEST_F(SQLiteTableGatewayTest, UpdateWhere)
 {
 
     const std::string nickname  = "Heisenberg";
@@ -103,7 +103,7 @@ TEST_F(TableGatewayTest, UpdateWhere)
 
 }
 
-TEST_F(TableGatewayTest, RemoveWhere)
+TEST_F(SQLiteTableGatewayTest, RemoveWhere)
 {
 
     const std::string nickname  = "Heisenberg";
@@ -143,7 +143,7 @@ TEST_F(TableGatewayTest, RemoveWhere)
 
 }
 
-TEST_F(TableGatewayTest, InvalidArgumentExceptionForEmptyColumsList)
+TEST_F(SQLiteTableGatewayTest, InvalidArgumentExceptionForEmptyColumsList)
 {
 
     ASSERT_THROW(

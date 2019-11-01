@@ -1,6 +1,8 @@
 #include "Poco/String.h"
 #include "Poco/Exception.h"
 #include "Adapter/Database/DataSource.h"
+#include "Adapter/Database/DataSourceFileReader.h"
+#include "Adapter/Database/DataSourceConfigurationFile.h"
 
 namespace Database {
 
@@ -12,18 +14,6 @@ namespace Database {
               { "sqlite", Foundation::Persistence::Database::SQLite }
           }
     {}
-
-    Foundation::Persistence::Database::DatabaseAdapter DataSource::adapter()
-    {
-        auto adapterString = Poco::toLower(_fileReader->fetch("adapter"));
-        if ( adapters.find(adapterString) == adapters.end() )
-            throw Poco::InvalidArgumentException(
-                "Invalid Database Adapter",
-                "There's no such database adapter " + adapterString
-            );
-
-        return adapters.at(adapterString);
-    }
 
     std::string DataSource::username()
     {
@@ -43,6 +33,27 @@ namespace Database {
     std::string DataSource::database()
     {
         return _fileReader->fetch("database");
+    }
+
+    Foundation::Persistence::Database::DatabaseAdapter DataSource::adapter()
+    {
+        auto adapterString = Poco::toLower(_fileReader->fetch("adapter"));
+        if ( adapters.find(adapterString) == adapters.end() )
+            throw Poco::InvalidArgumentException(
+                "Invalid Database Adapter",
+                "There's no such database adapter " + adapterString
+            );
+
+        return adapters.at(adapterString);
+    }
+
+    std::unique_ptr<Foundation::Persistence::Database::DataSourceInterface> DataSource::create()
+    {
+        return std::make_unique<DataSource>(
+            std::make_unique<DataSourceFileReader>(
+                std::make_unique<DataSourceConfigurationFile>()
+            )
+        );
     }
 
 

@@ -29,16 +29,16 @@
 namespace Database {
 
 
-    class DataSource :
-        public Foundation::Persistence::Database::DataSourceInterface
+    class DataSource : public Foundation::Persistence::Database::DataSourceInterface
     {
     public:
         explicit DataSource(std::unique_ptr<Foundation::IO::JsonFileReaderInterface>);
-        Foundation::Persistence::Database::DatabaseAdapter adapter() final;
         std::string username() final;
         std::string password() final;
         std::string hostname() final;
         std::string database() final;
+        Foundation::Persistence::Database::DatabaseAdapter adapter() final;
+        static std::unique_ptr<Foundation::Persistence::Database::DataSourceInterface> create();
 
     private:
         std::unique_ptr<Foundation::IO::JsonFileReaderInterface> _fileReader;
