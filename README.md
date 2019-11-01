@@ -2,6 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
 [![Build Status](https://travis-ci.org/edson-a-soares/poco_restful_webservice.svg?branch=master)](https://travis-ci.org/edson-a-soares/poco_restful_webservice)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3334/badge)](https://bestpractices.coreinfrastructure.org/projects/3334)
 
 ### Overview 
 
