@@ -17,19 +17,22 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Foundation_Http_CORSConfigurationFactory_INCLUDED
+#define Foundation_Http_CORSConfigurationFactory_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include <memory>
+#include "Foundation/Http/CORSConfigurationInterface.h"
 
 namespace Foundation {
 namespace Http {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class CORSConfigurationFactory
     {
     public:
-        CORSConfigurationFile();
+        CORSConfigurationFactory()  = delete;
+        ~CORSConfigurationFactory() = delete;
+        static std::unique_ptr<Foundation::Http::CORSConfigurationInterface> create();
 
     };
 

@@ -17,23 +17,24 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Database_SQLiteTableGateway_INCLUDED
+#define Database_SQLiteTableGateway_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include "Adapter/Database/AbstractTableGateway.h"
 
-namespace Foundation {
-namespace Http {
+namespace Database {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class SQLiteTableGateway final : public AbstractTableGateway
     {
     public:
-        CORSConfigurationFile();
+        SQLiteTableGateway() = delete;
+        ~SQLiteTableGateway() final;
+        explicit SQLiteTableGateway(Poco::Data::Session &);
 
     };
 
 
-} }
+}
 
 #endif

@@ -25,7 +25,7 @@
 #include "Poco/Net/HTTPServerResponse.h"
 #include "Poco/Net/HTTPRequestHandler.h"
 #include "Foundation/Http/ErrorParserInterface.h"
-#include "Foundation/Http/CORSHeadersInterface.h"
+#include "Foundation/Http/CORSConfigurationInterface.h"
 
 namespace Foundation {
 namespace Http {
@@ -38,7 +38,7 @@ namespace Http {
         void handleRequest(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &) override;
 
     protected:
-        static std::unique_ptr<Foundation::Http::CORSHeadersInterface> corsHeaders();
+        static std::unique_ptr<Foundation::Http::CORSConfigurationInterface> corsHeaders();
         virtual std::unique_ptr<ErrorParserInterface> errorParser();
 
         virtual void handle_get(    Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);

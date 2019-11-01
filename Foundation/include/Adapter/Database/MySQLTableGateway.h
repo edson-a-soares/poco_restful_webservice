@@ -17,23 +17,24 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Database_MySQLTableGateway_INCLUDED
+#define Database_MySQLTableGateway_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include "Adapter/Database/AbstractTableGateway.h"
 
-namespace Foundation {
-namespace Http {
+namespace Database {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class MySQLTableGateway final : public AbstractTableGateway
     {
     public:
-        CORSConfigurationFile();
+        MySQLTableGateway() = delete;
+        ~MySQLTableGateway() final;
+        explicit MySQLTableGateway(Poco::Data::Session &);
 
     };
 
 
-} }
+}
 
 #endif

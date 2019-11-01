@@ -17,23 +17,29 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Validator_HttpContentType_INCLUDED
+#define Validator_HttpContentType_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include "Poco/Net/HTTPRequest.h"
+#include "Foundation/Validator/ValidatorInterface.h"
 
-namespace Foundation {
-namespace Http {
+namespace Validator {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class HttpContentType : public Foundation::Validator::ValidatorInterface
     {
     public:
-        CORSConfigurationFile();
+        explicit HttpContentType(Poco::Net::HTTPRequest &);
+        bool valid() override;
+        std::string message() const override;
+
+    private:
+        Poco::Net::HTTPRequest & _request;
+        const std::string HTTP_CONTENT_TYPE;
 
     };
 
 
-} }
+}
 
 #endif

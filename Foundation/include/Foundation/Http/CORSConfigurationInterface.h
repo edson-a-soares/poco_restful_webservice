@@ -17,19 +17,21 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Foundation_Http_CORSConfigurationInterface_INCLUDED
+#define Foundation_Http_CORSConfigurationInterface_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include <map>
+#include <string>
 
 namespace Foundation {
 namespace Http {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class CORSConfigurationInterface
     {
     public:
-        CORSConfigurationFile();
+        virtual ~CORSConfigurationInterface() = default;
+        virtual std::map<std::string, std::string> headers() = 0;
 
     };
 

@@ -17,23 +17,30 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Foundation_Persistence_Database_DataSourceInterface_INCLUDED
+#define Foundation_Persistence_Database_DataSourceInterface_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include <string>
+#include "Foundation/Persistence/Database/DatabaseAdapter.h"
 
 namespace Foundation {
-namespace Http {
+namespace Persistence {
+namespace Database {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class DataSourceInterface
     {
     public:
-        CORSConfigurationFile();
+        virtual ~DataSourceInterface() = default;
+        virtual std::string username() = 0;
+        virtual std::string password() = 0;
+        virtual std::string hostname() = 0;
+        virtual std::string database() = 0;
+        virtual DatabaseAdapter adapter() = 0;
 
     };
 
 
-} }
+} } }
 
 #endif

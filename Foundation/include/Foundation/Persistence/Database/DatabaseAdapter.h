@@ -17,23 +17,20 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
-
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#ifndef Foundation_Persistence_Database_DatabaseManagementSystem_INCLUDED
+#define Foundation_Persistence_Database_DatabaseManagementSystem_INCLUDED
 
 namespace Foundation {
-namespace Http {
+namespace Persistence {
+namespace Database {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
-    {
-    public:
-        CORSConfigurationFile();
-
+    enum DatabaseAdapter {
+        SQLite  = 0001,
+        MySQL   = 0002,
     };
 
 
-} }
+} } }
 
 #endif

@@ -1,0 +1,7 @@
+{
+    "adapter"  : "MySQL",
+    "username" : "ci_server",
+    "password" : "abc12345",
+    "hostname" : "127.0.0.1",
+    "database" : "poco_webservice_schema"
+}

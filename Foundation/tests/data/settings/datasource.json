@@ -1,0 +1,7 @@
+{
+    "adapter"  : "SQLite",
+    "username" : "tests_server",
+    "password" : "123456789",
+    "hostname" : "127.0.0.1",
+    "database" : "webservice_schema"
+}

@@ -17,23 +17,22 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Adapter_Database_DataSourceConfigurationFile_INCLUDED
+#define Adapter_Database_DataSourceConfigurationFile_INCLUDED
 
 #include "Foundation/Application/AbstractConfigurationFile.h"
 
-namespace Foundation {
-namespace Http {
+namespace Database {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+class DataSourceConfigurationFile : public ::Foundation::Application::AbstractConfigurationFile
     {
     public:
-        CORSConfigurationFile();
+        DataSourceConfigurationFile();
 
     };
 
 
-} }
+}
 
 #endif

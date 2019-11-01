@@ -33,18 +33,15 @@ namespace Context {
     class FakeDomainModelObject final : public ::Foundation::Domain::AbstractEntity
     {
     public:
-        FakeDomainModelObject();
-        explicit FakeDomainModelObject(const std::string & identity);
+        FakeDomainModelObject()
+            : AbstractEntity()
+        {}
+
+        explicit FakeDomainModelObject(const std::string & identity)
+            : AbstractEntity(identity)
+        {}
 
     };
-
-    FakeDomainModelObject::FakeDomainModelObject()
-        : AbstractEntity()
-    {}
-
-    FakeDomainModelObject::FakeDomainModelObject(const std::string & identity)
-        : AbstractEntity(identity)
-    {}
 
 
 } } }

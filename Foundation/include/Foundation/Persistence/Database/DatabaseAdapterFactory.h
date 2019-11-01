@@ -17,23 +17,30 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Foundation_Persistence_Database_DatabaseAdapterFactory_INCLUDED
+#define Foundation_Persistence_Database_DatabaseAdapterFactory_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include <memory>
+#include "Adapter/Database/DataSourceFactory.h"
+#include "Foundation/Persistence/Database/DatabaseAdapter.h"
+#include "Foundation/Persistence/Database/DataSourceInterface.h"
+#include "Foundation/Persistence/Database/TableGatewayInterface.h"
 
 namespace Foundation {
-namespace Http {
+namespace Persistence {
+namespace Database {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class DatabaseAdapterFactory
     {
     public:
-        CORSConfigurationFile();
+        DatabaseAdapterFactory()  = delete;
+        ~DatabaseAdapterFactory() = delete;
+        static std::unique_ptr<TableGatewayInterface> create();
 
     };
 
 
-} }
+} } }
 
 #endif

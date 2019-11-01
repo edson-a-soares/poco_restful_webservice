@@ -5,7 +5,7 @@ namespace Http {
 
 
     CORSConfigurationFile::CORSConfigurationFile()
-        : AbstractConfiguration("cors.json")
+        : AbstractConfigurationFile("cors.json")
     {}
 
 

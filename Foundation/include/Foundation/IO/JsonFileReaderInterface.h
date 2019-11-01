@@ -17,19 +17,20 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Foundation_IO_JsonFileReaderInterface_INCLUDED
+#define Foundation_IO_JsonFileReaderInterface_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include <string>
 
 namespace Foundation {
-namespace Http {
+namespace IO {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class JsonFileReaderInterface
     {
     public:
-        CORSConfigurationFile();
+        virtual ~JsonFileReaderInterface() = default;
+        virtual std::string fetch(const std::string & identifier) = 0;
 
     };
 

@@ -17,23 +17,32 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Http_CORSConfiguration_INCLUDED
+#define Http_CORSConfiguration_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include <map>
+#include <string>
+#include <memory>
+#include "Foundation/Http/CORSConfigurationInterface.h"
+#include "Foundation/IO/JsonFileReaderInterface.h"
 
-namespace Foundation {
 namespace Http {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class CORSConfiguration :
+        public Foundation::Http::CORSConfigurationInterface
     {
     public:
-        CORSConfigurationFile();
+        explicit CORSConfiguration(std::unique_ptr<Foundation::IO::JsonFileReaderInterface>);
+        std::map<std::string, std::string> headers() override;
+
+    private:
+        std::map<std::string, std::string> _headers;
+        std::unique_ptr<Foundation::IO::JsonFileReaderInterface> _fileReader;
 
     };
 
 
-} }
+}
 
 #endif

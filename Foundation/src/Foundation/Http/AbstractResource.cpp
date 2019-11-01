@@ -4,8 +4,8 @@
 #include "Adapter/Validator/HttpMethods.h"
 #include "Adapter/Http/ErrorJsonAPIParser.h"
 #include "Foundation/Http/AbstractResource.h"
-#include "Foundation/Http/CORSHeadersFactory.h"
-#include "Adapter/Validator/HttpContentTypeHeaders.h"
+#include "Foundation/Http/CORSConfigurationFactory.h"
+#include "Adapter/Validator/HttpContentType.h"
 
 namespace Foundation {
 namespace Http {
@@ -20,7 +20,7 @@ namespace Http {
             if ( !httpMethod.valid() )
                 throw Poco::Exception("Method Not Allowed", httpMethod.message(), 405);
 
-            auto mediaType = ::Validator::HttpContentTypeHeaders(request);
+            auto mediaType = ::Validator::HttpContentType(request);
             if ( !mediaType.valid() )
                 throw Poco::Exception("Unsupported Media Type", mediaType.message(), 415);
 
@@ -85,9 +85,9 @@ namespace Http {
         }
     }
 
-    std::unique_ptr<Foundation::Http::CORSHeadersInterface> AbstractResource::corsHeaders()
+    std::unique_ptr<Foundation::Http::CORSConfigurationInterface> AbstractResource::corsHeaders()
     {
-        return CORSHeadersFactory::create();
+        return CORSConfigurationFactory::create();
     }
 
     std::unique_ptr<ErrorParserInterface> AbstractResource::errorParser()

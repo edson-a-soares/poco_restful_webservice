@@ -16,10 +16,10 @@ namespace IO {
     {
 	    Poco::File configurationFile = Poco::File(_filePath);
         if ( !configurationFile.exists() || !configurationFile.isFile() )
-            throw Poco::FileNotFoundException("File Not Found", " File " + _filePath + " does not exists.");
+            throw Poco::FileNotFoundException("Http Not Found", " Http " + _filePath + " does not exists.");
 
         if ( !configurationFile.canRead() )
-            throw Poco::ReadFileException("File Not Readable", "File " + _filePath + " is not a readable file.");
+            throw Poco::ReadFileException("Http Not Readable", "Http " + _filePath + " is not a readable file.");
 
         std::stringstream buffer;
         std::ifstream fileStream(configurationFile.path().c_str());

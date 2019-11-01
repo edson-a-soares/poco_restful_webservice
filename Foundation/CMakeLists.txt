@@ -34,12 +34,13 @@ set(DEPENDENCIES_LIBS "")
 #-----------------------------------------------------------------------------
 find_library(POCO_FOUNDATION PocoFoundation)
 find_library(POCO_UTIL PocoUtil)
-find_library(POCO_XML PocoXML)
 find_library(POCO_JSON PocoJSON)
+find_library(POCO_XML PocoXML)
 find_library(POCO_NET PocoNet)
+find_library(POCO_NET PocoData)
 
 include_directories(${Poco_INCLUDE_DIRS})
-set(DEPENDENCIES_LIBS ${DEPENDENCIES_LIBS} ${POCO_FOUNDATION} ${POCO_UTIL} ${POCO_XML} ${POCO_JSON} ${POCO_NET})
+set(DEPENDENCIES_LIBS ${DEPENDENCIES_LIBS} ${POCO_FOUNDATION} ${POCO_JSON} ${POCO_XML} ${POCO_UTIL} ${POCO_NET})
 
 #-----------------------------------------------------------------------------
 # Threads
@@ -47,7 +48,7 @@ set(DEPENDENCIES_LIBS ${DEPENDENCIES_LIBS} ${POCO_FOUNDATION} ${POCO_UTIL} ${POC
 find_package(Threads REQUIRED)
 
 # it links all dependencies to the application
-target_link_libraries(${MODULE_BINARY_NAME} ${DEPENDENCIES_LIBS} -lpthread)
+target_link_libraries(${MODULE_BINARY_NAME} ${DEPENDENCIES_LIBS} -lpthread PocoData PocoDataMySQL PocoDataSQLite)
 
 #-----------------------------------------------------------------------------
 # Handle module optional parts

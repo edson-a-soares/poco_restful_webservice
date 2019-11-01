@@ -17,23 +17,25 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Http_CORSConfigurationFile_INCLUDED
-#define Foundation_Http_CORSConfigurationFile_INCLUDED
+#ifndef Database_DataSourceFileReader_INCLUDED
+#define Database_DataSourceFileReader_INCLUDED
 
-#include "Foundation/Application/AbstractConfigurationFile.h"
+#include <string>
+#include "Foundation/IO/AbstractJsonFileReader.h"
+#include "Foundation/Application/ConfigurationFileInterface.h"
 
-namespace Foundation {
-namespace Http {
+namespace Database {
 
 
-    class CORSConfigurationFile : public Application::AbstractConfigurationFile
+    class DataSourceFileReader : public Foundation::IO::AbstractJsonFileReader
     {
     public:
-        CORSConfigurationFile();
+        DataSourceFileReader() = delete;
+        explicit DataSourceFileReader(std::unique_ptr<Foundation::Application::ConfigurationFileInterface>);
 
     };
 
 
-} }
+}
 
 #endif
