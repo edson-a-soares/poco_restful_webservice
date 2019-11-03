@@ -55,6 +55,8 @@ namespace Model {
         /// Assignment Operator returns by value for supporting immutability.
         Option operator=(const Option &);
 
+        bool equals(const Foundation::Domain::EntityInterface &) noexcept final;
+
         /*!
          * It puts the option in a specific position into the Question option's list.
          *

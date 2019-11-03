@@ -1,4 +1,7 @@
-#include "Poco/UUIDGenerator.h"
+#include <typeinfo>
+#include "Poco/UUID.h"
+#include "Poco/Exception.h"
+#include "Foundation/Domain/Model/Identity.h"
 #include "Foundation/Domain/Model/AbstractEntity.h"
 
 namespace Foundation {
@@ -6,27 +9,30 @@ namespace Domain {
 
 
     AbstractEntity::AbstractEntity()
-        : _identity(Poco::UUIDGenerator().createRandom().toString())
-    {
-        if ( Poco::UUID(_identity).isNull() )
-            throw Poco::IllegalStateException(_identity + " is not a valid UUID for an Entity.");
-    }
+        : _identity(Identity::UNINITIALIZED)
+    {}
 
     AbstractEntity::AbstractEntity(const std::string & identity)
         : _identity(identity)
     {
-        if ( _identity.length() != 36 || Poco::UUID(_identity).isNull() )
-            throw Poco::InvalidArgumentException(identity + " is not a valid UUID for an Entity.");
+        if ( _identity.length() != Identity::SIZE || Poco::UUID(_identity).isNull() )
+            throw Poco::InvalidArgumentException(identity + " is not a valid identity for an entity.");
     }
 
-    bool AbstractEntity::operator==(const EntityInterface & other)
+    bool AbstractEntity::operator==(const EntityInterface & other) noexcept
     {
-        return this == &other && identity() == other.identity();
+        return typeid(*this) == typeid(other)
+                && this == &other
+                && equals(other)
+                && _identity == other.identity();
     }
 
-    bool AbstractEntity::operator!=(const EntityInterface & other)
+    bool AbstractEntity::operator!=(const EntityInterface & other) noexcept
     {
-        return this != &other && identity() != other.identity();
+        return typeid(*this) != typeid(other)
+                || this != &other
+                || !equals(other)
+                || _identity != other.identity();
     }
 
     std::string AbstractEntity::identity() const

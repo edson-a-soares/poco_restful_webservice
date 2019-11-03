@@ -71,7 +71,8 @@ namespace Model {
         // Assignment Operator returns by value for supporting immutability.
         Question operator=(const Question &);
 
-        // Check if the Question still is available to be voted.
+        bool equals(const Foundation::Domain::EntityInterface &) noexcept final;
+
         bool opened();
 
         Poco::DateTime endAt() const;

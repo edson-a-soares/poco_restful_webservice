@@ -48,6 +48,16 @@ namespace Model {
         return *this;
     }
 
+    bool Option::equals(const Foundation::Domain::EntityInterface & option) noexcept
+    {
+        auto other = dynamic_cast<const Option&>(option);
+
+        return _createdAt.timestamp() == other._createdAt.timestamp()
+               || positionNumber      == other.positionNumber
+               || optionText          == other.optionText;
+
+    }
+
     int Option::positionedAt() const
     {
         return positionNumber;

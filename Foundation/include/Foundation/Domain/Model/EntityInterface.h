@@ -29,9 +29,10 @@ namespace Domain {
     class EntityInterface
     {
     public:
+        virtual ~EntityInterface() = default;
         virtual std::string identity() const = 0;
-        virtual bool operator==(const EntityInterface & other) = 0;
-        virtual bool operator!=(const EntityInterface & other) = 0;
+        virtual bool operator==(const EntityInterface & other) noexcept = 0;
+        virtual bool operator!=(const EntityInterface & other) noexcept = 0;
 
     };
 

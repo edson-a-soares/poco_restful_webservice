@@ -35,25 +35,18 @@ namespace Model {
         virtual ~QuestionRepositoryInterface() = default;
 
         /*!
-         * It saves a given Question.
+         * It either stores or updates a given Question.
          *
          * @param question The question to save.
          */
-        virtual void store(const Question &) = 0;
-
-        /*!
-         * It updates a given Question data.
-         *
-         * @param question The question to be updated.
-         */
-        virtual void update(const Question &) = 0;
+        virtual void add(const Question &) = 0;
 
         /*!
          * It destroys completely a question and its related data.
          *
          * @param question The Question to be erased.
          */
-        virtual void erase(const Question &) = 0;
+        virtual void remove(const Question &) = 0;
 
         /*!
          * It finds a Question using its identity.

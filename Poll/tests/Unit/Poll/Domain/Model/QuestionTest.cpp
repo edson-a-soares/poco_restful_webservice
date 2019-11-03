@@ -29,35 +29,33 @@ protected:
         fourthCreated.withText("This is the fourth Option.");
         fourthCreated.positionAt(4);
         newQuestion.add(fourthCreated);
-
     }
 
     Poll::Domain::Model::Question newQuestion;
 
 };
 
-TEST_F(QuestionTest, testQuestionBasicOperators)
+TEST_F(QuestionTest, QuestionRelationalOperators)
 {
 
-    Poll::Domain::Model::Question secondQuestion;
+    Poll::Domain::Model::Question anotherQuestion;
 
-    // It tests different objects.
-    ASSERT_TRUE(newQuestion != secondQuestion);
-    ASSERT_FALSE(newQuestion == secondQuestion);
+    ASSERT_TRUE( anotherQuestion == anotherQuestion);
+    ASSERT_FALSE(newQuestion == anotherQuestion);
+    ASSERT_TRUE( newQuestion == newQuestion);
 
-    // It tests the same object.
-    ASSERT_FALSE(secondQuestion != secondQuestion);
-    ASSERT_TRUE(secondQuestion == secondQuestion);
+    ASSERT_TRUE( anotherQuestion != newQuestion);
+    ASSERT_FALSE(anotherQuestion != anotherQuestion);
 
 }
 
-TEST_F(QuestionTest, testQuestionEndingDateTime)
+TEST_F(QuestionTest, QuestionEndingDateTime)
 {
 
     Poll::Domain::Model::Question someQuestion;
 
     someQuestion.startAt(Poco::DateTime(2015, 01, 01));
-    someQuestion.endAt(Poco::DateTime(2015, 02, 01));
+    someQuestion.endAt(  Poco::DateTime(2015, 02, 01));
 
     ASSERT_FALSE(someQuestion.opened());
 
@@ -74,7 +72,7 @@ TEST_F(QuestionTest, testQuestionEndingDateTime)
 
 }
 
-TEST_F(QuestionTest, testInvalidUpdateDate)
+TEST_F(QuestionTest, InvalidUpdateDate)
 {
 
     ASSERT_THROW(
@@ -89,7 +87,7 @@ TEST_F(QuestionTest, testInvalidUpdateDate)
 
 }
 
-TEST_F(QuestionTest, testInvalidEndDate)
+TEST_F(QuestionTest, InvalidEndDate)
 {
 
     ASSERT_THROW(

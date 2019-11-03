@@ -88,6 +88,15 @@ namespace Model {
         return *this;
     }
 
+    bool Question::equals(const Foundation::Domain::EntityInterface & question) noexcept
+    {
+        auto other = dynamic_cast<const Question&>(question);
+
+        return _createdAt.timestamp() == other._createdAt.timestamp()
+                || optionsList.size() == other.optionsList.size()
+                || questionText       == other.questionText;
+    }
+
     bool Question::opened()
     {
         bool isOpened = true;

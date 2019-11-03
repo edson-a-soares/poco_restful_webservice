@@ -17,31 +17,22 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Domain_Model_AbstractEntity_INCLUDED
-#define Foundation_Domain_Model_AbstractEntity_INCLUDED
+#ifndef Foundation_Domain_Model_IdentityInterface_INCLUDED
+#define Foundation_Domain_Model_IdentityInterface_INCLUDED
 
 #include <string>
-#include "Foundation/Domain/Model/EntityInterface.h"
 
 namespace Foundation {
 namespace Domain {
 
 
-    class AbstractEntity : public EntityInterface
+    class IdentityInterface
     {
     public:
-        AbstractEntity();
-        explicit AbstractEntity(const std::string & identity);
-        virtual ~AbstractEntity() = default;
-        std::string identity() const final;
-        bool operator==(const EntityInterface &) noexcept final;
-        bool operator!=(const EntityInterface &) noexcept final;
-
-    protected:
-        virtual bool equals(const EntityInterface &) noexcept = 0;
-
-    private:
-        const std::string _identity;
+        virtual ~IdentityInterface() = default;
+        virtual std::string toString() const = 0;
+        virtual bool operator==(const IdentityInterface & other) = 0;
+        virtual bool operator!=(const IdentityInterface & other) = 0;
 
     };
 
