@@ -8,10 +8,5 @@ namespace Database {
         : AbstractTableGateway(session)
     {}
 
-    SQLiteTableGateway::~SQLiteTableGateway()
-    {
-        Poco::Data::SQLite::Connector::unregisterConnector();
-    }
-
 
 }

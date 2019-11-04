@@ -21,6 +21,11 @@ namespace Domain {
             throw Poco::InvalidArgumentException(identity + " is not a valid identity for an entity.");
     }
 
+    std::string AbstractIdentity::toString() const
+    {
+        return _identity;
+    }
+
     bool AbstractIdentity::operator==(const IdentityInterface & other) noexcept
     {
         return typeid(*this) == typeid(other)
@@ -34,12 +39,6 @@ namespace Domain {
                 || this != &other
                 || _identity != other.toString();
     }
-
-    std::string AbstractIdentity::toString() const
-    {
-        return _identity;
-    }
-
 
 
 } }

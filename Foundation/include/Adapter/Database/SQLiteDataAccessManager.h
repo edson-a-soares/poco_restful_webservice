@@ -20,6 +20,7 @@
 #ifndef Adapter_Database_SQLiteDataAccessManager_INCLUDED
 #define Adapter_Database_SQLiteDataAccessManager_INCLUDED
 
+#include "Poco/Data/SessionFactory.h"
 #include "Foundation/Persistence/Database/DataAccessManagerInterface.h"
 
 namespace Database {
@@ -29,7 +30,7 @@ namespace Database {
     {
     public:
         SQLiteDataAccessManager() = delete;
-        ~SQLiteDataAccessManager() override = default;
+        ~SQLiteDataAccessManager() override;
         explicit SQLiteDataAccessManager(const std::string & database);
         Poco::Data::Session & session() override;
         std::unique_ptr<::Foundation::Persistence::Database::TableGatewayInterface> tableGateway() override;

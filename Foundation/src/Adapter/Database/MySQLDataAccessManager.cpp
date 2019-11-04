@@ -1,4 +1,3 @@
-#include "Poco/Data/SessionFactory.h"
 #include "Poco/Data/MySQL/Connector.h"
 #include "Adapter/Database/MySQLTableGateway.h"
 #include "Adapter/Database/MySQLDataAccessManager.h"
@@ -10,17 +9,18 @@ namespace Database {
                                                    const std::string & username,
                                                    const std::string & password,
                                                    const std::string & database)
-        : _session(""),
-          connectionString()
-    {
-        connectionString =
-            "host="     + host     + ";"
-            "user="     + username + ";"
-            "password=" + password + ";"
-            "db="       + database;
+        : CONNECTION_STRING(
+              "host="     + host      + "; "
+              "db="       + database  + "; "
+              "user="     + username  + "; "
+              "password=" + password
+          ),
+         _session(Poco::Data::MySQL::Connector::KEY, CONNECTION_STRING)
+    {}
 
-        Poco::Data::MySQL::Connector::registerConnector();
-        _session = Poco::Data::SessionFactory::instance().create("MySQL", connectionString);
+    MySQLDataAccessManager::~MySQLDataAccessManager()
+    {
+        Poco::Data::MySQL::Connector::unregisterConnector();
     }
 
     Poco::Data::Session & MySQLDataAccessManager::session()

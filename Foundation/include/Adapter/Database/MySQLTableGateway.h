@@ -29,7 +29,7 @@ namespace Database {
     {
     public:
         MySQLTableGateway() = delete;
-        ~MySQLTableGateway() final;
+        ~MySQLTableGateway() final = default;
         explicit MySQLTableGateway(Poco::Data::Session &);
 
     };

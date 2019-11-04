@@ -1,4 +1,3 @@
-#include "Poco/Data/SessionFactory.h"
 #include "Poco/Data/SQLite/Connector.h"
 #include "Adapter/Database/SQLiteTableGateway.h"
 #include "Adapter/Database/SQLiteDataAccessManager.h"
@@ -7,13 +6,15 @@ namespace Database {
 
 
     SQLiteDataAccessManager::SQLiteDataAccessManager(const std::string & database)
-        : _session("")
+        : _session("SQLite", database + ".db")
+    {}
+
+    SQLiteDataAccessManager::~SQLiteDataAccessManager()
     {
-        Poco::Data::SQLite::Connector::registerConnector();
-        _session = Poco::Data::SessionFactory::instance().create("SQLite", database + ".db");
+        Poco::Data::SQLite::Connector::unregisterConnector();
     }
 
-    Poco::Data::Session& SQLiteDataAccessManager::session()
+    Poco::Data::Session & SQLiteDataAccessManager::session()
     {
         return _session;
     }

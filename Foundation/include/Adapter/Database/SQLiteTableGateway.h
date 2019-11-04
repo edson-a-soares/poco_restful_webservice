@@ -29,7 +29,7 @@ namespace Database {
     {
     public:
         SQLiteTableGateway() = delete;
-        ~SQLiteTableGateway() final;
+        ~SQLiteTableGateway() final = default;
         explicit SQLiteTableGateway(Poco::Data::Session &);
 
     };

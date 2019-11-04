@@ -4,6 +4,9 @@
 #include "Foundation/Persistence/Database/DataAccessManagerFactory.h"
 #include "Foundation/Persistence/Database/DataAccessManagerInterface.h"
 
+#include "Poco/Data/MySQL/Connector.h"
+#include "Poco/Data/SQLite/Connector.h"
+
 namespace Foundation {
 namespace Persistence {
 namespace Database {
@@ -16,10 +19,12 @@ namespace Database {
 
         switch (dataSource->adapter()) {
             case Foundation::Persistence::Database::SQLite:
+                Poco::Data::SQLite::Connector::registerConnector();
                 dataAccessManager = std::make_unique<::Database::SQLiteDataAccessManager>(dataSource->database());
                 break;
 
             case Foundation::Persistence::Database::MySQL:
+                Poco::Data::MySQL::Connector::registerConnector();
                 dataAccessManager =
                     std::make_unique<::Database::MySQLDataAccessManager>(
                             dataSource->hostname(),
@@ -27,6 +32,7 @@ namespace Database {
                             dataSource->password(),
                             dataSource->database()
                         );
+                break;
         }
 
         return dataAccessManager;

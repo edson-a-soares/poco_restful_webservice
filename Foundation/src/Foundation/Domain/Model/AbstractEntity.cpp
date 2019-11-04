@@ -1,6 +1,7 @@
 #include <typeinfo>
 #include "Poco/UUID.h"
 #include "Poco/Exception.h"
+#include "Poco/UUIDGenerator.h"
 #include "Foundation/Domain/Model/Identity.h"
 #include "Foundation/Domain/Model/AbstractEntity.h"
 
@@ -9,8 +10,11 @@ namespace Domain {
 
 
     AbstractEntity::AbstractEntity()
-        : _identity(Identity::UNINITIALIZED)
-    {}
+        : _identity(Poco::UUIDGenerator().createRandom().toString())
+    {
+        if ( _identity.length() != Identity::SIZE || Poco::UUID(_identity).isNull() )
+            throw Poco::IllegalStateException(_identity + " is not a valid identity for an entity.");
+    }
 
     AbstractEntity::AbstractEntity(const std::string & identity)
         : _identity(identity)

@@ -8,10 +8,5 @@ namespace Database {
         : AbstractTableGateway(session)
     {}
 
-    MySQLTableGateway::~MySQLTableGateway()
-    {
-        Poco::Data::MySQL::Connector::unregisterConnector();
-    }
-
 
 }

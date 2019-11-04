@@ -30,14 +30,14 @@ namespace Domain {
     class AbstractEntity : public EntityInterface
     {
     public:
-        AbstractEntity();
-        explicit AbstractEntity(const std::string & identity);
         virtual ~AbstractEntity() = default;
         std::string identity() const final;
         bool operator==(const EntityInterface &) noexcept final;
         bool operator!=(const EntityInterface &) noexcept final;
 
     protected:
+        AbstractEntity();
+        explicit AbstractEntity(const std::string & identity);
         virtual bool equals(const EntityInterface &) noexcept = 0;
 
     private:

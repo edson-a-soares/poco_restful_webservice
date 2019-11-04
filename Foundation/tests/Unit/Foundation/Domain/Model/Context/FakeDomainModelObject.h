@@ -22,6 +22,7 @@
 #define UnitTests_Foundation_Domain_Model_FakeDomainModelObject_INCLUDED
 
 #include <list>
+#include <string>
 #include "Poco/DateTime.h"
 #include "Foundation/Domain/Model/AbstractEntity.h"
 
@@ -34,12 +35,29 @@ namespace Context {
     {
     public:
         FakeDomainModelObject()
-            : AbstractEntity()
+            : AbstractEntity(),
+              _name()
         {}
 
-        explicit FakeDomainModelObject(const std::string & identity)
-            : AbstractEntity(identity)
+        explicit FakeDomainModelObject(const std::string & identity, std::string name = "default")
+            : AbstractEntity(identity),
+              _name(std::move(name))
         {}
+
+        std::string name()
+        {
+            return _name;
+        }
+
+    protected:
+        bool equals(const EntityInterface & object) noexcept override
+        {
+            auto other = dynamic_cast<const FakeDomainModelObject&>(object);
+            return _name == other.name();
+        };
+
+    private:
+        std::string _name;
 
     };
 

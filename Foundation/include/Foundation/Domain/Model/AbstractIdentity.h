@@ -30,12 +30,14 @@ namespace Domain {
     class AbstractIdentity : public IdentityInterface
     {
     public:
-        AbstractIdentity();
-        explicit AbstractIdentity(const std::string & identity);
         virtual ~AbstractIdentity() = default;
         std::string toString() const final;
         bool operator==(const IdentityInterface &) noexcept final;
         bool operator!=(const IdentityInterface &) noexcept final;
+
+    protected:
+        AbstractIdentity();
+        explicit AbstractIdentity(const std::string & identity);
 
     private:
         const std::string _identity;

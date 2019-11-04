@@ -21,6 +21,7 @@
 #define Adapter_Database_MySQLDataAccessManager_INCLUDED
 
 #include <string>
+#include "Poco/Data/SessionFactory.h"
 #include "Foundation/Persistence/Database/DataAccessManagerInterface.h"
 
 namespace Database {
@@ -36,13 +37,15 @@ namespace Database {
             const std::string & password,
             const std::string & database
         );
-        ~MySQLDataAccessManager() override = default;
+        ~MySQLDataAccessManager() override;
         Poco::Data::Session & session() final;
         std::unique_ptr<::Foundation::Persistence::Database::TableGatewayInterface> tableGateway() final;
 
     private:
+        const std::string CONNECTION_STRING;
+
         Poco::Data::Session _session;
-        std::string connectionString;
+
 
     };
 
