@@ -17,36 +17,26 @@
  *     Edson Araújo Soares
  */
 
-#ifndef Foundation_Domain_Model_AbstractIdentity_INCLUDED
-#define Foundation_Domain_Model_AbstractIdentity_INCLUDED
+#ifndef Poll_Domain_Model_QuestionIdentity_INCLUDED
+#define Poll_Domain_Model_QuestionIdentity_INCLUDED
 
 #include <string>
-#include "Foundation/Domain/Model/IdentityInterface.h"
+#include "Foundation/Domain/Model/AbstractIdentity.h"
 
-namespace Foundation {
+namespace Poll {
 namespace Domain {
+namespace Model {
 
 
-    class AbstractIdentity : public IdentityInterface
+    class QuestionIdentity : public Foundation::Domain::AbstractIdentity
     {
     public:
-        virtual ~AbstractIdentity() = default;
-
-        std::string toString() const final;
-
-        bool operator==(const IdentityInterface &) noexcept final;
-        bool operator!=(const IdentityInterface &) noexcept final;
-
-    protected:
-        AbstractIdentity();
-        explicit AbstractIdentity(const std::string & identity);
-
-    private:
-        const std::string _identity;
+        QuestionIdentity();
+        explicit QuestionIdentity(const std::string & identity);
 
     };
 
 
-} }
+} } }
 
 #endif

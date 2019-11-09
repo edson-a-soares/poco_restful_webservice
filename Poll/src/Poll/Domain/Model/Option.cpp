@@ -53,9 +53,8 @@ namespace Model {
         auto other = dynamic_cast<const Option&>(option);
 
         return _createdAt.timestamp() == other._createdAt.timestamp()
-               || positionNumber      == other.positionNumber
-               || optionText          == other.optionText;
-
+               && positionNumber      == other.positionNumber
+               && optionText          == other.optionText;
     }
 
     int Option::positionedAt() const

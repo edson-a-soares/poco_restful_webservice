@@ -61,9 +61,9 @@ TEST_F(QuestionTest, QuestionEndingDateTime)
 
     Poll::Domain::Model::Question anotherQuestion(
         "6ad58558-1b91-4d1f-ad8c-bf995313d554",
-        {},
         Poco::DateTime(2015, 11, 10),
         Poco::DateTime(2015, 12, 01),
+        {},
         Poco::DateTime(2016, 01, 05),
         Poco::DateTime(2050, 01, 05)
     );
@@ -78,9 +78,9 @@ TEST_F(QuestionTest, InvalidUpdateDate)
     ASSERT_THROW(
             Poll::Domain::Model::Question someQuestion(
             "8a9b7c9b-d026-48e9-99a4-6d002a625b82",
-            {},
             Poco::DateTime(2018, 01, 01),
-            Poco::DateTime(2017, 12, 30)
+            Poco::DateTime(2017, 12, 30),
+            {}
         ),
         Poco::IllegalStateException
     );
@@ -93,9 +93,9 @@ TEST_F(QuestionTest, InvalidEndDate)
     ASSERT_THROW(
             Poll::Domain::Model::Question someQuestion(
             "8a9b7c9b-d026-48e9-99a4-6d002a625b82",
-            {},
             Poco::DateTime(2018, 01, 01),
             Poco::DateTime(2018, 02, 25),
+            {},
             Poco::DateTime(2018, 02, 25),
             Poco::DateTime(2017, 01, 30)
         ),

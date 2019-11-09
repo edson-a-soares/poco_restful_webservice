@@ -59,6 +59,28 @@ namespace Database {
         virtual TableGatewayInterface & table(const std::string & name) = 0;
 
         /*!
+         * It allows to specify the values of a column ina complex SQL query.
+         *
+         *  (*tableGateway)
+         *     .table("table_name")
+         *     .withColumn("first_column_name")
+         *     .withColumn("second_column_name")
+         *     .withColumn("third_column_name");
+         *
+         *     for(...) {
+         *       (*tableGateway)
+         *          .withValue("first_column_value")
+         *          .withValue("second_column_value")
+         *          .withValue("third_column_value")
+         *      }
+         *     tableGateway->insertAll();
+         *
+         * @param data The column value.
+         * @return A reference to itself for allowing to chain this method.
+         */
+        virtual TableGatewayInterface & withValue(const std::string & data) = 0;
+
+        /*!
          * It allows to specify which columns should be returned in a SQL query.
          *
          * tableGateway
@@ -74,19 +96,12 @@ namespace Database {
         virtual TableGatewayInterface & withColumn(const std::string & column) = 0;
 
         /*!
-         * It updates the selected row in a table.
+         * It deletes a specific row from a table database.
          *
-         * tableGateway
-         *     .table("table_name")
-         *     .withColumn("first_column_name",  "value")
-         *     .withColumn("second_column_name", "value")
-         *     .withColumn("third_column_name",  "value")
-         *     .updateWhere("field_name", "field_value");
-         *
-         * @param column A reference column where to find the specific row to update.
-         * @param value  The value of the column chosen in order to find the row to be updated.
+         * @param column A reference column where to find the specific row to remove.
+         * @param value  The value of the column chosen in order to find the row to be remove.
          */
-        virtual void updateWhere(const std::string & column, const std::string & value) = 0;
+        virtual void removeWhere(const std::string & column, const std::string & value) = 0;
 
         /*!
          * It deletes a specific row from a table database.
@@ -94,7 +109,7 @@ namespace Database {
          * @param column A reference column where to find the specific row to remove.
          * @param value  The value of the column chosen in order to find the row to be remove.
          */
-        virtual void removeWhere(const std::string & column, const std::string & value) = 0;
+        virtual void removeWhere(const std::string & column, const std::list<std::string> & values) = 0;
 
         /*!
          * It allows columns manipulation in SQL commands that need to.

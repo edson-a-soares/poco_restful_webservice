@@ -61,17 +61,15 @@ namespace Model {
          */
         explicit Question(
             const std::string & identity,
-            const std::list<Option> & options   = {},
             Poco::DateTime createdAt            = Poco::DateTime(),
             Poco::DateTime lastUpdatedAt        = Poco::DateTime(0, 01, 01),
+            const std::list<Option> & options   = {},
             Poco::DateTime startsAt             = Poco::DateTime(0, 01, 01),
             Poco::DateTime endsAt               = Poco::DateTime(0, 01, 01)
         );
 
         // Assignment Operator returns by value for supporting immutability.
         Question operator=(const Question &);
-
-        bool equals(const Foundation::Domain::EntityInterface &) noexcept final;
 
         bool opened();
 
@@ -96,6 +94,8 @@ namespace Model {
 
         std::string details() const;
         void withDetails(const std::string &);
+
+        bool equals(const Foundation::Domain::EntityInterface &) noexcept final;
 
     private:
         static constexpr int TEXT_SIZE    = 200;

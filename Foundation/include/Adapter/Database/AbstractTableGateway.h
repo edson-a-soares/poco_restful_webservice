@@ -26,32 +26,49 @@
 
 namespace Database {
 
-    namespace Foundation = Foundation::Persistence::Database;
-    class AbstractTableGateway : public Foundation::TableGatewayInterface
+    ///
+    namespace Persistence = Foundation::Persistence::Database;
+
+    class AbstractTableGateway : public Persistence::TableGatewayInterface
     {
     public:
         AbstractTableGateway() = delete;
         ~AbstractTableGateway() override = default;
 
         void insert() override;
-        Foundation::TableGatewayInterface & throwException(bool) final;
-        Foundation::TableGatewayInterface & table(const std::string &) final;
-        Foundation::TableGatewayInterface & withColumn(const std::string &) final;
-        void removeWhere(const std::string &, const std::string &) final;
-        void updateWhere(const std::string &, const std::string &) override;
-        Foundation::TableGatewayInterface & withColumn(const std::string &, const std::string &) final;
-        Poco::Data::RecordSet selectWhere(const std::string &, const std::string &) final;
+        Persistence::TableGatewayInterface & throwException(bool) final;
+        Persistence::TableGatewayInterface & table(const std::string & name) final;
+
+        Poco::Data::RecordSet selectWhere(const std::string & column, const std::string & value) override;
+
+        Persistence::TableGatewayInterface & withValue(const std::string &) final;
+        Persistence::TableGatewayInterface & withColumn(const std::string & name) final;
+        Persistence::TableGatewayInterface & withColumn(const std::string & name, const std::string & value) final;
+
+        void removeWhere(const std::string & column, const std::string & value) override;
+        void removeWhere(const std::string & column, const std::list<std::string> & values) override;
 
     protected:
         explicit AbstractTableGateway(Poco::Data::Session &);
-        std::string queryColumns() const;
+
+        bool throwException();
+        void clearColumnsData();
+        std::string tableName();
+        std::list<std::string> columnNames();
+        std::list<std::string> columnValues();
+
+        std::string selectQueryColumns() const;
+        std::string separateItByCommas(const std::list<std::string> &) const;
+        static std::list<std::string> singleQuoteIt(const std::list<std::string> &);
+        virtual std::string columnConflictClauseFormat(const std::list<std::string> & columns) const;
+        std::string insertInstructionValues(const std::list<std::string> & columnNames, const std::list<std::string> & columnValues);
 
     private:
-        std::string _table;
         bool _throwException;
+        std::string _tableName;
         Poco::Data::Session _session;
-        std::list<std::string> _columns;
-        std::map<std::string, std::string> _columnsValues;
+        std::list<std::string> _columnNames;
+        std::list<std::string> _columnValues;
 
     };
 

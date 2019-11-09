@@ -38,8 +38,7 @@ protected:
 
 };
 
-
-TEST_F(SQLiteTableGatewayTest, Insert)
+TEST_F(SQLiteTableGatewayTest, InsertOperation)
 {
 
     const std::string nickname = "Waltz";
@@ -69,7 +68,7 @@ TEST_F(SQLiteTableGatewayTest, Insert)
 
 }
 
-TEST_F(SQLiteTableGatewayTest, UpdateWhere)
+TEST_F(SQLiteTableGatewayTest, UpdateOperarion)
 {
 
     const std::string nickname  = "Heisenberg";
@@ -89,7 +88,8 @@ TEST_F(SQLiteTableGatewayTest, UpdateWhere)
         .table("tablegatewaytest")
         .withColumn("fullname", fullname)
         .withColumn("nickname", nickname)
-        .updateWhere("identity", UUID);
+        .withColumn("identity", UUID)
+        .insert();
 
     Poco::Data::RecordSet recordSet =
         (*tableGateway)
@@ -103,7 +103,7 @@ TEST_F(SQLiteTableGatewayTest, UpdateWhere)
 
 }
 
-TEST_F(SQLiteTableGatewayTest, RemoveWhere)
+TEST_F(SQLiteTableGatewayTest, RemoveOperation)
 {
 
     const std::string nickname  = "Heisenberg";
@@ -143,17 +143,12 @@ TEST_F(SQLiteTableGatewayTest, RemoveWhere)
 
 }
 
-TEST_F(SQLiteTableGatewayTest, InvalidArgumentExceptionForEmptyColumsList)
+TEST_F(SQLiteTableGatewayTest, AssertionViolationExceptionForEmptyColumsList)
 {
 
     ASSERT_THROW(
         (*tableGateway).table("tablegatewaytest").insert(),
-        Poco::InvalidArgumentException
-    );
-
-    ASSERT_THROW(
-        (*tableGateway).table("tablegatewaytest").updateWhere("", ""),
-        Poco::InvalidArgumentException
+        Poco::AssertionViolationException
     );
 
 }

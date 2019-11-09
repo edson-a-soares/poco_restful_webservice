@@ -32,9 +32,9 @@ namespace Model {
 
     Question::Question(
         const std::string & id,
-        const std::list<Option> & options,
         Poco::DateTime createdAt,
         Poco::DateTime lastUpdatedAt,
+        const std::list<Option> & options,
         Poco::DateTime startsAt,
         Poco::DateTime endsAt
     )
@@ -74,7 +74,9 @@ namespace Model {
          * Which is the default for checking if two entity objects are the same.
          */
         if ( *this != self ) {
-            Question clonedQuestion(self.identity(), self.options(), self.createdAt(), self.lastUpdatedAt());
+            Question clonedQuestion(self.identity(), self.createdAt(), self.lastUpdatedAt());
+
+            clonedQuestion.setOptions(self.options());
 
             clonedQuestion.endAt(      self._endsAt);
             clonedQuestion.startAt(    self._startsAt);
@@ -93,8 +95,8 @@ namespace Model {
         auto other = dynamic_cast<const Question&>(question);
 
         return _createdAt.timestamp() == other._createdAt.timestamp()
-                || optionsList.size() == other.optionsList.size()
-                || questionText       == other.questionText;
+                && optionsList.size() == other.optionsList.size()
+                && questionText       == other.questionText;
     }
 
     bool Question::opened()
@@ -112,7 +114,7 @@ namespace Model {
 
     void Question::endAt(Poco::DateTime endingAt)
     {
-        if ( _startsAt.year() == 0 || endingAt <= _startsAt ) {
+        if ( _startsAt.year() != 0 && endingAt <= _startsAt ) {
             throw Poco::IllegalStateException(
                 "Invalid Starting Date",
                 "An ending date can not be set without a valid starting date."

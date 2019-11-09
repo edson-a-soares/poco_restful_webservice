@@ -8,208 +8,286 @@ namespace Database {
 
 
     AbstractTableGateway::AbstractTableGateway(Poco::Data::Session & session)
-        : _table(),
-          _throwException(false),
+        : _throwException(false),
+          _tableName(),
           _session(session),
-          _columns(),
-          _columnsValues()
+          _columnNames(),
+          _columnValues()
     {}
 
-    Foundation::TableGatewayInterface & AbstractTableGateway::throwException(bool flag)
+
+    void AbstractTableGateway::insert()
+    {
+        if ( columnNames().empty() || columnValues().empty() )
+            throw Poco::AssertionViolationException(
+                    "Query Assertion Violation",
+                    "Column's names and values must not be empty."
+            );
+
+        std::string columns               = separateItByCommas(columnNames());
+        std::string conflictUpdateClause  = columnConflictClauseFormat(columnNames());
+
+        auto singleQuotedValues = singleQuoteIt(columnValues());
+        std::string values = insertInstructionValues(columnNames(), singleQuotedValues);
+
+        try {
+            Poco::Data::Statement insert(_session);
+            auto sqlInstruction = Poco::format("INSERT INTO %s (%s) VALUES %s ON DUPLICATE KEY UPDATE %s;",
+                tableName(),
+                columns,
+                values,
+                conflictUpdateClause
+            );
+
+            insert << sqlInstruction;
+
+            std::size_t affectedRows  = insert.execute();
+            if ( throwException() && affectedRows == 0 )
+                throw Poco::IllegalStateException();
+
+            clearColumnsData();
+
+        } catch (Poco::IllegalStateException & exception) {
+            /// @TODO Log message:
+            throw;
+        } catch (Poco::Data::ConnectionFailedException & exception) {
+            /// @TODO Log message.
+            throw;
+        } catch (Poco::Data::MySQL::StatementException & exception) {
+            /// @TODO Log message.
+            throw;
+        } catch (Poco::Exception & exception) {
+            /// @TODO Log message.
+            throw;
+        }
+    }
+
+    Persistence::TableGatewayInterface & AbstractTableGateway::throwException(bool flag)
     {
         _throwException = flag;
         return *this;
     }
 
-    Foundation::TableGatewayInterface & AbstractTableGateway::table(const std::string & name)
+    Persistence::TableGatewayInterface & AbstractTableGateway::table(const std::string & name)
     {
-        _table = name;
+        _tableName = name;
         return *this;
     }
 
-    void AbstractTableGateway::removeWhere(const std::string & whereField, const std::string & whereValue)
+    Persistence::TableGatewayInterface & AbstractTableGateway::withValue(const std::string & data)
     {
-        try {
-            Poco::Data::Statement remove(_session);
-
-            /// Poco::SQL::Statement does not accept temporary variables.
-            /// Therefore this copy from this parameter must be created.
-            std::string localValue = whereValue;
-
-            remove << "DELETE FROM %s WHERE %s = ?", _table, whereField, use(localValue);
-
-            std::size_t affectedRows = remove.execute();
-            if ( _throwException && affectedRows == 0 )
-                throw Poco::NotFoundException("Not Found", 400);
-
-        } catch (Poco::Data::ConnectionFailedException & exception) {
-            /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::MySQL::StatementException & exception) {
-            /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::NotFoundException & exception) {
-            exception.rethrow();
-        } catch (Poco::Exception & exception) {
-            /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        }
+        _columnValues.push_back(data);
+        return *this;
     }
 
-    Poco::Data::RecordSet AbstractTableGateway::selectWhere(const std::string & whereField, const std::string & whereValue)
+    Persistence::TableGatewayInterface & AbstractTableGateway::withColumn(const std::string & name)
+    {
+        _columnNames.push_back(name);
+        return *this;
+    }
+
+    Persistence::TableGatewayInterface & AbstractTableGateway::withColumn(const std::string & column, const std::string & value)
+    {
+        _columnNames.push_back(column);
+        _columnValues.push_back(value);
+        return *this;
+    }
+
+    Poco::Data::RecordSet AbstractTableGateway::selectWhere(const std::string & column, const std::string & whereValue)
     {
         try {
             Poco::Data::Statement select(_session);
 
-            /// Poco::Data::Statement does not accept temporary variables.
-            /// Therefore these copies from these parameters must be created.
-            std::string localValue = whereValue;
-            std::string selectedColumns = queryColumns();
+            auto sqlInstruction = Poco::format("SELECT %s FROM %s WHERE %s = '%s';",
+                selectQueryColumns(),
+                tableName(),
+                column,
+                whereValue
+            );
 
-            select << "SELECT %s FROM %s WHERE %s = ?", selectedColumns, _table, whereField, use(localValue), now;
+            select << sqlInstruction, now;
 
             return Poco::Data::RecordSet(select);
 
         } catch (Poco::Data::ConnectionFailedException & exception) {
             /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
+            throw;
         } catch (Poco::Data::MySQL::StatementException & exception) {
             /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
+            throw;
         } catch (Poco::Exception & exception) {
             /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
+            throw;
         }
     }
 
-    void AbstractTableGateway::updateWhere(const std::string & whereField, const std::string & whereValue)
+    void AbstractTableGateway::removeWhere(const std::string & column, const std::string & whereValue)
     {
-        std::string fields;
-        if ( _columnsValues.empty() )
-            throw Poco::InvalidArgumentException("Command Columns Missing", 403);
+        try {
+            Poco::Data::Statement remove(_session);
+            auto sqlInstruction = Poco::format("DELETE FROM %s WHERE %s = '%s';", tableName(), column, whereValue);
 
-        for ( auto const & pair : _columnsValues ) {
+            remove << sqlInstruction;
 
-            if ( fields.empty() ) {
-                fields += pair.first + " = '" + pair.second + "'";
-                continue;
-            }
+            std::size_t affectedRows = remove.execute();
+            if ( _throwException && affectedRows == 0 )
+                throw Poco::IllegalStateException();
 
-            fields += ", " + pair.first + " = '" + pair.second + "'";
-
+        } catch (Poco::Data::ConnectionFailedException &) {
+            /// @TODO Log message.
+            throw;
+        } catch (Poco::Data::MySQL::StatementException &) {
+            /// @TODO Log message.
+            throw;
+        } catch (Poco::IllegalStateException &) {
+            throw;
+        } catch (Poco::Exception &) {
+            /// @TODO Log message.
+            throw;
         }
+    }
+
+    void AbstractTableGateway::removeWhere(const std::string & whereField, const std::list<std::string> & whereValues)
+    {
+        auto singleQuotedValues   = singleQuoteIt(whereValues);
+        auto commaSeparatedValues = separateItByCommas(singleQuotedValues);
 
         try {
-            Poco::Data::Statement update(_session);
+            Poco::Data::Statement remove(_session);
+            auto sqlInstruction = Poco::format("DELETE FROM %s WHERE %s IN (%s);",
+                tableName(),
+                whereField,
+                commaSeparatedValues
+            );
 
-            /// Poco::Data::Statement does not accept temporary variables.
-            /// Therefore these copies from these parameters must be created.
-            std::string localValue = whereValue;
+            remove << sqlInstruction;
 
-            update << "UPDATE %s SET %s WHERE %s = ?", _table, fields, whereField, use(localValue);
+            std::size_t affectedRows = remove.execute();
+            if ( _throwException && affectedRows != whereValues.size() )
+                throw Poco::IllegalStateException();
 
-            std::size_t affectedRows = update.execute();
-            if ( _throwException && affectedRows == 0 )
-                throw Poco::ApplicationException("SQL UPDATE Statement Not Performed", 500);
-
-        } catch (Poco::ApplicationException & exception) {
-            /// @TODO Log message: Poco::format("UPDATE %s SET %s WHERE %s = %s", _table, fields, whereField, localValue).
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::ConnectionFailedException & exception) {
+        } catch (Poco::Data::ConnectionFailedException &) {
             /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::MySQL::StatementException & exception) {
+            throw;
+        } catch (Poco::Data::MySQL::StatementException &) {
             /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Exception & exception) {
+            throw;
+        } catch (Poco::Exception &) {
             /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
+            throw;
         }
     }
 
-    void AbstractTableGateway::insert()
-    {
-        std::string fields;
-        std::string values;
-        if ( _columnsValues.empty() )
-            throw Poco::InvalidArgumentException("Command Columns Missing", 403);
-
-        for ( auto pair = _columnsValues.begin(); pair != _columnsValues.end(); ++pair ) {
-
-            if ( fields.empty() ) {
-                fields += pair->first;
-                values += "'" + pair->second + "'";
-                continue;
-            }
-
-            /// Let the last pair for getting collected out of the loop.
-            if ( pair == --_columnsValues.end() )
-                break;
-
-            fields += ", " + pair->first;
-            values += ", '" + pair->second + "'";
-
-        }
-
-        auto lastPair = --_columnsValues.end();
-
-        std::string lastField = lastPair->first;
-        std::string lastValue = lastPair->second;
-
-        try {
-            Poco::Data::Statement insert(_session);
-
-            insert << "INSERT INTO %s (%s, %s) VALUES (%s, ?)", _table, fields, lastField, values, use(lastValue);
-
-            std::size_t affectedRows = insert.execute();
-            if ( _throwException && affectedRows == 0 )
-                throw Poco::ApplicationException("SQL INSERT Statement Not Performed", 500);
-
-            _columnsValues.clear();
-
-        } catch (Poco::ApplicationException & exception) {
-            /// @TODO Log message:
-            /// Poco::format("INSERT INTO %s (%s, %s) VALUES (%s, %s)", _table, fields, lastField, values, lastValue)
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::ConnectionFailedException & exception) {
-            /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Data::MySQL::StatementException & exception) {
-            /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        } catch (Poco::Exception & exception) {
-            /// @TODO Log message.
-            throw Poco::Exception("Internal Server Error", 500);
-        }
-    }
-
-    Foundation::TableGatewayInterface & AbstractTableGateway::withColumn(const std::string & name)
-    {
-        _columns.push_back(name);
-        return *this;
-    }
-
-    Foundation::TableGatewayInterface & AbstractTableGateway::withColumn(const std::string & column, const std::string & value)
-    {
-        _columnsValues[column] = value;
-        return *this;
-    }
-
-    std::string AbstractTableGateway::queryColumns() const
+    std::string AbstractTableGateway::selectQueryColumns() const
     {
         std::string columns;
-        if ( _columns.empty() )
+        if ( _columnNames.empty() )
             columns = "*";
 
-        for ( auto iterator = _columns.begin(); iterator != _columns.end(); ++iterator ) {
+        for ( auto iterator = _columnNames.begin(); iterator != _columnNames.end(); ++iterator ) {
 
             columns += *iterator;
-            if ( iterator != --_columns.end() )
+            if ( iterator != --_columnNames.end() )
                 columns += ", ";
 
         }
 
         return columns;
+    }
+
+    std::string AbstractTableGateway::insertInstructionValues(const std::list<std::string> & columnNames, const std::list<std::string> & columnValues)
+    {
+        if ( columnNames.empty() || columnValues.empty() )
+            throw Poco::InvalidArgumentException("SQL Bad Format", "VALUES clause cannot be empty in the INSERT clause");
+
+        std::ostringstream allValueClauses;
+        int numberOfColumns = columnNames.size();
+        int numberOfItems   = columnValues.size();
+
+        for (auto i = 0; i < (numberOfItems - numberOfColumns); i += numberOfColumns)
+        {
+            auto begin = std::next(columnValues.begin(), i);
+            auto end   = std::next(begin, numberOfColumns);
+
+            std::list<std::string> subquery = { begin, end };
+            auto valuesGroup = separateItByCommas(subquery);
+            allValueClauses << "(" << valuesGroup << "), ";
+        }
+
+        auto begin = std::prev(columnValues.end(), numberOfColumns);
+
+        std::list<std::string> lastSubquery = { begin, columnValues.end() };
+        auto unitAsString = separateItByCommas(lastSubquery);
+        allValueClauses << "(" << unitAsString << ")";
+
+        return allValueClauses.str();
+    }
+
+    std::list<std::string> AbstractTableGateway::singleQuoteIt(const std::list<std::string> & list)
+    {
+        std::list<std::string> result;
+        std::for_each(list.begin(), list.end(),
+            [&result](const std::string & element) {
+                auto quoted = Poco::format("'%s'", element);
+                result.emplace_back(quoted);
+            }
+        );
+
+        return result;
+    }
+
+    std::string AbstractTableGateway::separateItByCommas(const std::list<std::string> & list) const
+    {
+        std::ostringstream commaSeparatedData;
+        std::copy(
+            list.begin(),
+            --list.end(),
+            std::ostream_iterator<std::string>(commaSeparatedData, ", ")
+        );
+        commaSeparatedData << list.back();
+
+        return commaSeparatedData.str();
+    }
+
+    std::string AbstractTableGateway::columnConflictClauseFormat(const std::list<std::string> & columns) const
+    {
+        std::ostringstream result;
+        std::for_each(columns.begin(), --columns.end(),
+        [&result](const std::string & columnName) {
+                result << columnName << "=values(" << columnName << "), ";
+            }
+        );
+
+        auto lastItem = columns.back();
+        result << lastItem << "=values(" << lastItem << ")";
+
+        return result.str();
+    }
+
+    bool AbstractTableGateway::throwException()
+    {
+        return _throwException;
+    }
+
+    void AbstractTableGateway::clearColumnsData()
+    {
+        _columnNames.clear();
+        _columnValues.clear();
+    }
+
+    std::string AbstractTableGateway::tableName()
+    {
+        return _tableName;
+    }
+
+    std::list<std::string> AbstractTableGateway::columnNames()
+    {
+        return _columnNames;
+    }
+
+    std::list<std::string> AbstractTableGateway::columnValues()
+    {
+        return _columnValues;
     }
 
 

@@ -35,24 +35,26 @@ namespace Model {
         virtual ~QuestionRepositoryInterface() = default;
 
         /*!
-         * It either stores or updates a given Question.
+         * It either stores or updates a given question.
          *
-         * @param question The question to save.
+         * @param question The question to handled.
          */
         virtual void add(const Question &) = 0;
 
         /*!
-         * It destroys completely a question and its related data.
+         * It deletes a question and all its related data.
          *
          * @param question The Question to be erased.
          */
         virtual void remove(const Question &) = 0;
 
         /*!
-         * It finds a Question using its identity.
+         * It finds a question using its unique identity.
          *
-         * @param identity The Question's identity.
-         * @return The Question, if found. If not, it throws an exception.
+         * As David
+         *
+         * @param identity The question's identity.
+         * @return The question, if found. If not, it throws an exception.
          */
         virtual Question withIdentity(const std::string &) = 0;
 

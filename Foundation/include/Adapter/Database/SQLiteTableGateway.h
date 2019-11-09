@@ -32,6 +32,12 @@ namespace Database {
         ~SQLiteTableGateway() final = default;
         explicit SQLiteTableGateway(Poco::Data::Session &);
 
+        void insert() final;
+
+    private:
+        Poco::Data::Session _session;
+
+
     };
 
 
