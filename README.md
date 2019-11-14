@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
 [![Build Status](https://travis-ci.org/edson-a-soares/poco_restful_webservice.svg?branch=master)](https://travis-ci.org/edson-a-soares/poco_restful_webservice)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3334/badge)](https://bestpractices.coreinfrastructure.org/projects/3334)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5284902e67394c4bb8416110af58610c)](https://www.codacy.com/manual/edson-a-soares/poco_restful_webservice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=edson-a-soares/poco_restful_webservice&amp;utm_campaign=Badge_Grade)
 
 ### Overview 
 
