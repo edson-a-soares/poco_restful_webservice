@@ -121,7 +121,7 @@ script:
   # It compiles the application and run the tests.
   - sudo cmake --build . --target all -- -j 2
   - cd $TRAVIS_BUILD_DIR/bin && ./tests --gtest_filter=* --gtest_color=yes
-  - cd $TRAVIS_BUILD_DIR && gcovr -r .
+  - cd $TRAVIS_BUILD_DIR && sudo gcovr -r .
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
