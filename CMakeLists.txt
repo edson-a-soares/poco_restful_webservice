@@ -41,6 +41,7 @@ include_directories("${PROJECT_SOURCE_DIR}")
 
 add_library(${WEBSERVICE_BINARY} SHARED ${SOURCE_FILES})
 target_include_directories(${WEBSERVICE_BINARY} PUBLIC ${PROJECT_INCLUDE_DIR})
+set_target_properties(${MODULE_BINARY_NAME} PROPERTIES COMPILE_FLAGS "--coverage" LINK_FLAGS "-lgcov --coverage")
 
 # Poco Library setup
 find_library(Poco_LIBRARIES NAMES PocoFoundation PocoJSON PocoUtil PocoNet PocoSQL)

@@ -35,6 +35,7 @@ addons:
       - gcc-snapshot
       - gcc-6
       - g++-6
+      - gcovr
 
 notifications:
     email:
