@@ -16,6 +16,7 @@ servers:
 
 tags:
   - name: "questions"
+  - name: "options"
 
 paths:
 
@@ -59,7 +60,7 @@ paths:
           in: path
           schema:
             type: string
-            format: uuid
+            format: "uuid"
             minimum: 1
           required: true
           description: "The unique ID of the question."
@@ -93,7 +94,7 @@ paths:
           in: path
           schema:
             type: string
-            format: uuid
+            format: "uuid"
             minimum: 1
           required: true
           description: "The unique ID of the question."
@@ -134,7 +135,7 @@ paths:
           in: path
           schema:
             type: string
-            format: uuid
+            format: "uuid"
             minimum: 1
           required: true
           description: "The unique ID of the question."
@@ -155,6 +156,42 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorsCollection"
 
+  /options:
+
+    get:
+      tags:
+        - "options"
+      summary: "Return a share of all optoins available for a question."
+      description: ""
+      parameters:
+        - name: "question_id"
+          in: path
+          schema:
+            type: string
+            format: "uuid"
+            minimum: 1
+          required: true
+          description: "The ID of the question that owns the options."
+      responses:
+        200:
+          description: "Options successfully retrieved."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/JsonAPIOptionsCollectionHttpResponse"
+        400:
+          description: "Bad request --  ID parameter was rejected. Likely its format is incorrect."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorsCollection"
+        404:
+          description: "Question Not Found -- This question wasn't found."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorsCollection"
+
 components:
   schemas:
     JsonAPIQuestionHttpResponse:
@@ -170,9 +207,10 @@ components:
             properties:
               id:
                 type: string
-                format: "questions"
+                format: "uuid"
               type:
                 type: string
+                format: "question"
               attributes:
                 type: object
                 properties:
@@ -211,6 +249,9 @@ components:
                         last_updated_at:
                           type: string
                           format: "date-time"
+        meta:
+          description: ""
+          type: object
     JsonAPIQuestionHttpRequest:
       type: object
       required: ["data"]
@@ -224,7 +265,7 @@ components:
             properties:
               id:
                 type: string
-                format: "questions"
+                format: "question"
               type:
                 type: string
               attributes:
@@ -253,6 +294,35 @@ components:
                           type: string
                         position:
                           type: integer
+
+    JsonAPIOptionsCollectionHttpResponse:
+      type: object
+      required: ["data"]
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            minItems: 2
+            required: ["data"]
+            properties:
+              id:
+                type: string
+                format: "uuid"
+              text:
+                type: string
+              position:
+                type: integer
+                example: 1
+              created_at:
+                type: string
+                format: "date-time"
+              last_updated_at:
+                type: string
+                format: "date-time"
+        meta:
+          description: ""
+          type: object
 
     Error:
       type: object
