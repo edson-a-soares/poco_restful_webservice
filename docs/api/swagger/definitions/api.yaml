@@ -11,14 +11,33 @@ info:
 servers:
   - url: https://api.stating.com
     description: "I want to see an online version of the application."
-  - url: http://localhost:8080
-    description: "I want to play with the application in your machine."
+  - url: http://localhost
+    description: "I want to play with the application in my machine."
+    variables:
+      port:
+        enum:
+          - '80'
+          - '8080'
+          - '9090'
+        default: '8080'
 
 tags:
   - name: "questions"
   - name: "options"
 
 paths:
+
+  /.:
+    get:
+      summary: "API root resource."
+      description: ""
+      responses:
+        200:
+          description: "All resource made available for the API."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/JsonAPIRootResourceHttpResponse"
 
   /questions:
 
@@ -294,6 +313,27 @@ paths:
 
 components:
   schemas:
+    JsonAPIRootResourceHttpResponse:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              description: ''
+              type: string
+            questions:
+              description: ''
+              type: string
+            options:
+              description: ''
+              type: string
+            voting:
+              description: ''
+              type: string
+        meta:
+          $ref: "#/components/schemas/Meta"
+
     JsonAPIQuestionHttpResponse:
       type: object
       required: ["data"]
@@ -350,8 +390,8 @@ components:
                           type: string
                           format: "date-time"
         meta:
-          description: ""
-          type: object
+          $ref: "#/components/schemas/Meta"
+
     JsonAPIQuestionHttpRequest:
       type: object
       required: ["data"]
@@ -426,8 +466,8 @@ components:
                 type: string
                 format: "date-time"
         meta:
-          description: ""
-          type: object
+          $ref: "#/components/schemas/Meta"
+
     JsonAPIOptionsCollectionHttpRequest:
       type: object
       required: ["data"]
@@ -458,6 +498,22 @@ components:
                       type: integer
                       example: 1
 
+    Meta:
+      type: object
+      properties:
+        copyright:
+          description: 'An application-specific error code, expressed as a string value.'
+          type: string
+          example: "Copyright 2018-2020 Poco RESTful API"
+        jsonapi:
+          type: string
+          example: "1.0"
+        type:
+          type: array
+          items:
+            type: string
+            example: "en-US"
+
     Error:
       type: object
       properties:
@@ -476,6 +532,7 @@ components:
         type:
           description: ""
           type: string
+
     ErrorsCollection:
       type: object
       required: [ "errors" ]
