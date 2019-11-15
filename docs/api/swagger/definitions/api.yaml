@@ -1,0 +1,118 @@
+swagger: "2.0"
+info:
+  description: "A totally functional RESTful API built using the free version of Poco C++ Libraries."
+  version: "0.1"
+  title: "Poco Restful Webservice"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8080"
+basePath: "/"
+tags:
+  - name: "questions"
+    description: ""
+schemes:
+  - "https"
+  - "http"
+paths:
+  /questions:
+    get:
+      tags:
+        - "questions"
+      summary: "Return a share of all questions available"
+      description: "Index all Questions"
+      consumes:
+        - "application/vnd.api+json"
+      produces:
+        - "application/vnd.api+json"
+      responses:
+        200:
+          description: Question successfully retrieved.
+          schema:
+            $ref: "#/definitions/Question"
+        400:
+          description: Bad request --  ID parameter was rejected. Likely, its format is incorrect.
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: Not Found -- This question wasn't found.
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  Question:
+    type: object
+    required: ["data"]
+    properties:
+      data:
+        type: array
+        items:
+          title: Question
+          type: object
+          required: ["id", "type"]
+          properties:
+            id:
+              type: string
+              format: "questions"
+            type:
+              type: string
+            attributes:
+              type: object
+              properties:
+                text:
+                  type: string
+                label:
+                  type: string
+                details:
+                  type: string
+                created_at:
+                  type: string
+                  format: "date-time"
+                last_updated_at:
+                  type: string
+                  format: "date-time"
+                starts_at:
+                  type: string
+                  format: "date-time"
+                ends_at:
+                  type: string
+                  format: "date-time"
+                options:
+                  type: array
+                  items:
+                    type: object
+                    minItems: 2
+                    required: ["data"]
+                    properties:
+                      text:
+                        type: string
+                      position:
+                        type: integer
+                      created_at:
+                        type: string
+                        format: "date-time"
+                      last_updated_at:
+                        type: string
+                        format: "date-time"
+  Error:
+    type: object
+    properties:
+      code:
+        description: 'An application-specific error code, expressed as a string value.'
+        type: string
+      description:
+        description: 'A short, human-readable summary of the problem. It **SHOULD NOT** change from occurrence to occurrence of the problem, except for purposes of localization.'
+        type: string
+      source:
+        type: object
+        properties:
+          pointer:
+            description: 'A JSON Pointer to the associated entity in the request document [e.g. "/data" for a primary data object, or "/data/attributes/title" for a specific attribute].'
+            type: string
+      type:
+        description: ""
+        type: string
+
+externalDocs:
+  description: "Find out more about Poco C++ Libraries"
+  url: "https://pocoproject.org"

@@ -1,6 +1,6 @@
 {
     "adapter"  : "MySQL",
-    "username" : "ci_server",
+    "username" : "ci_environment",
     "password" : "abc12345",
     "hostname" : "127.0.0.1",
     "database" : "poco_webservice_schema"

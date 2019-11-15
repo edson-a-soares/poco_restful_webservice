@@ -1,0 +1,110 @@
+swagger: "2.0"
+info:
+  description: "A totally functional RESTful API built using the free version of Poco C++ Libraries."
+  version: "1.0"
+  title: "Poco Restful Webservice"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8080"
+basePath: "/"
+tags:
+  - name: "questions"
+    description: ""
+  - name: "Options"
+    description: ""
+  - name: "Voting"
+    description: ""
+schemes:
+  - "https"
+  - "http"
+paths:
+  /questions:
+    post:
+      tags:
+        - "questions"
+      summary: "Add a new question to the store"
+      description: ""
+      consumes:
+        - "application/vnd.api+json"
+      produces:
+        - "application/vnd.api+json"
+      responses:
+        405:
+          description: "Invalid input"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Pet object that needs to be added to the store"
+          required: true
+          schema:
+            $ref: "#/definitions/Question"
+    get:
+      description: Index all Questions
+      responses:
+        200:
+          description: OK
+          schema:
+            title: Questions Index
+            type: object
+            required: ["data"]
+            properties:
+              data:
+                type: array
+                items:
+                  title: Question
+                  type: object
+                  required: ["id", "type"]
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                    attributes:
+                      type: object
+                      properties:
+                        text:
+                          type: string
+                        label:
+                          type: string
+                        details:
+                          type: string
+                        starts_at:
+                          type: string
+                        ends_at:
+                          type: string
+                        options:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                              type: string
+definitions:
+  Question:
+    type: "object"
+    properties:
+      identity:
+        type: string
+        description: "UUDI"
+      text:
+        type: string
+      label:
+        type: string
+      details:
+        type: string
+      startsAt:
+        type: "string"
+        format: "date-time"
+      endsAt:
+        type: "integer"
+        format: "date-time"
+      createdAt:
+        type: "integer"
+        format: "date-time"
+      lastUpdatedAt:
+        type: "integer"
+        format: "date-time"
+externalDocs:
+  description: "Find out more about Poco C++ Libraries"
+  url: "https://pocoproject.org"
