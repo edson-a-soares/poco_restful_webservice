@@ -10,17 +10,46 @@ host: "localhost:8080"
 basePath: "/"
 tags:
   - name: "questions"
-    description: ""
 schemes:
   - "https"
   - "http"
 paths:
   /questions:
+    post:
+      tags:
+        - "questions"
+      summary: "Add a new question to the store."
+      description: ""
+      consumes:
+        - "application/vnd.api+json"
+      produces:
+        - "application/vnd.api+json"
+      responses:
+        415:
+          description: "The request media type is not supported."
+          schema:
+            $ref: "#/definitions/ErrorsCollection"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "A question object to be added to the store."
+          required: true
+          schema:
+            $ref: "#/definitions/QuestionHttpRequest"
+
     get:
       tags:
         - "questions"
-      summary: "Return a share of all questions available"
-      description: "Index all Questions"
+      summary: "Return a share of all questions available."
+      description: ""
+      parameters:
+        - name: "question_id"
+          in: path
+          required: true
+          type: string
+          minimum: 1
+          maximum: 1
+          description: "The unique ID of the question."
       consumes:
         - "application/vnd.api+json"
       produces:
@@ -29,18 +58,18 @@ paths:
         200:
           description: Question successfully retrieved.
           schema:
-            $ref: "#/definitions/Question"
+            $ref: "#/definitions/QuestionHttpResponse"
         400:
           description: Bad request --  ID parameter was rejected. Likely, its format is incorrect.
           schema:
-            $ref: "#/definitions/Error"
+            $ref: "#/definitions/ErrorsCollection"
         404:
           description: Not Found -- This question wasn't found.
           schema:
-            $ref: "#/definitions/Error"
+            $ref: "#/definitions/ErrorsCollection"
 
 definitions:
-  Question:
+  QuestionHttpResponse:
     type: object
     required: ["data"]
     properties:
@@ -94,6 +123,50 @@ definitions:
                       last_updated_at:
                         type: string
                         format: "date-time"
+
+  QuestionHttpRequest:
+    type: object
+    required: ["data"]
+    properties:
+      data:
+        type: array
+        items:
+          title: Question
+          type: object
+          required: ["id", "type"]
+          properties:
+            id:
+              type: string
+              format: "questions"
+            type:
+              type: string
+            attributes:
+              type: object
+              properties:
+                text:
+                  type: string
+                label:
+                  type: string
+                details:
+                  type: string
+                starts_at:
+                  type: string
+                  format: "date-time"
+                ends_at:
+                  type: string
+                  format: "date-time"
+                options:
+                  type: array
+                  items:
+                    type: object
+                    minItems: 2
+                    required: ["data"]
+                    properties:
+                      text:
+                        type: string
+                      position:
+                        type: integer
+
   Error:
     type: object
     properties:
@@ -112,6 +185,17 @@ definitions:
       type:
         description: ""
         type: string
+
+  ErrorsCollection:
+    type: object
+    required: [ "errors" ]
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+        uniqueItems: true
+    additionalProperties: false
 
 externalDocs:
   description: "Find out more about Poco C++ Libraries"
