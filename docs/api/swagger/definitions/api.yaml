@@ -220,6 +220,47 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorsCollection"
 
+    put:
+      tags:
+        - "options"
+      summary: "Change options of a question in the store."
+      description: ""
+      parameters:
+        - name: "question_id"
+          in: path
+          schema:
+            type: string
+            format: "uuid"
+            minimum: 1
+          required: true
+          description: "The unique ID of the question."
+      responses:
+        204:
+          description: "Options were successfully updated."
+        400:
+          description: "Bad request --  Something wrong with your request data."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorsCollection"
+        404:
+          description: "Question or Option Not Found -- The question or Option weren't found to be updated."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorsCollection"
+        415:
+          description: "The request media type is not supported."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorsCollection"
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: "#/components/schemas/JsonAPIOptionsCollectionHttpRequest"
+
 components:
   schemas:
     JsonAPIQuestionHttpResponse:
