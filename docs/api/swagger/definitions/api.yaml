@@ -9,8 +9,10 @@ info:
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 
 servers:
+  - url: https://api.stating.com
+    description: "I want to see an online version of the application."
   - url: http://localhost:8080
-  - url: https://api.production.com
+    description: "I want to play with the application in your machine."
 
 tags:
   - name: "questions"
@@ -28,7 +30,7 @@ paths:
         201:
           description: "Question was successfully created."
         400:
-          description: "Bad request --  Question ID parameter was rejected. Likely, its format is incorrect."
+          description: "Bad request --  Question ID parameter was rejected. Likely its format is incorrect."
           content:
             application/vnd.api+json:
               schema:
@@ -56,7 +58,9 @@ paths:
         - name: "question_id"
           in: path
           schema:
-            $ref: "#/components/schemas/JsonAPIQuestionHttpResponse"
+            type: string
+            format: uuid
+            minimum: 1
           required: true
           description: "The unique ID of the question."
       responses:
@@ -84,6 +88,15 @@ paths:
         - "questions"
       summary: "Change a question in the store."
       description: ""
+      parameters:
+        - name: "question_id"
+          in: path
+          schema:
+            type: string
+            format: uuid
+            minimum: 1
+          required: true
+          description: "The unique ID of the question."
       responses:
         204:
           description: "Question was successfully updated."
@@ -105,6 +118,11 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: "#/components/schemas/ErrorsCollection"
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: "#/components/schemas/JsonAPIQuestionHttpRequest"
 
     delete:
       tags:
@@ -115,7 +133,9 @@ paths:
         - name: "question_id"
           in: path
           schema:
-            $ref: "#/components/schemas/JsonAPIQuestionHttpResponse"
+            type: string
+            format: uuid
+            minimum: 1
           required: true
           description: "The unique ID of the question."
 
@@ -191,7 +211,6 @@ components:
                         last_updated_at:
                           type: string
                           format: "date-time"
-
     JsonAPIQuestionHttpRequest:
       type: object
       required: ["data"]
