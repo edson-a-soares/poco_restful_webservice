@@ -158,6 +158,34 @@ paths:
 
   /options:
 
+    post:
+      tags:
+        - "options"
+      summary: "Add a new set of options to a question."
+      description: ""
+      responses:
+        201:
+          description: "Options were successfully created."
+        400:
+          description: "Bad request --  Something is wrong with your request data."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorsCollection"
+        415:
+          description: "The request media type is not supported."
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorsCollection"
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: "#/components/schemas/JsonAPIOptionsCollectionHttpRequest"
+        description: "A collection of options objects to be added to the store."
+        required: true
+
     get:
       tags:
         - "options"
@@ -265,18 +293,22 @@ components:
             properties:
               id:
                 type: string
-                format: "question"
+                format: "uuid"
               type:
                 type: string
+                format: "question"
               attributes:
                 type: object
                 properties:
                   text:
                     type: string
+                    example: ""
                   label:
                     type: string
+                    example: ""
                   details:
                     type: string
+                    example: ""
                   starts_at:
                     type: string
                     format: "date-time"
@@ -288,12 +320,13 @@ components:
                     items:
                       type: object
                       minItems: 2
-                      required: ["data"]
                       properties:
                         text:
                           type: string
+                          example: ""
                         position:
                           type: integer
+                          example: 1
 
     JsonAPIOptionsCollectionHttpResponse:
       type: object
@@ -323,6 +356,35 @@ components:
         meta:
           description: ""
           type: object
+    JsonAPIOptionsCollectionHttpRequest:
+      type: object
+      required: ["data"]
+      properties:
+        data:
+          type: array
+          items:
+            title: Option
+            type: object
+            required: ["type"]
+            properties:
+              type:
+                type: string
+                format: "options"
+              attributes:
+                type: array
+                items:
+                  type: object
+                  minItems: 2
+                  properties:
+                    id:
+                      type: string
+                      format: "uuid"
+                    text:
+                      type: string
+                      example: ""
+                    position:
+                      type: integer
+                      example: 1
 
     Error:
       type: object
